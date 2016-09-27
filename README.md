@@ -1,2 +1,1 @@
-# androidapp
-Seneca Flea Android App
+# Seneca Flea Android App
