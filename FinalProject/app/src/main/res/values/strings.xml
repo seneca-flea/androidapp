@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Seneca Flea</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_splash_screen">Welcome</string>
+    <string name="title_activity_user_menu">UserMenu</string>
+    <string name="title_activity_main_menu">MainMenu</string>
+    <string name="title_activity_login_page">LoginPage</string>
+    <string name="title_activity_about_us">AboutUs</string>
+    <string name="title_activity_contact_us">ContactUs</string>
+    <string name="title_activity_about_app">AboutApp</string>
+    <string name="title_activity_history">History</string>
+    <string name="title_activity_my_favorites">MyFavorites</string>
+    <string name="title_activity_sell">Sell</string>
+    <string name="title_activity_buy">Buy</string>
+    <string name="title_activity_my_messages">MyMessages</string>
+</resources>

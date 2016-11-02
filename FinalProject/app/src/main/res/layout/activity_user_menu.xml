@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userMenuSellButton"
+        android:src="@drawable/bt1sell"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userMenuBuyButton"
+        android:layout_alignBottom="@+id/userMenuSellButton"
+        android:layout_toRightOf="@+id/userMenuSellButton"
+        android:layout_toEndOf="@+id/userMenuSellButton"
+        android:layout_marginLeft="48dp"
+        android:layout_marginStart="48dp"
+        android:src="@drawable/bt2buy"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userMenuHistoryButton"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/userMenuBuyButton"
+        android:layout_toStartOf="@+id/userMenuBuyButton"
+        android:src="@drawable/bt3history"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userMenuMyFavoritesButton"
+        android:src="@drawable/bt4myfavorites"
+        android:layout_alignTop="@+id/userMenuHistoryButton"
+        android:layout_alignLeft="@+id/userMenuBuyButton"
+        android:layout_alignStart="@+id/userMenuBuyButton" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userMenuMessagesButton"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/userMenuBuyButton"
+        android:layout_toStartOf="@+id/userMenuBuyButton"
+        android:src="@drawable/bt5mymessages"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userMenuContactUsButton"
+        android:src="@drawable/bt6contactus"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/userMenuMyFavoritesButton"
+        android:layout_alignStart="@+id/userMenuMyFavoritesButton" />
+
+
+</RelativeLayout>

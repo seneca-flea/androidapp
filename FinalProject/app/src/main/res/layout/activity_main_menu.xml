@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:onClick="imageClick">
+
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainMenuLoginButton"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/loginpic"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainMenuRegistrationButton"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/btn2register"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainMenuLoginAboutAppButton"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/btn3aboutapp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mainMenuContactUsButton"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/btn4contactus"/>
+
+</LinearLayout>
