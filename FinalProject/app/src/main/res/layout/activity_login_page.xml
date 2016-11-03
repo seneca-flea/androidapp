@@ -4,14 +4,15 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.yugenshtil.finalproject.LoginPage">
+    tools:context="com.example.yugenshtil.finalproject.LoginPage"
+   >
 
 <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/etEmail"
+        android:id="@+id/loginETemail"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -24,32 +25,32 @@
     android:layout_height="wrap_content"
     android:inputType="textPassword"
     android:ems="10"
-    android:id="@+id/etPassword"
-    android:layout_below="@+id/etEmail"
+    android:id="@+id/loginETPassword"
+    android:layout_below="@+id/loginETemail"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
-    android:layout_alignRight="@+id/etEmail"
-    android:layout_alignEnd="@+id/etEmail"
+    android:layout_alignRight="@+id/loginETemail"
+    android:layout_alignEnd="@+id/loginETemail"
     android:hint="Password" />
 
 <Button
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="Login"
-    android:id="@+id/bLogin"
-    android:layout_below="@+id/etPassword"
+    android:id="@+id/loginBLogin"
+    android:layout_below="@+id/loginETPassword"
     android:layout_alignParentLeft="true"
     android:layout_alignParentStart="true"
-    android:layout_alignRight="@+id/etPassword"
-    android:layout_alignEnd="@+id/etPassword" />
+    android:layout_alignRight="@+id/loginETPassword"
+    android:layout_alignEnd="@+id/loginETPassword" />
 
 <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Forgot password"
-        android:id="@+id/ForgotPassword"
-    android:layout_below="@+id/bLogin"
+        android:id="@+id/loginTVforgotPassword"
+    android:layout_below="@+id/loginBLogin"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="29dp" />
 
@@ -58,9 +59,9 @@
     android:layout_height="wrap_content"
     android:textAppearance="?android:attr/textAppearanceMedium"
     android:text="Register Here"
-    android:id="@+id/tvRegister"
+    android:id="@+id/loginTVregister"
     android:layout_marginTop="31dp"
-    android:layout_below="@+id/ForgotPassword"
+    android:layout_below="@+id/loginTVforgotPassword"
     android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

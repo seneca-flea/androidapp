@@ -34,8 +34,8 @@ public class RESTExample extends Activity {
         setContentView(R.layout.activity_restexample);
 
         final EditText etUsername = (EditText) findViewById(R.id.etFirstName);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final Button bLogin = (Button) findViewById(R.id.bLogin);
+        final EditText etPassword = (EditText) findViewById(R.id.loginETPassword);
+        final Button bLogin = (Button) findViewById(R.id.loginBLogin);
         final Button bGet = (Button) findViewById(R.id.bGet);
         final Button bPost = (Button) findViewById(R.id.bPost);
         final TextView registerLink = (TextView) findViewById(R.id.tvRegister);

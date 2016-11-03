@@ -17,4 +17,5 @@
     <string name="title_activity_my_messages">MyMessages</string>
     <string name="title_activity_restexample">RESTExample</string>
     <string name="title_activity_registration_page">RegistrationPage</string>
+    <string name="title_activity_forgot_password">ForgotPassword</string>
 </resources>

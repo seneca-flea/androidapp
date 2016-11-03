@@ -1,10 +1,8 @@
 package com.example.yugenshtil.finalproject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -20,7 +18,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -43,8 +40,8 @@ public class RegistrationPage extends Activity {
 
         final EditText etFirstName = (EditText) findViewById(R.id.etFirstName);
         final EditText etLastName = (EditText) findViewById(R.id.etLastName);
-        final EditText etEmail = (EditText) findViewById(R.id.etEmail);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
+        final EditText etEmail = (EditText) findViewById(R.id.loginETemail);
+        final EditText etPassword = (EditText) findViewById(R.id.loginETPassword);
         final EditText etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
 
         final Button bRegistration = (Button) findViewById(R.id.bRegistration);

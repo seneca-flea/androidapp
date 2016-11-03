@@ -74,6 +74,10 @@
             android:name=".RegistrationPage"
             android:label="@string/title_activity_registration_page" >
         </activity>
+        <activity
+            android:name=".ForgotPassword"
+            android:label="@string/title_activity_forgot_password" >
+        </activity>
     </application>
 
 </manifest>

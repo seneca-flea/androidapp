@@ -23,6 +23,14 @@ public class UserMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String value = extras.getString("id");
+            Log.d("Oleg","id is " + value);
+            //The key argument here must match that used in the other activity
+        }
+
+
         final ImageView bSell = (ImageView) findViewById(R.id.userMenuSellButton);
         final ImageView bBuy = (ImageView) findViewById(R.id.userMenuBuyButton);
         final ImageView bHistory = (ImageView) findViewById(R.id.userMenuHistoryButton);

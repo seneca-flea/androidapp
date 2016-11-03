@@ -1,6 +1,8 @@
 package com.example.yugenshtil.finalproject;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -28,225 +31,169 @@ import java.util.Map;
 
 public class LoginPage extends Activity {
 
+    private String userName="";
+    private String password="";
+    private String LOGINUSERURL="http://senecaflea.azurewebsites.net/api/User";
+    private boolean inputIsValid = false;
+    private boolean userFound = false;
+    private String id="";
+    private JSONArray users= null;
+    private String errors = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
-        final EditText etUsername = (EditText) findViewById(R.id.etFirstName);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final Button bLogin = (Button) findViewById(R.id.bLogin);
-        final Button bGet = (Button) findViewById(R.id.bGet);
-        final Button bPost = (Button) findViewById(R.id.bPost);
-        final TextView registerLink = (TextView) findViewById(R.id.tvRegister);
-/*
+        final EditText etUserName = (EditText) findViewById(R.id.loginETemail);
+        final EditText etPassword = (EditText) findViewById(R.id.loginETPassword);
+        final Button bLogin = (Button) findViewById(R.id.loginBLogin);
+        final TextView forgotPasswordLink = (TextView) findViewById(R.id.loginTVforgotPassword);
+        final TextView registerLink = (TextView) findViewById(R.id.loginTVregister);
+
         registerLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent registerIntent = new Intent(LoginPage.this,RegisterActivity.class);
-                LoginPage.this.startActivity(registerIntent);
-
-            }
-        });
-*/
-
-
-        // JSONObject receive
-        /*
-        bGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final TextView tx = (TextView) findViewById(R.id.jsonRes);
-                String url = "https://jsonplaceholder.typicode.com/posts/1";
-                JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("Oleg","Response is " + response);
-                                tx.setText(response.toString());
-                            }
-                        }, new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Oleg","error" + error);
-
-                            }
-                        });
-
-                MySingleton.getInstance(LoginPage.this).addToRequestQueue(jsObjRequest);
-
-                Log.d("Oleg", "clicked");
-            }
-        });*/
-
-        // JSONArray receive
-
-        bGet.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final TextView tx = (TextView) findViewById(R.id.jsonRes);
-                String url = "http://senecaflea.azurewebsites.net/api/User";
-                JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-
-
-                    // You can use FAKE JSON
-                    /*
-                    String fakeJSON = "[{\"name\":\"John Johnson\",\"street\":\"Oslo West 16\",\"phone\":\"555 1234567\"},{\"name\":\"John Johnson\",\"street\":\"Oslo West 16\",\"phone\":\"555 1234567\"}]";
-                     try {
-                            JSONArray jsonArray = new JSONArray(fakeJSON);
-                             res+="size is " + jsonArray.length()+"\n";
-                     } catch (JSONException e) {
-                               e.printStackTrace();
-                       }
-
-
-                    */
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                String res = "";
-                                 res+="size is " + response.length()+"\n";
-                                for (int i = 0; i < response.length(); i++) {
-
-                                    try {
-                                        JSONObject user = (JSONObject) response.get(i);
-                                        String firstName = user.getString("FirstName");
-                                        String lastName = user.getString("LastName");
-                                        String email = user.getString("Email");
-                                        res+=firstName +" " + lastName + " " + email+"\n";
-
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-
-                                tx.setText(res);
-
-                             //   tx.setText(response.toString());
-                            }
-                        }, new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Oleg","error" + error);
-
-                            }
-                        });
-
-                MySingleton.getInstance(LoginPage.this).addToRequestQueue(jsObjRequest);
-
-                Log.d("Oleg", "clicked");
+                Intent registrationIntent = new Intent(LoginPage.this,RegistrationPage.class);
+                startActivity(registrationIntent);
             }
         });
 
-
-        bPost.setOnClickListener(new View.OnClickListener() {
+        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final TextView tx = (TextView) findViewById(R.id.jsonRes);
-                String url = "http://omytryniuk.net23.net/test.php";
-
-                Map<String, String> params = new HashMap();
-                params.put("first_param", "Seneca");
-                params.put("second_param", "2");
-
-                JSONObject parameters = new JSONObject(params);
-
-                JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                        (Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
-
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                Log.d("Oleg", "Response is " + response);
-                                tx.setText(response.toString());
-                            }
-                        }, new Response.ErrorListener() {
-
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // TODO Auto-generated method stub
-
-                            }
-                        });
-
-                MySingleton.getInstance(LoginPage.this).addToRequestQueue(jsObjRequest);
-
-                Log.d("Oleg", "clickedPOST");
+                Intent forgotPasswordIntent = new Intent(LoginPage.this,ForgotPassword.class);
+                startActivity(forgotPasswordIntent);
             }
         });
-/*
+
         bLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final String username = etUsername.getText().toString();
-                final String password = etPassword.getText().toString();
+                userName = etUserName.getText().toString();
+                password = etPassword.getText().toString();
+                if(isInputValid()){
+                    receiveJson();
+                    if(isUserFound()){
+                        Context context = getApplicationContext();
+                        int duration = Toast.LENGTH_SHORT;
 
-                final Response.Listener<String> responseListener = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                        Toast toast = Toast.makeText(context, "User was successfully login. Redirection to user menu", duration);
+                        toast.show();
+
                         try {
-                            JSONObject jsonResponse = new JSONObject(response);
-                            boolean success = jsonResponse.getBoolean("success");
-                            if (success) {
-
-                                String name = jsonResponse.getString("name");
-                                int age = jsonResponse.getInt("age");
-
-                                Intent intent = new Intent(LoginPage.this, UserAreaActivity.class);
-                                intent.putExtra("name", name);
-                                intent.putExtra("username", username);
-                                Log.d("oleg", "name is" + username);
-                                intent.putExtra("age", age);
-
-                                LoginPage.this.startActivity(intent);
-                            } else {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginPage.this);
-                                builder.setMessage("Login Failed").setNegativeButton("Retry", null).create().show();
-
-                            }
-
-                        } catch (JSONException e) {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
+
+                        Intent userMenuIntent = new Intent(LoginPage.this, UserMenu.class);
+                        userMenuIntent.putExtra("id", id);
+                        startActivity(userMenuIntent);
+
+
+
+                    }else{
+                        Context context = getApplicationContext();
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, "User was not found", duration);
+                        toast.show();
+
                     }
-                };
-                LoginRequest loginRequest = new LoginRequest(username, password, responseListener);
-                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-                queue.add(loginRequest);
+
+
+
+                }
+                else{
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, errors, duration);
+                    toast.show();
+                }
+            }
+        });
+    }
+
+
+    public boolean isUserFound(){
+        boolean userIsFound = false;
+
+        if(users!=null) {
+            Log.d("Oleg", "size " + users.length());
+            for (int i = 0; i < users.length(); i++) {
+                try {
+                    JSONObject user = (JSONObject) users.get(i);
+                    Log.d("Oleg", user.getString("Email") + "/" + userName);
+                    if (user.getString("Email").equals(userName)) {
+                        userIsFound = true;
+                        id = user.getString("UserId");
+                        i = users.length();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
             }
+        }
 
 
+        return userIsFound;
+    }
+
+    public void receiveJson(){
+
+       JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, LOGINUSERURL, null, new Response.Listener<JSONArray>() {
+
+            @Override
+            public void onResponse(JSONArray response) {
+
+
+
+
+                if(response!=null){
+                    users = response;
+
+                }else{
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, "JSON RETURNED NULL", duration);
+                    toast.show();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Oleg","error" + error);
+
+            }
         });
-*/
 
+        MySingleton.getInstance(LoginPage.this).addToRequestQueue(jsObjRequest);
 
-
+        Log.d("Oleg", "clicked");
 
 
     }
 
+    public boolean isInputValid(){
+        boolean inputIsValid  = true;
+        errors="";
+        if(userName.equals("") || !userName.contains("@")){
+            errors += "Please, provide correct username\n";
+            inputIsValid = false;
 
-    public class ActorsAsyncTask extends AsyncTask<String, Void,Boolean>{
+        }
+        if(password.equals("")|| password.length()<3){
+            errors += "Please, provide correct password\n";
+            inputIsValid = false;
 
-
-        @Override
-        protected Boolean doInBackground(String... params) {
-            HttpClient client = new DefaultHttpClient();
-
-
-
-            return null;
         }
 
-        @Override
-        protected void onPostExecute(Boolean result){
 
-            super.onPostExecute(result);
-        }
+        return inputIsValid;
     }
 
     @Override

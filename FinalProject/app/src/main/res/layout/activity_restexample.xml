@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/etPassword"
+        android:id="@+id/loginETPassword"
         android:layout_below="@+id/etFirstName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -34,12 +34,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:id="@+id/bLogin"
-        android:layout_below="@+id/etPassword"
+        android:id="@+id/loginBLogin"
+        android:layout_below="@+id/loginETPassword"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etPassword"
-        android:layout_alignEnd="@+id/etPassword" />
+        android:layout_alignRight="@+id/loginETPassword"
+        android:layout_alignEnd="@+id/loginETPassword" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Register Here"
         android:id="@+id/tvRegister"
-        android:layout_below="@+id/bLogin"
+        android:layout_below="@+id/loginBLogin"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -58,8 +58,8 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/bLogin"
-        android:layout_alignEnd="@+id/bLogin" />
+        android:layout_alignRight="@+id/loginBLogin"
+        android:layout_alignEnd="@+id/loginBLogin" />
 
     <TextView
         android:layout_width="wrap_content"
