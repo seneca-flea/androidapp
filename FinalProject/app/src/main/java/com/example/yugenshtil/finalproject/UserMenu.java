@@ -1,6 +1,7 @@
 package com.example.yugenshtil.finalproject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.yugenshtil.finalproject.useCases.Buy;
 import com.example.yugenshtil.finalproject.useCases.History;
@@ -18,6 +20,9 @@ import com.example.yugenshtil.finalproject.useCases.Sell;
 
 public class UserMenu extends Activity {
 
+    private String id = "";
+    private String fullName="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +30,16 @@ public class UserMenu extends Activity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String value = extras.getString("id");
-            Log.d("Oleg","id is " + value);
+            id = extras.getString("id");
+            fullName = extras.getString("fullName");
+
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+            Toast toast = Toast.makeText(context, fullName+", welcome back! You id is " + id, duration);
+            toast.show();
+
+
+
             //The key argument here must match that used in the other activity
         }
 
@@ -43,7 +56,10 @@ public class UserMenu extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg", "Login clicked");
+
                 Intent sellIntent = new Intent(UserMenu.this,Sell.class);
+                sellIntent.putExtra("id", id);
+                sellIntent.putExtra("fullName", fullName);
                 startActivity(sellIntent);
 
             }

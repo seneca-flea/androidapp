@@ -3,6 +3,7 @@ package com.example.yugenshtil.finalproject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,8 +38,10 @@ public class LoginPage extends Activity {
     private boolean inputIsValid = false;
     private boolean userFound = false;
     private String id="";
+    private String fullName="";
     private JSONArray users= null;
     private String errors = "";
+    //SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,7 @@ public class LoginPage extends Activity {
 
                         Intent userMenuIntent = new Intent(LoginPage.this, UserMenu.class);
                         userMenuIntent.putExtra("id", id);
+                        userMenuIntent.putExtra("fullName", fullName);
                         startActivity(userMenuIntent);
 
 
@@ -129,6 +133,7 @@ public class LoginPage extends Activity {
                     if (user.getString("Email").equals(userName)) {
                         userIsFound = true;
                         id = user.getString("UserId");
+                        fullName=user.getString("FirstName") + " " + user.getString("LastName");
                         i = users.length();
                     }
                 } catch (JSONException e) {

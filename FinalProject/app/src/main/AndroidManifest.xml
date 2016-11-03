@@ -78,6 +78,10 @@
             android:name=".ForgotPassword"
             android:label="@string/title_activity_forgot_password" >
         </activity>
+        <activity
+            android:name=".item.AddItem"
+            android:label="@string/title_activity_add_item" >
+        </activity>
     </application>
 
 </manifest>
