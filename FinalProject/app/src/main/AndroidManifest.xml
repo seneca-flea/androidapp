@@ -66,6 +66,14 @@
             android:name=".useCases.MyMessages"
             android:label="@string/title_activity_my_messages" >
         </activity>
+        <activity
+            android:name=".RESTExample"
+            android:label="@string/title_activity_restexample" >
+        </activity>
+        <activity
+            android:name=".RegistrationPage"
+            android:label="@string/title_activity_registration_page" >
+        </activity>
     </application>
 
 </manifest>

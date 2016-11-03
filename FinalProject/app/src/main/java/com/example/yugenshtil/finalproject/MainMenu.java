@@ -39,8 +39,8 @@ public class MainMenu extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg","Registration clicked");
-                //   Intent registerIntent = new Intent(LoginActivity.this,RegisterActivity.class);
-                //  LoginActivity.this.startActivity(registerIntent);
+                Intent registerIntent = new Intent(MainMenu.this,RegistrationPage.class);
+                MainMenu.this.startActivity(registerIntent);
 
             }
         });

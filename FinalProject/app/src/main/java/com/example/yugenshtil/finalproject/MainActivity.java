@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 public class MainActivity extends Activity {
 
-    boolean userIsLoggedIn = true;
+    boolean userIsLoggedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

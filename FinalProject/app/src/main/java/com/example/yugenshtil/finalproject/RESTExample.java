@@ -26,12 +26,12 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoginPage extends Activity {
+public class RESTExample extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_page);
+        setContentView(R.layout.activity_restexample);
 
         final EditText etUsername = (EditText) findViewById(R.id.etFirstName);
         final EditText etPassword = (EditText) findViewById(R.id.etPassword);
@@ -103,39 +103,39 @@ public class LoginPage extends Activity {
 
 
                     */
-                            @Override
-                            public void onResponse(JSONArray response) {
-                                String res = "";
-                                 res+="size is " + response.length()+"\n";
-                                for (int i = 0; i < response.length(); i++) {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        String res = "";
+                        res+="size is " + response.length()+"\n";
+                        for (int i = 0; i < response.length(); i++) {
 
-                                    try {
-                                        JSONObject user = (JSONObject) response.get(i);
-                                        String firstName = user.getString("FirstName");
-                                        String lastName = user.getString("LastName");
-                                        String email = user.getString("Email");
-                                        res+=firstName +" " + lastName + " " + email+"\n";
+                            try {
+                                JSONObject user = (JSONObject) response.get(i);
+                                String firstName = user.getString("FirstName");
+                                String lastName = user.getString("LastName");
+                                String email = user.getString("Email");
+                                res+=firstName +" " + lastName + " " + email+"\n";
 
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-
-                                tx.setText(res);
-
-                             //   tx.setText(response.toString());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        }, new Response.ErrorListener() {
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.d("Oleg","error" + error);
+                        }
 
-                            }
-                        });
+                        tx.setText(res);
 
-                MySingleton.getInstance(LoginPage.this).addToRequestQueue(jsObjRequest);
+                        //   tx.setText(response.toString());
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Oleg","error" + error);
+
+                    }
+                });
+
+                MySingleton.getInstance(RESTExample.this).addToRequestQueue(jsObjRequest);
 
                 Log.d("Oleg", "clicked");
             }
@@ -171,7 +171,7 @@ public class LoginPage extends Activity {
                             }
                         });
 
-                MySingleton.getInstance(LoginPage.this).addToRequestQueue(jsObjRequest);
+                MySingleton.getInstance(RESTExample.this).addToRequestQueue(jsObjRequest);
 
                 Log.d("Oleg", "clickedPOST");
             }
