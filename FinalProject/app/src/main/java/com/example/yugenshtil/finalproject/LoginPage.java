@@ -41,12 +41,16 @@ public class LoginPage extends Activity {
     private String fullName="";
     private JSONArray users= null;
     private String errors = "";
-    //SharedPreferences sharedpreferences;
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
+
+       sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
 
         final EditText etUserName = (EditText) findViewById(R.id.loginETemail);
         final EditText etPassword = (EditText) findViewById(R.id.loginETPassword);
@@ -79,6 +83,12 @@ public class LoginPage extends Activity {
                 if(isInputValid()){
                     receiveJson();
                     if(isUserFound()){
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                        editor.putString("id", id);
+                        editor.putString("fullName", fullName);
+                        editor.commit();
+
                         Context context = getApplicationContext();
                         int duration = Toast.LENGTH_SHORT;
 

@@ -1,5 +1,6 @@
 package com.example.yugenshtil.finalproject.useCases;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,7 +8,7 @@ import android.view.MenuItem;
 
 import com.example.yugenshtil.finalproject.R;
 
-public class MyFavorites extends AppCompatActivity {
+public class MyFavorites extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

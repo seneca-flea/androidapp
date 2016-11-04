@@ -2,6 +2,7 @@ package com.example.yugenshtil.finalproject;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -15,16 +16,26 @@ import android.widget.EditText;
 
 public class MainActivity extends Activity {
 
-    boolean userIsLoggedIn = false;
+
     SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(userIsLoggedIn) {
-           goToUserMenu();
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        Log.d("Oleg", "Preferences " + sharedpreferences);
+        if (sharedpreferences.contains("id")) {
+
+
+            Log.d("Oleg", "Preferences " + sharedpreferences);
+            Log.d("Oleg", "Preferences " + sharedpreferences.getString("id", ""));
+            Log.d("Oleg", "Preferences " + sharedpreferences.getString("fullName", ""));
+            goToUserMenu();
+
+            // et.setText(sharedpreferences.getString(PIN, ""));
         }
         else {
            // Intent intent2 = new Intent(getApplicationContext(),MainMenu.class);

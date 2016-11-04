@@ -14,17 +14,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.yugenshtil.finalproject.LoginPage;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.useCases.Sell;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,6 +41,7 @@ public class AddItem extends Activity {
     private double price = 0.0;
     private String errors = "";
     private String ADDITEMURL="http://senecaflea.azurewebsites.net/api/Item";
+    private static final String PROTOCOL_CHARSET = "utf-8";
 
 
     @Override
@@ -76,6 +82,9 @@ public class AddItem extends Activity {
 
                         @Override
                         public void onResponse(JSONObject response) {
+
+
+
                             Log.d("Oleg", "Response is " + response);
                         }
                     }, new Response.ErrorListener() {
@@ -87,6 +96,9 @@ public class AddItem extends Activity {
                             // TODO Auto-generated method stub
 
                         }
+
+
+
                     });
 
                     MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjRequest);

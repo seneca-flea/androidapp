@@ -5,10 +5,19 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.LruCache;
 
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by yugenshtil on 18/10/16.
@@ -46,6 +55,9 @@ public class MySingleton {
         }
         return mInstance;
     }
+
+
+
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
