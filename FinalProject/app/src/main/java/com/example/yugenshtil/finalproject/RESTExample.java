@@ -16,9 +16,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -229,7 +226,7 @@ public class RESTExample extends Activity {
 
     }
 
-
+/*
     public class ActorsAsyncTask extends AsyncTask<String, Void,Boolean>{
 
 
@@ -248,7 +245,7 @@ public class RESTExample extends Activity {
             super.onPostExecute(result);
         }
     }
-
+*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +23,9 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.RegistrationPage;
+import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 import com.example.yugenshtil.finalproject.item.AddItem;
+import com.example.yugenshtil.finalproject.model.DerpData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,10 +41,26 @@ public class Sell extends Activity {
     private String id = "";
     private String fullName="";
 
+    // New
+    private RecyclerView recView;
+    private DerpAdapter adapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
+
+        recView = (RecyclerView)findViewById(R.id.rec_list);
+        //LayoutManager: GridLayoutManager or StaggeredGridLayoutManager
+
+        recView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new DerpAdapter(DerpData.getListData(),this);
+        recView.setAdapter(adapter);
+
+
+
         Bundle extras = getIntent().getExtras();
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Log.d("Oleg", "Preferences " + sharedpreferences);

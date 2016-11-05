@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+//import android.support.v7.widget.LinearLayoutManager;
+//import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +28,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.yugenshtil.finalproject.LoginPage;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
+//import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
+import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
+import com.example.yugenshtil.finalproject.model.DerpData;
 import com.example.yugenshtil.finalproject.useCases.Sell;
 
 import org.json.JSONException;
@@ -44,10 +51,17 @@ public class AddItem extends Activity {
     private static final String PROTOCOL_CHARSET = "utf-8";
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+
+
+
+
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
