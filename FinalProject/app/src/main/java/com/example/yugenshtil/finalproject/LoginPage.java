@@ -1,6 +1,7 @@
 package com.example.yugenshtil.finalproject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,6 +41,7 @@ public class LoginPage extends Activity {
     private String errors = "";
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
+    public ProgressDialog pd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,41 +80,8 @@ public class LoginPage extends Activity {
                 userName = etUserName.getText().toString();
                 password = etPassword.getText().toString();
                 if(isInputValid()){
-                    receiveJson();
-                    if(isUserFound()){
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                        editor.putString("id", id);
-                        editor.putString("fullName", fullName);
-                        editor.commit();
-
-                        Context context = getApplicationContext();
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, "User was successfully login. Redirection to user menu", duration);
-                        toast.show();
-
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-
-                        Intent userMenuIntent = new Intent(LoginPage.this, UserMenu.class);
-                        userMenuIntent.putExtra("id", id);
-                        userMenuIntent.putExtra("fullName", fullName);
-                        startActivity(userMenuIntent);
-
-
-
-                    }else{
-                        Context context = getApplicationContext();
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, "User was not found", duration);
-                        toast.show();
-
-                    }
+                    checkUserIsValid();
+                 //   receiveJson();
 
 
 
@@ -154,8 +123,8 @@ public class LoginPage extends Activity {
         return userIsFound;
     }
 
-    public void receiveJson(){
-
+    public void checkUserIsValid(){
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, LOGINUSERURL, null, new Response.Listener<JSONArray>() {
 
             @Override
@@ -163,9 +132,47 @@ public class LoginPage extends Activity {
 
 
 
-
+                pd.cancel();
                 if(response!=null){
                     users = response;
+                    if(isUserFound()){
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                        editor.putString("id", id);
+                        editor.putString("fullName", fullName);
+                        editor.commit();
+
+                        Context context = getApplicationContext();
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, "User was successfully login. Redirection to user menu", duration);
+                        toast.show();
+
+                        Intent userMenuIntent = new Intent(LoginPage.this, UserMenu.class);
+                        userMenuIntent.putExtra("id", id);
+                        userMenuIntent.putExtra("fullName", fullName);
+                        startActivity(userMenuIntent);
+
+
+
+                    }else{
+                        Context context = getApplicationContext();
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, "User was not found", duration);
+                        toast.show();
+
+                    }
+
+
+
+
+
+
+
+
+
+
 
                 }else{
                     Context context = getApplicationContext();

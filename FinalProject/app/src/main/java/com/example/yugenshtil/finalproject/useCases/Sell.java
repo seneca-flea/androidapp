@@ -1,6 +1,7 @@
 package com.example.yugenshtil.finalproject.useCases;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,24 +27,40 @@ import com.example.yugenshtil.finalproject.RegistrationPage;
 import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 import com.example.yugenshtil.finalproject.item.AddItem;
 import com.example.yugenshtil.finalproject.model.DerpData;
+import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
+import com.example.yugenshtil.finalproject.model.ListItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Sell extends Activity {
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/user/";
     TextView tvItemsList;
     String myItems = "";
+
+    JSONArray jsonArray=null;
     private String id = "";
     private String fullName="";
 
+
+    private static final String EXTRA_QUOTE = "EXTRA_QUOTE " ;
+    private static final String EXTRA_ATTR = "EXTRA_ATTR" ;
+    private static final String BUNDLE_EXTRAS = "BUNDLE_EXTRAS" ;
     // New
     private RecyclerView recView;
     private DerpAdapter adapter;
+    private ArrayList listData;
+
+
+
+    public ProgressDialog pd;
 
 
     @Override
@@ -51,19 +68,20 @@ public class Sell extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
 
-        recView = (RecyclerView)findViewById(R.id.rec_list);
-        //LayoutManager: GridLayoutManager or StaggeredGridLayoutManager
 
-        recView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new DerpAdapter(DerpData.getListData(),this);
-        recView.setAdapter(adapter);
+    //WHATT????
+
+        listData = (ArrayList) DerpData.getListData();
 
 
 
-        Bundle extras = getIntent().getExtras();
+
+
+
+     //   Bundle extras = getIntent().getExtras();
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Log.d("Oleg", "Preferences " + sharedpreferences);
+    //    Log.d("Oleg", "Preferences " + sharedpreferences);
         id = sharedpreferences.getString("id", "");
         fullName = sharedpreferences.getString("fullName", "");
 
@@ -75,18 +93,23 @@ public class Sell extends Activity {
         tvItemsList = (TextView) findViewById(R.id.sellTVitemsList);
         final Button btAddItem = (Button) findViewById(R.id.sellBTaddItem);
 
-        tvCongratulation.setText(fullName+", here is the list pf products you sell");
+        tvCongratulation.setText(fullName + ", here is the list pf products you sell");
      //   tvItemsList.setText(myItems);
         getMyItems();
+
+
+            Log.d("Oleg","oool");
+
+
+
 
 
         btAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("oleg","Add new item");
-                Intent addItemIntent = new Intent(Sell.this,AddItem.class);
+                Log.d("oleg", "Add new item");
+                Intent addItemIntent = new Intent(Sell.this, AddItem.class);
                 addItemIntent.putExtra("userId", id);
-
 
 
                 startActivity(addItemIntent);
@@ -98,17 +121,21 @@ public class Sell extends Activity {
     }
 
     public void getMyItems(){
-
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETITEMSURL+id, null, new Response.Listener<JSONArray>() {
+
+
             String myItemsList="";
 
             @Override
             public void onResponse(JSONArray response) {
 
+                pd.cancel();
 
                 if(response!=null){
 
                     JSONArray items = response;
+                    jsonArray = response;
                     if(items!=null) {
                         Log.d("Oleg", "size " + items.length());
                         for (int i = 0; i < items.length(); i++) {
@@ -121,8 +148,22 @@ public class Sell extends Activity {
 
                         }
 
-                        tvItemsList.setText(myItemsList);
+                       // tvItemsList.setText(myItemsList);
                     }
+
+
+                    recView = (RecyclerView)findViewById(R.id.rec_list);
+                    //LayoutManager: GridLayoutManager or StaggeredGridLayoutManager
+
+                    recView.setLayoutManager(new LinearLayoutManager(Sell.this));
+                    //Send list here
+                //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
+
+                       adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
+
+                    Log.d("Oleg","Setting adapter");
+                    recView.setAdapter(adapter);
+                    adapter.setItemClickCallback(Sell.this);
 
                 }else{
                     Context context = getApplicationContext();
@@ -135,6 +176,8 @@ public class Sell extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+
+                pd.cancel();
                 Log.d("Oleg","error" + error);
 
             }
@@ -174,5 +217,37 @@ public class Sell extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemClick(int p) {
+        ListItem item = (ListItem) listData.get(p);
+        Intent i  = new Intent(this, ItemDisplayActivity.class);
+        Bundle extras = new Bundle();
+        extras.putString(EXTRA_QUOTE,item.getTitle());
+        extras.putString(EXTRA_ATTR,item.getSubTitle());
+
+        i.putExtra(BUNDLE_EXTRAS,extras);
+        startActivity(i);
+    }
+
+    @Override
+    public void onSecondaryIconClick(int p) {
+        ListItem item = (ListItem) listData.get(p);
+        //update our Data
+
+        if(item.isFavourite()){
+            item.setFavourite(false);
+
+        }else
+            item.setFavourite(true);
+
+        Log.d("Oleg","onSecondaryIconClick");
+
+        adapter.setListData(listData);
+        adapter.notifyDataSetChanged();
+
+
+
     }
 }
