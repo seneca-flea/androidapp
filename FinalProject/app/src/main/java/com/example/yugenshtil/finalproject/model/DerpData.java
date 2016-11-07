@@ -2,6 +2,7 @@ package com.example.yugenshtil.finalproject.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by yugenshtil on 05/11/16.
@@ -30,5 +31,16 @@ public class DerpData {
         return data;
     }
 
+
+    public static ListItem getRandomListItem(){
+        int rand = new Random().nextInt(6);
+
+        ListItem item = new ListItem();
+
+        item.setTitle(titles[rand]);
+        item.setSubTitle(subTitles[rand]);
+
+        return item;
+    }
 
 }

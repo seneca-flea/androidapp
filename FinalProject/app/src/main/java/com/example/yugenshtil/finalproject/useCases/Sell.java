@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -159,11 +160,24 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                     //Send list here
                 //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
 
-                       adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
+                       adapter = new DerpAdapter(listData,Sell.this,jsonArray);
 
                     Log.d("Oleg","Setting adapter");
                     recView.setAdapter(adapter);
                     adapter.setItemClickCallback(Sell.this);
+
+                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+                    itemTouchHelper.attachToRecyclerView(recView);
+
+                    Button addItem = (Button) findViewById(R.id.sellBTaddItem);
+                    addItem.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            addItemToList();
+                        }
+                    });
+
+
 
                 }else{
                     Context context = getApplicationContext();
@@ -185,16 +199,45 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
         MySingleton.getInstance(Sell.this).addToRequestQueue(jsObjRequest);
 
+    }
 
+    private ItemTouchHelper.Callback createHelperCallback() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
 
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        moveItem(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                        return true;
+                    }
 
+                    @Override
+                    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                        deleteItem(viewHolder.getAdapterPosition());
+                    }
+                };
+        return simpleItemTouchCallback;
+    }
 
+    private void addItemToList() {
+        ListItem item = DerpData.getRandomListItem();
+        listData.add(item);
+        adapter.notifyItemInserted(listData.indexOf(item));
+    }
 
+    private void moveItem(int oldPos, int newPos) {
 
+        ListItem item = (ListItem) listData.get(oldPos);
+        listData.remove(oldPos);
+        listData.add(newPos, item);
+        adapter.notifyItemMoved(oldPos, newPos);
+    }
 
-
-
-
+    private void deleteItem(final int position) {
+        listData.remove(position);
+        adapter.notifyItemRemoved(position);
     }
 
     @Override
@@ -244,7 +287,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
         Log.d("Oleg","onSecondaryIconClick");
 
-        adapter.setListData(listData);
+    //    adapter.setListData(listData);
         adapter.notifyDataSetChanged();
 
 
