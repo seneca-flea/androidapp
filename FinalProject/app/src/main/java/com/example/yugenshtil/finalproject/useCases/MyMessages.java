@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.example.yugenshtil.finalproject.R;
 
@@ -13,6 +14,8 @@ public class MyMessages extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_messages);
+
+        final TextView sample = (TextView) findViewById(R.id.messageText);
     }
 
     @Override
