@@ -27,9 +27,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.yugenshtil.finalproject.LoginPage;
+import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 //import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
+import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 import com.example.yugenshtil.finalproject.model.DerpData;
 import com.example.yugenshtil.finalproject.useCases.Sell;
@@ -183,6 +185,15 @@ public class AddItem extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id==R.id.action_logout){
+            SharedPreferences preferences = getSharedPreferences("MyPrefs", 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+
+            Intent mainMenuIntent = new Intent(AddItem.this,MainMenu.class);
+            startActivity(mainMenuIntent);
         }
 
         return super.onOptionsItemSelected(item);

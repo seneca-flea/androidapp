@@ -1,11 +1,14 @@
 package com.example.yugenshtil.finalproject.useCases;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.R;
 
 public class MyFavorites extends Activity {
@@ -33,6 +36,18 @@ public class MyFavorites extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }
+        else if(id==R.id.action_logout){
+            SharedPreferences preferences = getSharedPreferences("MyPrefs", 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+
+            Intent mainMenuIntent = new Intent(MyFavorites.this,MainMenu.class);
+            startActivity(mainMenuIntent);
+
+
+
         }
 
         return super.onOptionsItemSelected(item);

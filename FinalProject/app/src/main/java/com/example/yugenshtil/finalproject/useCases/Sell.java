@@ -252,6 +252,18 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id==R.id.action_logout){
+            SharedPreferences preferences = getSharedPreferences("MyPrefs", 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+
+            Intent mainMenuIntent = new Intent(Sell.this,MainMenu.class);
+            startActivity(mainMenuIntent);
+
+
+
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -369,6 +381,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
             e.printStackTrace();
         }
     }
+
 
 
 }

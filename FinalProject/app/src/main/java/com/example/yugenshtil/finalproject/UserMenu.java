@@ -1,8 +1,11 @@
 package com.example.yugenshtil.finalproject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.useCases.Buy;
 import com.example.yugenshtil.finalproject.useCases.History;
 import com.example.yugenshtil.finalproject.useCases.MyFavorites;
@@ -22,6 +29,8 @@ public class UserMenu extends Activity {
 
     private String id = "";
     private String fullName="";
+    public ProgressDialog pd;
+    private String DELETEUSERURL="http://senecaflea.azurewebsites.net/api/User/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,7 @@ public class UserMenu extends Activity {
         final ImageView bFavorites = (ImageView) findViewById(R.id.userMenuMyFavoritesButton);
         final ImageView bMessage = (ImageView) findViewById(R.id.userMenuMessagesButton);
         final ImageView bContactUs = (ImageView) findViewById(R.id.userMenuContactUsButton);
+
 
         // Listener of the UserMenu - Sell Button
         bSell.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +150,58 @@ public class UserMenu extends Activity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id==R.id.action_logout){
+            SharedPreferences preferences = getSharedPreferences("MyPrefs", 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+
+            Intent mainMenuIntent = new Intent(UserMenu.this,MainMenu.class);
+            startActivity(mainMenuIntent);
+        }
+        else if(id==R.id.action_deactivate){
+
+            deactivateAccount();
+
+            Intent mainMenuIntent = new Intent(UserMenu.this,MainMenu.class);
+            startActivity(mainMenuIntent);
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void deactivateAccount(){
+        Log.d("Oleg","Deleteing id " + id);
+        pd = ProgressDialog.show(this, "", "Account is deactivating...Please wait...", true);
+        StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEUSERURL+id,
+                new Response.Listener<String>()
+                {
+
+
+                    @Override
+                    public void onResponse(String response) {
+                        pd.cancel();
+                        Log.d("Oleg","Response is "+response);
+                        //    adapter.notifyDataSetChanged();
+                        Intent aboutAppIntent = new Intent(UserMenu.this,MainMenu.class);
+                        startActivity(aboutAppIntent);
+
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pd.cancel();
+                        Log.d("Oleg","Response error is "+error);
+
+                    }
+                }
+        );
+        MySingleton.getInstance(UserMenu.this).addToRequestQueue(dr);
+
+
     }
 }

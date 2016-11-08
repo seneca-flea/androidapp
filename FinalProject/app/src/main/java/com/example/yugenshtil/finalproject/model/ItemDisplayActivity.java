@@ -3,9 +3,11 @@ package com.example.yugenshtil.finalproject.model;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +18,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.UserMenu;
@@ -134,5 +137,34 @@ public class ItemDisplayActivity extends Activity {
 
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        else if(id==R.id.action_logout){
+            SharedPreferences preferences = getSharedPreferences("MyPrefs", 0);
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.clear();
+            editor.commit();
+
+            Intent mainMenuIntent = new Intent(ItemDisplayActivity.this,MainMenu.class);
+            startActivity(mainMenuIntent);
+
+
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 }
