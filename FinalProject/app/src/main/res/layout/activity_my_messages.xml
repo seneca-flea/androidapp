@@ -8,6 +8,6 @@
 
     <TextView android:text="Ricardo, implement" android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-     />
+        android:id="@+id/messageText" />
 
 </RelativeLayout>
