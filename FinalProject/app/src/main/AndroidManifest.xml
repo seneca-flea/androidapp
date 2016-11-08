@@ -27,7 +27,9 @@
             android:theme="@style/MyTheme" />
         <activity
             android:name=".UserMenu"
-            android:label="@string/title_activity_user_menu" />
+            android:label="@string/title_activity_user_menu"
+            />
+
         <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu" />
@@ -48,10 +50,12 @@
             android:label="@string/title_activity_my_favorites" />
         <activity
             android:name=".useCases.Sell"
-            android:label="@string/title_activity_sell" />
+            android:label="@string/title_activity_sell"
+            />
         <activity
             android:name=".useCases.Buy"
-            android:label="@string/title_activity_buy" />
+            android:label="@string/title_activity_buy"
+            android:noHistory="true"/>
         <activity
             android:name=".useCases.MyMessages"
             android:label="@string/title_activity_my_messages" />

@@ -29,6 +29,7 @@ import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.RegistrationPage;
+import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 import com.example.yugenshtil.finalproject.item.AddItem;
 import com.example.yugenshtil.finalproject.item.EditItem;
@@ -57,13 +58,10 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     private String fullName="";
 
 
-    private static final String EXTRA_QUOTE = "EXTRA_QUOTE " ;
-    private static final String EXTRA_ATTR = "EXTRA_ATTR" ;
-    private static final String BUNDLE_EXTRAS = "BUNDLE_EXTRAS" ;
     // New
     private RecyclerView recView;
     private DerpAdapter adapter;
-    private ArrayList listData;
+ //   private ArrayList listData;
 
     public ProgressDialog pd;
 
@@ -73,7 +71,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
 
-        listData = (ArrayList) DerpData.getListData();
+      //  listData = (ArrayList) DerpData.getListData();
    //   Bundle extras = getIntent().getExtras();
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
     //    Log.d("Oleg", "Preferences " + sharedpreferences);
@@ -151,7 +149,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                     //Send list here
                 //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
 
-                       adapter = new DerpAdapter(listData,Sell.this,jsonArray);
+                       adapter = new DerpAdapter(Sell.this,jsonArray);
 
                     Log.d("Oleg","Setting adapter");
                     recView.setAdapter(adapter);
@@ -215,22 +213,22 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     }
 
     private void addItemToList() {
-        ListItem item = DerpData.getRandomListItem();
-        listData.add(item);
-        adapter.notifyItemInserted(listData.indexOf(item));
+       // ListItem item = DerpData.getRandomListItem();
+      //  listData.add(item);
+        //adapter.notifyItemInserted(listData.indexOf(item));
     }
 
     private void moveItem(int oldPos, int newPos) {
 
-        ListItem item = (ListItem) listData.get(oldPos);
-        listData.remove(oldPos);
-        listData.add(newPos, item);
+      //  ListItem item = (ListItem) listData.get(oldPos);
+      //  listData.remove(oldPos);
+      //  listData.add(newPos, item);
         adapter.notifyItemMoved(oldPos, newPos);
     }
 
     private void deleteItem(final int position) {
-        listData.remove(position);
-        adapter.notifyItemRemoved(position);
+      //  listData.remove(position);
+      //  adapter.notifyItemRemoved(position);
     }
 
     @Override
@@ -316,14 +314,14 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         }
 
 
-        ListItem item = (ListItem) listData.get(p);
+      //  ListItem item = (ListItem) listData.get(p);
         //update our Data
 
-        if(item.isFavourite()){
-            item.setFavourite(false);
+    //    if(item.isFavourite()){
+     //       item.setFavourite(false);
 
-        }else
-            item.setFavourite(true);
+    //    }else
+       //     item.setFavourite(true);
 
         Log.d("Oleg","onSecondaryIconClick");
 
@@ -381,6 +379,16 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(Sell.this, UserMenu.class));
+        finish();
+
+    }
+
 
 
 
