@@ -37,7 +37,8 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
 
     public interface ItemClickCallback{
         void onItemClick(int p);
-        void onSecondaryIconClick(int p);
+        void onDeleteIconClick(int p);
+        void onUpdateIconClick(int p);
 
 
     }
@@ -65,24 +66,26 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
     @Override
     public void onBindViewHolder(DerpHolder derpHolder, int i) {
         Log.d("Oleg", "Setting onbind "+i);
-        String ItemId="";
+        String title="";
+        String description="";
+        String price="";
+
         //Here it sets to the view
         try {
             JSONObject item = (JSONObject)itemList.get(i);
-            ItemId = item.get("ItemId").toString();
-
+            title = item.get("Title").toString();
+            description = item.get("Description").toString();
+            price = item.get("Price").toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-
-
-
-        ListItem item = listData.get(i);
-        derpHolder.title.setText("Id is " + ItemId);
+    //    ListItem item = listData.get(i);
+        derpHolder.title.setText(title);
+        derpHolder.description.setText(description);
+        derpHolder.price.setText(price+"$");
     //    derpHolder.icon.setImageResource(item.getImageResId());
-        derpHolder.tv_id.setText(i+"");
-
+      /*
         if(item.isFavourite())
         {
           derpHolder.icon.setImageResource(R.drawable.ic_update_black_36dp);
@@ -90,7 +93,7 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         }
         else
             derpHolder.icon.setImageResource(R.drawable.ic_picture_in_picture_black_36dp);
-
+*/
 
     }
 
@@ -106,8 +109,6 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
     @Override
     public int getItemCount() {
 
-       Log.d("Oleg","Size of JSON"+itemList.length());
-        Log.d("Oleg","Size of listData"+listData.size());
         return itemList.length();
      //   return listData.size();
     }
@@ -115,9 +116,12 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
     class DerpHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
 
         private TextView title;
-        private ImageView icon;
+        private TextView description;
+        private TextView price;
         private View container;
-        private TextView tv_id;
+        private ImageView deleteIcon;
+        private ImageView updateIcon;
+
         //New
         private ImageView thumbnail;
         private ImageView secondaryIcon;
@@ -126,23 +130,35 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         public DerpHolder(View itemView) {
             super(itemView);
 
-            title =(TextView)itemView.findViewById(R.id.tv_item_text);
-            icon =(ImageView)itemView.findViewById(R.id.im_item_icon);
+            title =(TextView)itemView.findViewById(R.id.tv_title);
+            description = (TextView)itemView.findViewById(R.id.tv_description);
+            price = (TextView)itemView.findViewById(R.id.tv_price);
+            deleteIcon = (ImageView)itemView.findViewById(R.id.im_delete_icon);
+            updateIcon = (ImageView)itemView.findViewById(R.id.im_update_icon);
             container = itemView.findViewById(R.id.cont_item_root);
-            tv_id = (TextView)itemView.findViewById(R.id.tv_id);
-            icon.setOnClickListener(this);
+
+            deleteIcon.setOnClickListener(this);
+            updateIcon.setOnClickListener(this);
             container.setOnClickListener(this);
 
-         //   thumbnail = (ImageView)itemView.findViewById(R.id.im_item_icon)
+          //  description =(ImageView)itemView.findViewById(R.id.im_item_icon);
+
+                //   thumbnail = (ImageView)itemView.findViewById(R.id.im_item_icon)
         }
 
         @Override
         public void onClick(View v){
             if(v.getId()==R.id.cont_item_root){
                 itemClickCallBack.onItemClick(getAdapterPosition());
-
-            }else{
-                itemClickCallBack.onSecondaryIconClick(getAdapterPosition());
+                Log.d("Oleg","Clicked Item for line " + getAdapterPosition());
+            }
+            else if(v.getId()==R.id.im_delete_icon){
+                Log.d("Oleg","Clicked Delete for line " + getAdapterPosition());
+                itemClickCallBack.onDeleteIconClick(getAdapterPosition());
+            }
+            else if(v.getId()==R.id.im_update_icon){
+                Log.d("Oleg","Clicked Update for line " + getAdapterPosition());
+                itemClickCallBack.onUpdateIconClick(getAdapterPosition());
 
             }
 

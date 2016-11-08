@@ -109,8 +109,9 @@ public class UserMenu extends Activity {
             }
         });
 
+        //Ricardo: updated to correct typo (bMessage for bContactUs)
         // Listener of the UserMenu - ContactUs Button
-        bMessage.setOnClickListener(new View.OnClickListener() {
+        bContactUs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg", "Login clicked");
@@ -119,10 +120,6 @@ public class UserMenu extends Activity {
 
             }
         });
-
-
-
-
     }
 
     @Override

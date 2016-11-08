@@ -1,14 +1,108 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.yugenshtil.finalproject.ContactUs"
-   >
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFF0000"
+    android:orientation="vertical">
 
-    <TextView android:text="Please contact us" android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/contact_form_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/contactUsText" />
+        android:text="Seneca Flea"
+        android:textColor="#FFF"
+        android:textSize="40sp"
+        android:typeface="serif"
+        tools:layout_editor_absoluteY="18dp"
+        tools:layout_editor_absoluteX="81dp" />
 
-</RelativeLayout>
+    <EditText
+        android:layout_width="352dp"
+        android:layout_height="39dp"
+        android:backgroundTint="#fff"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        android:id="@+id/editText4"
+        tools:layout_editor_absoluteY="89dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:background="@android:color/white" />
+
+    <View
+        android:layout_width="368dp"
+        android:layout_height="2dp"
+        android:background="#fff"
+        tools:layout_editor_absoluteY="134dp"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <EditText
+        android:layout_width="352dp"
+        android:layout_height="39dp"
+        android:backgroundTint="#FFF"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:id="@+id/editText2"
+        tools:layout_editor_absoluteY="144dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:background="@android:color/white" />
+    <View
+        android:layout_width="368dp"
+        android:layout_height="1dp"
+        android:background="#fff"
+        tools:layout_editor_absoluteY="189dp"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <EditText
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FFF"
+        android:hint="Phone"
+        android:inputType="phone"
+        android:id="@+id/editText"
+        tools:layout_editor_absoluteY="198dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:background="@android:color/white" />
+
+    <View
+        android:layout_width="368dp"
+        android:layout_height="1dp"
+        android:background="#fff"
+        tools:layout_editor_absoluteY="410dp"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <EditText
+        android:layout_width="352dp"
+        android:layout_height="150dp"
+        android:backgroundTint="#FFF"
+        android:gravity="top"
+        android:hint="Your Message"
+        android:fitsSystemWindows="true"
+        android:breakStrategy="balanced"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:padding="5dp"
+        android:id="@+id/editText3"
+        tools:layout_editor_absoluteY="255dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:background="@android:color/white" />
+
+    <View
+        android:layout_width="368dp"
+        android:layout_height="1.25dp"
+        android:background="#fff"
+        tools:layout_editor_absoluteY="246dp"
+        tools:layout_editor_absoluteX="8dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFF"
+        android:elevation="4dp"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:text="Submit"
+        android:textColor="#cc0000"
+        tools:layout_editor_absoluteY="415dp"
+        tools:layout_editor_absoluteX="96dp" />
+</android.support.constraint.ConstraintLayout>

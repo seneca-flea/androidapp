@@ -19,11 +19,11 @@
 
 
     <TextView
-        android:id="@+id/tv_item_text"
+        android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/im_item_icon"
-        android:layout_marginLeft="82dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="92dp"
         android:layout_marginRight="48dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif"
@@ -34,29 +34,55 @@
 
 
     <TextView
-        android:id="@+id/tv_id"
+        android:id="@+id/tv_description"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_item_text"
-        android:layout_marginLeft="72dp"
+        android:layout_below="@+id/tv_title"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="92dp"
         android:layout_marginRight="48dp"
         android:ellipsize="end"
         android:fontFamily="sans-serif"
         android:singleLine="true"
-        android:text="Mononc' J"
-        android:textColor="#F00000"
+        android:text="Desc"
+        android:textColor="#7E7E7E"
+        android:textSize="14sp" />
+
+
+    <TextView
+        android:id="@+id/tv_price"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_description"
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="92dp"
+        android:layout_marginRight="48dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:singleLine="true"
+        android:text="Price"
+        android:textColor="#7E7E7E"
         android:textSize="14sp" />
 
     <ImageView
-        android:id="@+id/im_item_icon"
+        android:id="@+id/im_delete_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
+        android:paddingLeft="106dp"
         android:src="@drawable/ic_delete_black_36dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/tv_id"
-        android:layout_alignStart="@+id/tv_id" />
+        android:layout_alignLeft="@+id/tv_price"
+        android:layout_alignStart="@+id/tv_price" />
 
+    <ImageView
+        android:id="@+id/im_update_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_update_black_36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/im_item_icon"
+        android:paddingLeft="146dp"/>
 
 </RelativeLayout>

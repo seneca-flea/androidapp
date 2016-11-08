@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 public class AboutApp extends Activity {
 
@@ -12,6 +14,9 @@ public class AboutApp extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
+
+        final ImageView imAppLogo = (ImageView) findViewById(R.id.imageView5);
+        final TextView tvAboutText = (TextView) findViewById(R.id.aboutAppText) ;
     }
 
     @Override

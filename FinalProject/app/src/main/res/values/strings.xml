@@ -6,9 +6,9 @@
     <string name="title_activity_splash_screen">Welcome</string>
     <string name="title_activity_user_menu">UserMenu</string>
     <string name="title_activity_main_menu">MainMenu</string>
-    <string name="title_activity_login_page">LoginPage</string>
+    <string name="title_activity_login_page">Seneca Flea</string>
     <string name="title_activity_about_us">AboutUs</string>
-    <string name="title_activity_contact_us">ContactUs</string>
+    <string name="title_activity_contact_us">Contact Us</string>
     <string name="title_activity_about_app">AboutApp</string>
     <string name="title_activity_history">History</string>
     <string name="title_activity_my_favorites">MyFavorites</string>
@@ -19,4 +19,5 @@
     <string name="title_activity_registration_page">RegistrationPage</string>
     <string name="title_activity_forgot_password">ForgotPassword</string>
     <string name="title_activity_add_item">AddItem</string>
+
 </resources>

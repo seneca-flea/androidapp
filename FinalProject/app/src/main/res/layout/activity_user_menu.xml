@@ -1,19 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent" android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#ff0000">
 
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/userMenuSellButton"
-        android:src="@drawable/bt1sell"
-        android:layout_marginLeft="29dp"
-        android:layout_marginStart="29dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -48,19 +38,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/userMenuMessagesButton"
+        android:src="@drawable/bt5mymessages"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/userMenuBuyButton"
-        android:layout_toStartOf="@+id/userMenuBuyButton"
-        android:src="@drawable/bt5mymessages"/>
+        android:layout_alignLeft="@+id/userMenuHistoryButton"
+        android:layout_alignStart="@+id/userMenuHistoryButton"
+        android:layout_marginBottom="13dp" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/userMenuContactUsButton"
         android:src="@drawable/bt6contactus"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/userMenuMessagesButton"
         android:layout_alignLeft="@+id/userMenuMyFavoritesButton"
         android:layout_alignStart="@+id/userMenuMyFavoritesButton" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/userMenuSellButton"
+        android:src="@drawable/bt1sell"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp" />
 
 
 </RelativeLayout>

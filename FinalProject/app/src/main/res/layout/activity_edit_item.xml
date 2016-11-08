@@ -1,15 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.yugenshtil.finalproject.item.AddItem">
+    tools:context="com.example.yugenshtil.finalproject.item.EditItem">
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/addItemETtitle"
+        android:id="@+id/etTitle_editItem"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -20,12 +23,12 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/addItemETDescription"
-        android:layout_below="@+id/addItemETtitle"
+        android:id="@+id/etDescription_editItem"
+        android:layout_below="@+id/etTitle_editItem"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/addItemETtitle"
-        android:layout_alignEnd="@+id/addItemETtitle"
+        android:layout_alignRight="@+id/etTitle_editItem"
+        android:layout_alignEnd="@+id/etTitle_editItem"
         android:hint="Description" />
 
     <EditText
@@ -33,25 +36,25 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:ems="10"
-        android:id="@+id/addItemETprice"
-        android:layout_below="@+id/addItemETDescription"
+        android:id="@+id/etPrice_editItem"
+        android:layout_below="@+id/etDescription_editItem"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/addItemETDescription"
-        android:layout_alignEnd="@+id/addItemETDescription"
+        android:layout_alignRight="@+id/etDescription_editItem"
+        android:layout_alignEnd="@+id/etDescription_editItem"
         android:text="Price" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Item"
-        android:id="@+id/addItemBTaddItem"
-        android:layout_below="@+id/addItemETprice"
+        android:text="Save Changes"
+        android:id="@+id/btSaveChanges_editItem"
+        android:layout_below="@+id/etPrice_editItem"
         android:layout_marginTop="40dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/addItemETprice"
-        android:layout_alignEnd="@+id/addItemETprice" />
+        android:layout_alignRight="@+id/etPrice_editItem"
+        android:layout_alignEnd="@+id/etPrice_editItem" />
 
 
 </RelativeLayout>

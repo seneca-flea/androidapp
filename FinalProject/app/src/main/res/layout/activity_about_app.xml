@@ -1,13 +1,63 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.yugenshtil.finalproject.AboutApp">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.yugenshtil.finalproject.AboutApp"
+    android:background="#ff0000">
 
-    <TextView android:text="Here is the info about the app" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/aboutAppText" />
+    <ImageView
+        android:layout_width="352dp"
+        android:layout_height="112dp"
+        app:srcCompat="@drawable/applogomain"
+        android:id="@+id/imageView5"
+        android:contentDescription="app logo"
+        tools:layout_constraintTop_creator="1"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="16dp" />
 
-</RelativeLayout>
+    <View
+        android:layout_width="368dp"
+        android:layout_height="1dp"
+        android:background="#fff"
+        android:layout_marginTop="144dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="8dp" />
+
+
+    <TextView
+        android:text='Every year thousands of post-secondary students have to buy materials for classes(such as books, equipment, etc). This can be a great burden for our tight budget, in fact books make up 20% of student’s yearly expenses.
+
+How can we reduce these expenses?
+
+One of the best solution is to buy used goods. Very often the purchase of secondhand items can save a lot of money. However the lack of a centralized space to buy/sell these materials makes this a very time consuming process.
+
+That is why we developed "Seneca Flea”, its simplicity and user-friendly interface will save you time and money!'
+        android:layout_width="360dp"
+        android:layout_height="271dp"
+        android:id="@+id/aboutAppText"
+        tools:text='Every year thousands of post-secondary students have to buy materials for classes(such as books, equipment, etc). This can be a great burden for our tight budget, in fact books make up 20% of student’s yearly expenses.
+
+How can we reduce these expenses?
+
+One of the best solution is to buy used goods. Very often the purchase of secondhand items can save a lot of money. However the lack of a centralized space to buy/sell these materials makes this a very time consuming process.
+
+That is why we developed "Seneca Flea”, its simplicity and user-friendly interface will save you time and money!'
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif"
+        android:textStyle="normal|bold"
+        tools:layout_constraintBottom_creator="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginBottom="88dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp" />
+
+</android.support.constraint.ConstraintLayout>

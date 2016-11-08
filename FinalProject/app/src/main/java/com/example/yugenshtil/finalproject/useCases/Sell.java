@@ -22,11 +22,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.AboutApp;
+import com.example.yugenshtil.finalproject.LoginPage;
+import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.RegistrationPage;
 import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 import com.example.yugenshtil.finalproject.item.AddItem;
+import com.example.yugenshtil.finalproject.item.EditItem;
 import com.example.yugenshtil.finalproject.model.DerpData;
 import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
 import com.example.yugenshtil.finalproject.model.ListItem;
@@ -43,6 +48,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/user/";
+    private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
     TextView tvItemsList;
     String myItems = "";
 
@@ -59,8 +65,6 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     private DerpAdapter adapter;
     private ArrayList listData;
 
-
-
     public ProgressDialog pd;
 
 
@@ -69,32 +73,19 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
 
-
-
-    //WHATT????
-
         listData = (ArrayList) DerpData.getListData();
-
-
-
-
-
-
-     //   Bundle extras = getIntent().getExtras();
+   //   Bundle extras = getIntent().getExtras();
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
     //    Log.d("Oleg", "Preferences " + sharedpreferences);
         id = sharedpreferences.getString("id", "");
         fullName = sharedpreferences.getString("fullName", "");
+        Log.d("Oleg","we are here again");
 
-
-
-
-
-        final TextView tvCongratulation = (TextView) findViewById(R.id.sellTVCongratulations);
-        tvItemsList = (TextView) findViewById(R.id.sellTVitemsList);
+      //  final TextView tvCongratulation = (TextView) findViewById(R.id.sellTVCongratulations);
+      //  tvItemsList = (TextView) findViewById(R.id.sellTVitemsList);
         final Button btAddItem = (Button) findViewById(R.id.sellBTaddItem);
 
-        tvCongratulation.setText(fullName + ", here is the list pf products you sell");
+     //   tvCongratulation.setText(fullName + ", here is the list pf products you sell");
      //   tvItemsList.setText(myItems);
         getMyItems();
 
@@ -173,7 +164,9 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                     addItem.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            addItemToList();
+                            Log.d("Oleg","Add new clicked");
+                            Intent loginIntent = new Intent(Sell.this,AddItem.class);
+                            startActivity(loginIntent);
                         }
                     });
 
@@ -244,6 +237,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_sell, menu);
+        Log.d("Oleg","onCreate hrer");
         return true;
     }
 
@@ -264,18 +258,52 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     @Override
     public void onItemClick(int p) {
-        ListItem item = (ListItem) listData.get(p);
-        Intent i  = new Intent(this, ItemDisplayActivity.class);
-        Bundle extras = new Bundle();
-        extras.putString(EXTRA_QUOTE,item.getTitle());
-        extras.putString(EXTRA_ATTR,item.getSubTitle());
 
-        i.putExtra(BUNDLE_EXTRAS,extras);
-        startActivity(i);
+        try {
+            JSONObject item = (JSONObject) jsonArray.get(p);
+            Intent i  = new Intent(this, ItemDisplayActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("ItemId",item.get("ItemId").toString());
+            extras.putString("Title",item.get("Title").toString());
+            extras.putString("SellerId",item.get("SellerId").toString());
+            extras.putString("Description",item.get("Description").toString());
+            extras.putString("Price",item.get("Price").toString());
+            i.putExtras(extras);
+            startActivity(i);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
-    public void onSecondaryIconClick(int p) {
+    public void onUpdateIconClick(int p) {
+        try {
+            JSONObject item = (JSONObject)jsonArray.get(p);
+           // String updateItemId = item.getString("ItemId");
+            Log.d("Oleg","you would like to update id " + p);
+            updateAnItem(p);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    //    adapter.setListData(listData);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void onDeleteIconClick(int p) {
+
+        try {
+            JSONObject item = (JSONObject)jsonArray.get(p);
+            String deleteItemId = item.getString("ItemId");
+            Log.d("Oleg","you would like to delete it id " + deleteItemId);
+            deleteAnItem(deleteItemId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
         ListItem item = (ListItem) listData.get(p);
         //update our Data
 
@@ -287,10 +315,60 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
         Log.d("Oleg","onSecondaryIconClick");
 
-    //    adapter.setListData(listData);
+        //    adapter.setListData(listData);
         adapter.notifyDataSetChanged();
+    }
 
 
+    public void deleteAnItem(String id){
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        Log.d("Oleg","Gonna delete");
+        StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEITEMSURL+id,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                       pd.cancel();
+                       Log.d("Oleg","Response is "+response);
+                    //    adapter.notifyDataSetChanged();
+                        Intent aboutAppIntent = new Intent(Sell.this,Sell.class);
+                        startActivity(aboutAppIntent);
+
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pd.cancel();
+                        Log.d("Oleg","Response error is "+error);
+
+                    }
+                }
+        );
+        MySingleton.getInstance(Sell.this).addToRequestQueue(dr);
 
     }
+
+
+    public void updateAnItem(int id) {
+       // pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+
+        try {
+            JSONObject item = (JSONObject) jsonArray.get(id);
+            Intent i = new Intent(Sell.this, EditItem.class);
+            i.putExtra("ItemId",item.get("ItemId").toString());
+            i.putExtra("Title",item.get("Title").toString());
+            i.putExtra("SellerId",item.get("SellerId").toString());
+            i.putExtra("Description",item.get("Description").toString());
+            i.putExtra("Price",item.get("Price").toString());
+            startActivity(i);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 }

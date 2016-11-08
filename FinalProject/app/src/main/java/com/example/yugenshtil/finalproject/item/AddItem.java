@@ -3,6 +3,7 @@ package com.example.yugenshtil.finalproject.item;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 //import android.support.v7.widget.LinearLayoutManager;
@@ -50,24 +51,17 @@ public class AddItem extends Activity {
     private String ADDITEMURL="http://senecaflea.azurewebsites.net/api/Item";
     private static final String PROTOCOL_CHARSET = "utf-8";
 
-
-
-
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-
-
-
-
-
-
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            id = extras.getString("userId");
-                     //The key argument here must match that used in the other activity
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        Log.d("Oleg", "Preferences " + sharedpreferences);
+        if (sharedpreferences.contains("id")) {
+            id = sharedpreferences.getString("id", "");
         }
 
         final Button btAddItem = (Button) findViewById(R.id.addItemBTaddItem);
@@ -132,7 +126,6 @@ public class AddItem extends Activity {
                     Intent sellIntent = new Intent(AddItem.this,Sell.class);
                     // RegistrationPage.this.startActivity(loginIntent);
                     startActivity(sellIntent);
-
 
                 } else {
 
