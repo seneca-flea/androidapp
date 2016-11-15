@@ -2,10 +2,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.yugenshtil.finalproject.useCases.Buy">
+
+
+
+    <item android:id="@+id/mSearch"
+        android:title="Search"
+        android:icon="@drawable/ic_search_white_36dp"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always">
+
+
+    </item>
+
+    <item android:id="@+id/mFilter"
+        android:title="Filter"
+        android:icon="@drawable/ic_filter_list_white_36dp"
+        app:showAsAction="ifRoom">
+
+
+    </item>
+
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/action_logout" android:title="Log Out"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:orderInCategory="300" app:showAsAction="never" />
     <item android:id="@+id/action_deactivate" android:title="Deactivate Account"
-        android:orderInCategory="100" app:showAsAction="never" />
+        android:orderInCategory="200" app:showAsAction="never" />
+
+
+
+
 </menu>

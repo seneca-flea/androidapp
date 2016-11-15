@@ -36,7 +36,7 @@ public class UserMenu extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
-
+        Log.d("Oleg","UserMenu");
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             id = extras.getString("id");
@@ -70,6 +70,7 @@ public class UserMenu extends Activity {
                 Intent sellIntent = new Intent(UserMenu.this,Sell.class);
                 sellIntent.putExtra("id", id);
                 sellIntent.putExtra("fullName", fullName);
+                sellIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(sellIntent);
 
             }
@@ -82,6 +83,7 @@ public class UserMenu extends Activity {
                 Log.d("Oleg", "Login clicked");
                 Intent buyIntent = new Intent(UserMenu.this,Buy.class);
                 startActivity(buyIntent);
+                finish();
 
             }
         });

@@ -185,6 +185,7 @@ public class LoginPage extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.cancel();
                 Log.d("Oleg","error" + error);
 
             }

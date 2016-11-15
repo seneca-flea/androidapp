@@ -5,6 +5,7 @@
     android:layout_height="115dp"
     android:background="@color/cardview_light_background"
     android:clickable="true"
+    android:layout_marginBottom="5dp"
     >
 
 

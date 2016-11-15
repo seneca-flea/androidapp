@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
-public class MainMenu extends Activity {
+public class MainMenu extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class MainMenu extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg","Contact Us");
-                Intent contactUsIntent = new Intent(MainMenu.this,ContactUs.class);
+                Intent contactUsIntent = new Intent(MainMenu.this,Test.class);
                 startActivity(contactUsIntent);
 
             }

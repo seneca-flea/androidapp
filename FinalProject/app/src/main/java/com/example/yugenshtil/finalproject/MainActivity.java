@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
+import com.example.yugenshtil.finalproject.useCases.Sell;
+
 public class MainActivity extends Activity {
 
 
@@ -33,7 +35,8 @@ public class MainActivity extends Activity {
             Log.d("Oleg", "Preferences " + sharedpreferences);
             Log.d("Oleg", "Preferences " + sharedpreferences.getString("id", ""));
             Log.d("Oleg", "Preferences " + sharedpreferences.getString("fullName", ""));
-            goToUserMenu();
+
+           goToUserMenu();
 
             // et.setText(sharedpreferences.getString(PIN, ""));
         }

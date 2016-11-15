@@ -4,26 +4,44 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.view.menu.MenuItemImpl;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -33,6 +51,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
+import com.example.yugenshtil.finalproject.Test;
 import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.BuyItemAdapter;
 import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
@@ -43,17 +62,24 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import static com.example.yugenshtil.finalproject.R.id.btDCN_Buy;
+import static com.example.yugenshtil.finalproject.R.id.start;
 
-public class Buy extends Activity {
+public class Buy extends AppCompatActivity {
 
 
-    private String GETALLITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/status/Available";
-    private String GETCOURSEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/title/Data%20Communication";
+    private String GETALLITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?status=Available";
+    private String GETCOURSEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?title=";
     private String GETRANGEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/price?min=100&max=400";
     private JSONArray jsonArray=null;
     public ProgressDialog pd;
     private RecyclerView recView;
     private BuyItemAdapter adapter;
+    private double priceFilterLow = 0.0;
+    private double priceFilterMax = 10000000;
+
+    private PopupWindow popupWindow;
+    private LayoutInflater layoutInflater;
+    private LinearLayout relativeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +97,7 @@ public class Buy extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg","Clicked to DCN");
-                getCourse();
+
 
             }
         });
@@ -151,9 +177,10 @@ public class Buy extends Activity {
 
     }
 
-    public void getCourse(){
+    public void getCourse(String encodedTitle){
+
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETCOURSEITEMSURL, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETCOURSEITEMSURL+encodedTitle, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
@@ -208,6 +235,7 @@ public class Buy extends Activity {
 
                 pd.cancel();
                 Log.d("Oleg","error" + error);
+                Log.d("Oleg","Blin" );
 
             }
         });
@@ -289,7 +317,139 @@ public class Buy extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_buy, menu);
+
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_buy, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.mSearch);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+
+        MenuItem item = menu.findItem(R.id.mFilter);
+
+
+
+
+
+   /*     MenuItem searchFilter = menu.findItem(R.id.mFilter);
+
+        searchFilter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.d("Oleg","Search button is clicked");
+                startActivity(new Intent(Buy.this,Test.class));
+
+
+
+                return false;
+            }
+        });*/
+
+
+ //NEW
+     /*   getMenuInflater().inflate(R.menu.menu_buy, menu);
+        MenuItem searchItem = menu.findItem(R.id.mSearch);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        MenuItem searchFilter = menu.findItem(R.id.mFilter);
+
+        searchFilter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.d("Oleg","Search button is clicked");
+                startActivity(new Intent(Buy.this,Test.class));
+
+
+
+                return false;
+            }
+        });
+*/
+
+
+
+/*
+                relativeLayout = (LinearLayout) findViewById(R.id.buyItemMenu);
+
+                layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.rangepopup,null);
+    popupWindow = new PopupWindow(container, ViewGroup.LayoutParams.MATCH_PARENT,300, true);
+                popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY,0,0);
+
+                final TextView popUp = (TextView) findViewById(R.id.tvRange_Buy);
+                popUp.setText("Oleg");
+                final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+           //     popUp.setText("Progress " + seekBar.getProgress() + " Max " + seekBar.getMax());
+               seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        popUp.setText("Progress " + progress);
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+
+                    }
+                });
+
+
+                container.setOnTouchListener(new View.OnTouchListener(){
+
+
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return true;
+                    }
+                });*/
+
+
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+              //  String rawString = query;
+                Log.d("Oleg","Received query " + query);
+
+
+                String encodedUrl="";
+                try {
+                    encodedUrl = URLEncoder.encode(query, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                Log.d("Oleg","Encoded " + encodedUrl);
+
+
+
+
+                 getCourse(encodedUrl);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                Log.d("Oleg","Received string " );
+                return false;
+            }
+        });
+
+
+
+
+
+
+
+
+
         return true;
     }
 
@@ -300,6 +460,8 @@ public class Buy extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+
+        Log.d("Oleg","Clicked here");
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -312,6 +474,13 @@ public class Buy extends Activity {
 
             Intent mainMenuIntent = new Intent(Buy.this,MainMenu.class);
             startActivity(mainMenuIntent);
+        }
+        else if(id==R.id.mFilter){
+            Log.d("Oleg","Filter Yeaah :)");
+            Intent mainMenuIntent = new Intent(Buy.this,RangeChoose.class);
+            startActivityForResult(mainMenuIntent,100);
+
+
 
 
 
@@ -322,11 +491,26 @@ public class Buy extends Activity {
 
 
     @Override
-    public void onBackPressed()
-    {
-        super.onBackPressed();
-        startActivity(new Intent(Buy.this, UserMenu.class));
-        finish();
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        // Get the Camera instance as the activity achieves full user focus
+        Log.d("Oleg","On resume");
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode,
+                                    int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Log.d("Oleg","onActivityResult ");
+        if(resultCode == 100){
+                getRange();
+            // Storing result in a variable called myvar
+            // get("website") 'website' is the key value result data
+            Log.d("Oleg","returned 100 ");
+        }
 
     }
 
