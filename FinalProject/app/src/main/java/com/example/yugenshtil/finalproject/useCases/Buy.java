@@ -479,6 +479,11 @@ public class Buy extends AppCompatActivity {
             Log.d("Oleg","Filter Yeaah :)");
             Intent mainMenuIntent = new Intent(Buy.this,RangeChoose.class);
             startActivityForResult(mainMenuIntent,100);
+        }
+        else if(id==R.id.mProgramFilter){
+            Log.d("Oleg","Program Filter Yeaah :)");
+            Intent programFilterIntent = new Intent(Buy.this,ProgramFilter.class);
+            startActivity(programFilterIntent);
 
 
 
