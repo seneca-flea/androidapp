@@ -52,6 +52,7 @@ public class AddItem extends Activity {
     private String errors = "";
     private String ADDITEMURL="http://senecaflea.azurewebsites.net/api/Item";
     private static final String PROTOCOL_CHARSET = "utf-8";
+    private String imageCode ="";
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -80,7 +81,7 @@ public class AddItem extends Activity {
             @Override
             public void onClick(View v) {
                 Intent addImage = new Intent(AddItem.this,AddImage.class);
-                startActivity(addImage);
+                startActivityForResult(addImage,1990);
             }
         });
 
@@ -95,7 +96,7 @@ public class AddItem extends Activity {
 
                 if (validateInput()) {
                     Map<String, String> params = new HashMap();
-                    params.put("Title", title);
+                    params.put("Title", imageCode);
                     params.put("Status", "Available");
                     params.put("Description", description);
                     params.put("Price", String.valueOf(price));
@@ -212,4 +213,23 @@ public class AddItem extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("oleg","we got");
+        super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case (1990) : {
+                if (resultCode == Activity.RESULT_OK) {
+                    String newText = data.getStringExtra("Base64");
+                    imageCode = newText;
+                    Log.d("Oleg","Base64 is " + newText);
+                }
+                break;
+            }
+        }
+    }
+
+
 }

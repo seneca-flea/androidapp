@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -18,19 +20,29 @@ import android.widget.Toast;
 import com.example.yugenshtil.finalproject.R;
 import com.kosalgeek.android.photoutil.CameraPhoto;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
+import com.kosalgeek.android.photoutil.ImageBase64;
 import com.kosalgeek.android.photoutil.ImageLoader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddImage extends AppCompatActivity {
-    private ImageView upload, camera, gallery, image;
+    private ImageView upload, camera, gallery, image,load, loaded;
+    private Button submit;
     private  final String TAG = this.getClass().getName();
+    List<String> images = new ArrayList<String>();
+
     CameraPhoto cameraPhoto;
     GalleryPhoto galleryPhoto;
     final int CAMERA_REQUEST = 13342;
     final int GALLERY_REQUEST = 13343;
     final int MY_REQUEST_CODE =123;
+
+    String selectedPhoto;
+    String imageDecoded="";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +68,9 @@ public class AddImage extends AppCompatActivity {
         camera = (ImageView) findViewById(R.id.ivCamera);
         gallery = (ImageView) findViewById(R.id.ivGallery);
         image = (ImageView) findViewById(R.id.ivImage);
+        load = (ImageView) findViewById(R.id.ivLoad);
+        loaded = (ImageView) findViewById(R.id.ivLoaded);
+        submit = (Button) findViewById(R.id.btnSubmit_addImage);
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -83,6 +98,45 @@ public class AddImage extends AppCompatActivity {
 
             }
         });
+
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Bitmap bitmap = ImageLoader.init().from(selectedPhoto).requestSize(1024,1024).getBitmap();
+                    imageDecoded = ImageBase64.encode(bitmap);
+                    images.add(imageDecoded);
+                    Log.d(TAG,"List size is " + images.size());
+                    Log.d(TAG,imageDecoded);
+                } catch (FileNotFoundException e) {
+                    Log.d("Oleg",e.toString());
+                    Toast.makeText(getApplicationContext(),"Something wrong with upload",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        load.setOnClickListener(new View.OnClickListener() {
+
+
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG,"Load");
+             //   byte[] decodedString = Base64.decode(images.get(1), Base64.DEFAULT);
+                byte[] decodedString = Base64.decode(imageDecoded, Base64.DEFAULT);
+                Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                loaded.setImageBitmap(decodedByte);
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("Base64", imageDecoded);
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
+            }
+        });
     }
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
         Log.d("oleg","ONREQUEST");
@@ -103,6 +157,7 @@ public class AddImage extends AppCompatActivity {
             if(requestCode == CAMERA_REQUEST){
 
                 String photoPath = cameraPhoto.getPhotoPath();
+                selectedPhoto = photoPath;
                 try {
                     Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
                     image.setImageBitmap(bitmap);
@@ -113,9 +168,10 @@ public class AddImage extends AppCompatActivity {
                 Log.d(TAG, photoPath);
             }
             else if(requestCode == GALLERY_REQUEST){
-    Uri uri = data.getData();
+                Uri uri = data.getData();
                 galleryPhoto.setPhotoUri(uri);
                 String photoPath = galleryPhoto.getPath();
+                selectedPhoto = photoPath;
                 try {
                     Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
                     image.setImageBitmap(bitmap);

@@ -48,7 +48,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
-    private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/user/";
+    private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?userid=";
     private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
     TextView tvItemsList;
     String myItems = "";
