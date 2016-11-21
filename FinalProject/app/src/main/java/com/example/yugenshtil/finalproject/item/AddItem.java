@@ -67,9 +67,23 @@ public class AddItem extends Activity {
         }
 
         final Button btAddItem = (Button) findViewById(R.id.addItemBTaddItem);
+        final Button btAddImage = (Button) findViewById(R.id.addImageBTaddItem);
         final EditText etTitle = (EditText) findViewById(R.id.addItemETtitle);
         final EditText etDescription = (EditText) findViewById(R.id.addItemETDescription);
         final EditText etPrice = (EditText) findViewById(R.id.addItemETprice);
+
+
+
+
+
+        btAddImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addImage = new Intent(AddItem.this,AddImage.class);
+                startActivity(addImage);
+            }
+        });
+
 
         btAddItem.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -53,5 +53,17 @@
         android:layout_alignRight="@+id/addItemETprice"
         android:layout_alignEnd="@+id/addItemETprice" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Image"
+        android:id="@+id/addImageBTaddItem"
+        android:layout_below="@+id/addItemBTaddItem"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/addItemBTaddItem"
+        android:layout_alignEnd="@+id/addItemBTaddItem" />
+
 
 </RelativeLayout>

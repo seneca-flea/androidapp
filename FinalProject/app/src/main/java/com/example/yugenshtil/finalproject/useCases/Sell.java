@@ -82,7 +82,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
       //  final TextView tvCongratulation = (TextView) findViewById(R.id.sellTVCongratulations);
       //  tvItemsList = (TextView) findViewById(R.id.sellTVitemsList);
         final Button btAddItem = (Button) findViewById(R.id.sellBTaddItem);
-
+        
      //   tvCongratulation.setText(fullName + ", here is the list pf products you sell");
      //   tvItemsList.setText(myItems);
         getMyItems();
