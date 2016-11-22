@@ -58,7 +58,8 @@
             android:label="@string/title_activity_history" />
         <activity
             android:name=".useCases.MyFavorites"
-            android:label="@string/title_activity_my_favorites" />
+            android:label="@string/title_activity_my_favorites"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".useCases.Sell"
             android:label="@string/title_activity_sell"

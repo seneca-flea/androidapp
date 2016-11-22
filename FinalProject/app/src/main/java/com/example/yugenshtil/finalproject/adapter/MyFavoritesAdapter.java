@@ -1,10 +1,7 @@
 package com.example.yugenshtil.finalproject.adapter;
 
 import android.content.Context;
-import android.media.Image;
-//import android.support.v7.internal.view.menu.MenuView;
-//import android.support.v7.widget.RecyclerView;
-import android.media.browse.MediaBrowser;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,39 +12,37 @@ import android.widget.TextView;
 
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.model.ListItem;
+import com.example.yugenshtil.finalproject.useCases.MyFavorites;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Created by yugenshtil on 05/11/16.
+ * Created by yugenshtil on 21/11/16.
  */
 
-public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHolder>  {
-
+public class MyFavoritesAdapter extends RecyclerView.Adapter<MyFavoritesAdapter.DerpHolder>  {
     private LayoutInflater inflater;
     private JSONArray itemList;
 
-    private ItemClickCallback itemClickCallBack;
+    private MyFavoritesAdapter.ItemClickCallback itemClickCallBack;
 
     public interface ItemClickCallback{
+        void onMyFavoriteDeleteClick(int p);
+        void onMyFavoriteAddClick(int p);
         void onItemClick(int p);
-       // void onDeleteIconClick(int p);
-      //  void onUpdateIconClick(int p);
-
 
     }
 
-    public void setItemClickCallback(final ItemClickCallback itemClickCallBack){
+    public void setItemClickCallback(final MyFavoritesAdapter.ItemClickCallback itemClickCallBack){
         this.itemClickCallBack = itemClickCallBack;
 
     }
 
-    public BuyItemAdapter(Context c, JSONArray jsonArray){
+    public MyFavoritesAdapter(Context c, JSONArray jsonArray){
         this.inflater = LayoutInflater.from(c);
         //  this.listData = listData;
         Log.d("Oleg",jsonArray.toString());
@@ -57,7 +52,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
     @Override
     public DerpHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        View view = inflater.inflate(R.layout.list_buy_item,viewGroup,false);
+        View view = inflater.inflate(R.layout.list_myfavorite,viewGroup,false);
 
         return new DerpHolder(view);
     }
@@ -96,12 +91,9 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
 
     }
 
-    //NEW
-
-
     public void setListData(ArrayList<ListItem> exerciseList){
-      //  this.listData.clear();
-     //   this.listData.addAll(exerciseList);
+        //  this.listData.clear();
+        //   this.listData.addAll(exerciseList);
 
     }
 
@@ -112,7 +104,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         //   return listData.size();
     }
 
-    class DerpHolder extends RecyclerView.ViewHolder implements  View.OnClickListener{
+    class DerpHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
 
         private TextView title;
         private TextView description;
@@ -128,14 +120,14 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         public DerpHolder(View itemView) {
             super(itemView);
 
-            title =(TextView)itemView.findViewById(R.id.tv_title);
-            description = (TextView)itemView.findViewById(R.id.tv_description);
-            price = (TextView)itemView.findViewById(R.id.tv_price);
-            favoriteIcon = (ImageView)itemView.findViewById(R.id.im_favorite_icon);
-            container = itemView.findViewById(R.id.cont_item_root);
+            title = (TextView) itemView.findViewById(R.id.tv_title_myfavorites);
+            description = (TextView) itemView.findViewById(R.id.tv_description_myfavorites);
+            price = (TextView) itemView.findViewById(R.id.tv_price_myfavorites);
+            favoriteIcon = (ImageView) itemView.findViewById(R.id.im_myfavorite_icon_myfavorites);
+            container = itemView.findViewById(R.id.cont_item_root_myfavorites);
 
            favoriteIcon.setOnClickListener(this);
-           container.setOnClickListener(this);
+            container.setOnClickListener(this);
 
             //  description =(ImageView)itemView.findViewById(R.id.im_item_icon);
 
@@ -143,20 +135,34 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         }
 
         @Override
-        public void onClick(View v){
-            if(v.getId()==R.id.cont_item_root){
+        public void onClick(View v) {
+           if (v.getId() == R.id.im_myfavorite_icon_myfavorites) {
+                Log.d("Oleg", "Clicked Favorite for line " + getAdapterPosition());
 
-                Log.d("Oleg","Onclick is" + itemClickCallBack);
-                itemClickCallBack.onItemClick(getAdapterPosition());
-                Log.d("Oleg","Clicked Item for line " + getAdapterPosition());
-            }
-            else if(v.getId()==R.id.im_favorite_icon){
-                Log.d("Oleg","Clicked Favorite for line " + getAdapterPosition());
-             //   itemClickCallBack.onDeleteIconClick(getAdapterPosition());
-            }
+               String backgroundImageName = String.valueOf(favoriteIcon.getTag());
+             Log.d("Oleg1",backgroundImageName + "");
 
+               if(favoriteIcon.getTag().equals("fav")){
+                   favoriteIcon.setTag("notfav");
+                   itemClickCallBack.onMyFavoriteDeleteClick(getAdapterPosition());
+                   favoriteIcon.setImageResource(R.drawable.ic_star_border_black_36dp);
+               }else{
+                   favoriteIcon.setTag("fav");
+                   itemClickCallBack.onMyFavoriteAddClick(getAdapterPosition());
+                   favoriteIcon.setImageResource(R.drawable.ic_star_black_36dp);
+               }
+
+
+
+            }
+            else if (v.getId() == R.id.cont_item_root_myfavorites) {
+                // itemClickCallBack.onItemClick(getAdapterPosition());
+                Log.d("Oleg", "Clicked MyfavItem for line " + getAdapterPosition());
+            }
 
         }
+
     }
+
 
 }

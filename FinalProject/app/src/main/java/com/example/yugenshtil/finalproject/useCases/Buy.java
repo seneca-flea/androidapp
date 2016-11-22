@@ -56,6 +56,7 @@ import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.BuyItemAdapter;
 import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 import com.example.yugenshtil.finalproject.item.AddItem;
+import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -64,7 +65,7 @@ import org.json.JSONObject;
 import static com.example.yugenshtil.finalproject.R.id.btDCN_Buy;
 import static com.example.yugenshtil.finalproject.R.id.start;
 
-public class Buy extends AppCompatActivity {
+public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickCallback {
 
 
     private String GETALLITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?status=Available";
@@ -147,9 +148,9 @@ public class Buy extends AppCompatActivity {
 
                     adapter = new BuyItemAdapter(Buy.this,jsonArray);
 
-                    Log.d("Oleg","Setting adapter");
+                    Log.d("Oleg","Setting adapter1");
                     recView.setAdapter(adapter);
-                //    adapter.setItemClickCallback(Buy.this);
+                    adapter.setItemClickCallback(Buy.this);
 
                 //    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
                 //    itemTouchHelper.attachToRecyclerView(recView);
@@ -213,9 +214,9 @@ public class Buy extends AppCompatActivity {
 
                     adapter = new BuyItemAdapter(Buy.this,jsonArray);
 
-                    Log.d("Oleg","Setting adapter");
+                    Log.d("Oleg","Setting adapter2");
                     recView.setAdapter(adapter);
-                    //    adapter.setItemClickCallback(Buy.this);
+                    adapter.setItemClickCallback(Buy.this);
 
                     //    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
                     //    itemTouchHelper.attachToRecyclerView(recView);
@@ -281,7 +282,7 @@ public class Buy extends AppCompatActivity {
 
                     Log.d("Oleg","Setting adapter");
                     recView.setAdapter(adapter);
-                    //    adapter.setItemClickCallback(Buy.this);
+                       adapter.setItemClickCallback(Buy.this);
 
                     //    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
                     //    itemTouchHelper.attachToRecyclerView(recView);
@@ -519,4 +520,22 @@ public class Buy extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onItemClick(int p) {
+        try {
+            JSONObject item = (JSONObject) jsonArray.get(p);
+            Intent i  = new Intent(this, ItemDisplayActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("ItemId",item.get("ItemId").toString());
+            extras.putString("Title",item.get("Title").toString());
+            extras.putString("SellerId",item.get("SellerId").toString());
+            extras.putString("Description",item.get("Description").toString());
+            extras.putString("Price",item.get("Price").toString());
+            i.putExtras(extras);
+            startActivity(i);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }
