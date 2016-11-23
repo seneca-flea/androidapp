@@ -16,6 +16,7 @@ import android.support.v4.view.ViewPager;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 
 import android.os.Bundle;
@@ -62,7 +63,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import static com.example.yugenshtil.finalproject.R.id.btDCN_Buy;
+
+import static com.example.yugenshtil.finalproject.R.id.btDisplayAll_Buy;
 import static com.example.yugenshtil.finalproject.R.id.start;
 
 public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickCallback {
@@ -70,7 +72,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
     private String GETALLITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?status=Available";
     private String GETCOURSEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?title=";
-    private String GETRANGEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/price?min=100&max=400";
+    private String GETRANGEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/price?min=";
     private JSONArray jsonArray=null;
     public ProgressDialog pd;
     private RecyclerView recView;
@@ -88,28 +90,28 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         setContentView(R.layout.activity_buy);
 
 
-        final Button btDCN = (Button) findViewById(R.id.btDCN_Buy);
-        final Button btRange = (Button) findViewById(R.id.btRange_Buy);
+        final Button btDisplayNew = (Button) findViewById(R.id.btDisplayAll_Buy);
+    //    final Button btRange = (Button) findViewById(R.id.btRange_Buy);
 
 
         getItems();
 
-        btDCN.setOnClickListener(new View.OnClickListener() {
+        btDisplayNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg","Clicked to DCN");
-
+                getItems();
 
             }
         });
 
-        btRange.setOnClickListener(new View.OnClickListener() {
+      /*  btRange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg","Clicked to Range");
                 getRange();
             }
-        });
+        });*/
 
     }
 
@@ -169,8 +171,9 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             public void onErrorResponse(VolleyError error) {
 
                 pd.cancel();
-                Log.d("Oleg","error" + error);
 
+                Log.d("Oleg","error" + error);
+                getItems();
             }
         });
 
@@ -245,9 +248,9 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
     }
 
-    public void getRange(){
+    public void getRange(String mn, String mx){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETRANGEITEMSURL, null, new Response.Listener<JSONArray>() {
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETRANGEITEMSURL+mn+"&max="+mx, null, new Response.Listener<JSONArray>() {
 
             @Override
             public void onResponse(JSONArray response) {
@@ -480,11 +483,24 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             Log.d("Oleg","Filter Yeaah :)");
             Intent mainMenuIntent = new Intent(Buy.this,RangeChoose.class);
             startActivityForResult(mainMenuIntent,100);
+
+            if (getCallingActivity() == null) {
+               Log.d("Oleg","No activity");
+            } else {
+                Log.d("Oleg","Yes activity");
+                //This Activity was called by startActivityForResult
+            }
+            String from =  mainMenuIntent.getStringExtra("from");
+            String to =  mainMenuIntent.getStringExtra("to");
+            Log.d("Oleg","From " + from + " To:" + to);
+
+
+
         }
         else if(id==R.id.mProgramFilter){
             Log.d("Oleg","Program Filter Yeaah :)");
             Intent programFilterIntent = new Intent(Buy.this,ProgramFilter.class);
-            startActivity(programFilterIntent);
+            startActivityForResult(programFilterIntent,110);
 
 
 
@@ -512,10 +528,28 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
         Log.d("Oleg","onActivityResult ");
         if(resultCode == 100){
-                getRange();
+
+            String from =  data.getStringExtra("from");
+            String to =  data.getStringExtra("to");
+            Log.d("Oleg",to);
+            Log.d("Oleg","From " + from + " To:" + to);
+
+                getRange(from, to);
             // Storing result in a variable called myvar
             // get("website") 'website' is the key value result data
             Log.d("Oleg","returned 100 ");
+        }
+        if(resultCode == 110){
+
+
+            ArrayList<String> res = data.getStringArrayListExtra("stock_list");
+            Log.d("Oleg","returned 110 " + res.size());
+            for(String s : res){
+                Log.d("Oleg",s);
+
+            }
+
+
         }
 
     }
@@ -537,5 +571,12 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Log.d("CDA", "onBackPressed Called");
+        Intent back = new Intent(this, UserMenu.class);
+        startActivity(back);
     }
 }

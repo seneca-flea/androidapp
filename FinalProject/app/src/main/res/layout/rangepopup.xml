@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         app:corner_radius="10"
         app:min_value="0"
-        app:max_value="100"
+        app:max_value="400"
         app:steps="5"
         app:bar_color="#F7BB88"
         app:bar_highlight_color="#E07416"
@@ -26,34 +26,37 @@
         android:text="TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="12dp"
-        android:id="@+id/textView2" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginEnd="21dp"
+        android:id="@+id/textView3"
+        android:layout_alignBaseline="@+id/textView2"
         android:layout_alignBottom="@+id/textView2"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="12dp"
-        android:id="@+id/textView3" />
-
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/tvRange_Buy" />
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:text="Apply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/btApply_Rangepopup"
-        android:layout_below="@+id/rangeSeekbar1"
-        android:layout_toEndOf="@+id/textView2" />
+        android:id="@+id/btApply"
+        android:layout_below="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_marginStart="20dp" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="36dp"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/rangeSeekbar5"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="Reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/btApply"
+        android:layout_toEndOf="@+id/btApply"
+        android:layout_marginStart="26dp"
+        android:id="@+id/btReset" />
 </RelativeLayout>

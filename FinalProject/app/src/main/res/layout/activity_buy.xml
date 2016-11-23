@@ -29,21 +29,13 @@
         android:layout_alignParentBottom="true"
         >
         <Button
-            android:id="@+id/btDCN_Buy"
+            android:id="@+id/btDisplayAll_Buy"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#f44336"
-            android:text="DCN" />
+            android:text="Display New" />
 
-        <Button
-            android:id="@+id/btRange_Buy"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginLeft="2dp"
-            android:background="#f44336"
-            android:text="Price range >100"/>
     </LinearLayout>
 
 

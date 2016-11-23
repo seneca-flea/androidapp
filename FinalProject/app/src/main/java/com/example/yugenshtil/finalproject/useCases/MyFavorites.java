@@ -227,6 +227,8 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
             Log.d("Oleg","Wanna add item with Id " + item.get("ItemId"));
+            String itemId = item.get("ItemId").toString();
+            addMyFaforite(itemId);
           /*  Intent i  = new Intent(this, ItemDisplayActivity.class);
             Bundle extras = new Bundle();
             extras.putString("ItemId",item.get("ItemId").toString());
@@ -262,6 +264,34 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
             Log.d("Oleg","Error " + e.getMessage());
         }
 
+    }
+
+    public void addMyFaforite(String itemId){
+        Log.d("Oleg","Item id is " + id);
+        JSONObject jsonObject = new JSONObject();
+        //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
+        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response", " " +response);
+                        Log.d("Oleg","MyFavorite was deleted");
+                    }
+
+
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", "Error is " + error);
+                    }
+                }
+        );
+
+        MySingleton.getInstance(MyFavorites.this).addToRequestQueue(jsObjPutRequest);
     }
 
     @Override
