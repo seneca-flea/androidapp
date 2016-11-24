@@ -96,9 +96,8 @@
         <activity android:name=".useCases.ProgramFilter" />
         <activity
             android:name=".item.AddImage"
-            android:theme="@style/AppTheme"
-
-            />
+            android:theme="@style/AppTheme" />
+        <activity android:name=".model.ItemHistoryDisplayActivity"></activity>
     </application>
 
 </manifest>

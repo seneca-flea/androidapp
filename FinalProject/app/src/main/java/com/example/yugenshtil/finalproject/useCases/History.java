@@ -32,10 +32,10 @@ public class History extends Activity {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
-    //TODO: Must be changed to get items from history table
-    private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/";
-//TODO: update for url for history
-    private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/";
+    private String GETUSERHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String GETUSERHISTORYURL2="/History";
+    private String DELETEUSERHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String DELETEUSERHISTORYURL2="/History";
 
     JSONArray jsonArray=null;
     private String id = "";
@@ -54,7 +54,7 @@ public class History extends Activity {
 
         id = sharedpreferences.getString("id", "");
         fullName = sharedpreferences.getString("fullName", "");
-        Log.d("Ricardo","onCreate for history running");
+        Log.d("LOG : ","onCreate for history running");
 
         getHistoryItems();
     }
@@ -102,7 +102,8 @@ public class History extends Activity {
     }
     public void getHistoryItems(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETITEMSURL+id, null, new Response.Listener<JSONArray>() {
+        String URL = GETUSERHISTORYURL1 + id + GETUSERHISTORYURL2;
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
             String myItemsList="";
 
             @Override
@@ -115,7 +116,7 @@ public class History extends Activity {
 
                     jsonArray = response;
                     if(items!=null) {
-                        Log.d("Ricardo", "number of items on history is: " + items.length());
+                        Log.d("Log : ", "number of items on history is: " + items.length());
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
@@ -150,7 +151,7 @@ public class History extends Activity {
             public void onErrorResponse(VolleyError error) {
 
                 pd.cancel();
-                Log.d("Oleg","error" + error);
+                Log.d("LOG :","error : " + error);
 
             }
         });
@@ -160,7 +161,7 @@ public class History extends Activity {
     {
         super.onBackPressed();
         startActivity(new Intent(History.this, UserMenu.class));
-        Log.d("Ricardo","Back button pressed on history");
+        Log.d("LOG : ","Back button pressed on history");
         finish();
 
     }
@@ -168,29 +169,29 @@ public class History extends Activity {
     public void onDeleteIconClick(int p) {
 
         try {
+            Log.d("LOG : ","Delete icon clicked on itemHistory");
             JSONObject item = (JSONObject)jsonArray.get(p);
             String deleteItemId = item.getString("ItemId");
-            Log.d("Oleg","you would like to delete it id " + deleteItemId);
+            Log.d("LOG : ","deleting item form history, with id: " + deleteItemId);
             deleteAnItem(deleteItemId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("Oleg","onSecondaryIconClick");
-
-
     }
     public void deleteAnItem(String id){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("Oleg","Gonna delete");
-        StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEITEMSURL+id,
+        Log.d("LOG :","deleteAnItem running on itemHistory");
+        String URL = DELETEUSERHISTORYURL1 + id + DELETEUSERHISTORYURL2;
+        StringRequest dr = new StringRequest(Request.Method.DELETE, URL,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
+                        //stop progress dialog
                         pd.cancel();
-                        Log.d("Oleg","Response is "+response);
+                        Log.d("LOG : ","Response is "+response);
                         //    adapter.notifyDataSetChanged();
-                        Intent aboutAppIntent = new Intent(History.this,Sell.class);
+                        Intent aboutAppIntent = new Intent(History.this,History.class);
                         startActivity(aboutAppIntent);
 
 
@@ -201,12 +202,11 @@ public class History extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pd.cancel();
-                        Log.d("Oleg","Response error is "+error);
+                        Log.d("LOG : ","Response error is "+error);
 
                     }
                 }
         );
         MySingleton.getInstance(History.this).addToRequestQueue(dr);
-
     }
 }
