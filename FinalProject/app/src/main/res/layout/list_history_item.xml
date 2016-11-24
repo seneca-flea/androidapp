@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cont_item_root_history"
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:background="@color/cardview_light_background"
+    android:clickable="true"
+    android:layout_marginBottom="5dp"
+    >
+
+
+    <ImageView
+        android:id="@+id/im_main_image_history"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="6dp"
+        android:src="@drawable/noimageavailable"
+        android:layout_alignParentBottom="true"
+        />
+
+
+    <TextView
+        android:id="@+id/tv_title_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="92dp"
+        android:layout_marginRight="48dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:singleLine="true"
+        android:text="Sois comme l'eau mon ami"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:layout_marginTop="15dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/im_main_image_history"
+        android:layout_marginStart="12dp" />
+
+    <ImageView
+        android:id="@+id/im_history_delete_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="6dp"
+        android:src="@drawable/ic_delete_black_36dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tv_description_history"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="92dp"
+        android:layout_marginRight="48dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:singleLine="true"
+        android:text="Desc"
+        android:textColor="#7E7E7E"
+        android:textSize="14sp"
+        android:layout_below="@+id/tv_title_history"
+        android:layout_toStartOf="@+id/im_history_delete_icon" />
+
+    <TextView
+        android:id="@+id/tv_price_history"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="92dp"
+        android:layout_marginRight="48dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:singleLine="true"
+        android:text="Price"
+        android:textColor="#7E7E7E"
+        android:textSize="14sp"
+        android:layout_below="@+id/tv_description_history"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

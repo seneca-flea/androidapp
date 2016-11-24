@@ -39,6 +39,8 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         void onItemClick(int p);
         void onDeleteIconClick(int p);
         void onUpdateIconClick(int p);
+        //for itemHistory
+        void onHistoryIconClick(int p);
 
 
     }
@@ -121,6 +123,8 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         private View container;
         private ImageView deleteIcon;
         private ImageView updateIcon;
+        //for itemHistory
+        private  ImageView historyIcon;
 
         //New
         private ImageView thumbnail;
@@ -135,10 +139,13 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
             price = (TextView)itemView.findViewById(R.id.tv_price);
             deleteIcon = (ImageView)itemView.findViewById(R.id.im_delete_icon);
             updateIcon = (ImageView)itemView.findViewById(R.id.im_update_icon);
+            historyIcon =(ImageView)itemView.findViewById(R.id.im_history_icon);
             container = itemView.findViewById(R.id.cont_item_root);
 
             deleteIcon.setOnClickListener(this);
             updateIcon.setOnClickListener(this);
+            //for itemHistory
+            historyIcon.setOnClickListener(this);
             container.setOnClickListener(this);
 
           //  description =(ImageView)itemView.findViewById(R.id.im_item_icon);
@@ -159,6 +166,11 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
             else if(v.getId()==R.id.im_update_icon){
                 Log.d("Oleg","Clicked Update for line " + getAdapterPosition());
                 itemClickCallBack.onUpdateIconClick(getAdapterPosition());
+
+            }
+            else if(v.getId()==R.id.im_history_icon){
+                Log.d("Oleg","Clicked Update for line " + getAdapterPosition());
+                itemClickCallBack.onHistoryIconClick(getAdapterPosition());
 
             }
 

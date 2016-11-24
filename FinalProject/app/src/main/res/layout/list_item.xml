@@ -93,6 +93,15 @@
         android:src="@drawable/ic_update_black_36dp"
         android:paddingLeft="6dp"
         android:layout_alignParentBottom="true"
-        android:layout_toStartOf="@+id/im_delete_icon" />
+        android:layout_toEndOf="@+id/history_icon" />
+
+    <ImageView
+        android:id="@+id/im_history_icon"
+        android:layout_width="36dp"
+        android:layout_height="22dp"
+        android:src="@drawable/HistoryIcon"
+        android:paddingLeft="6dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/tv_price" />
 
 </RelativeLayout>

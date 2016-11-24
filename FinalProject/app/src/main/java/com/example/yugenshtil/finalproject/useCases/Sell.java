@@ -22,6 +22,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.AboutApp;
 import com.example.yugenshtil.finalproject.LoginPage;
@@ -43,6 +44,8 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
@@ -50,6 +53,12 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     public static final String MyPREFERENCES = "MyPrefs" ;
     private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?userid=";
     private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
+    private String ITEMHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String ITEMHISTORYURL2="/History";
+
+    //for itemHistory
+    private String ItemId="";
+    private String SellerId="";
     TextView tvItemsList;
     String myItems = "";
 
@@ -301,6 +310,19 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     //    adapter.setListData(listData);
         adapter.notifyDataSetChanged();
     }
+    public void onHistoryIconClick(int p) {
+        try {
+            JSONObject item = (JSONObject)jsonArray.get(p);
+            String ItemId = item.getString("ItemId");
+            Log.d("LOG : ","adding item : " + p + " to item history");
+            AddItemHistory(ItemId,p);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //    adapter.setListData(listData);
+        adapter.notifyDataSetChanged();
+    }
 
     public void onDeleteIconClick(int p) {
 
@@ -361,6 +383,53 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     }
 
+    //itemHistory
+    public void AddItemHistory(String id,int p) {
+        pd = ProgressDialog.show(this,"","Adding item to history. Please wait...", true);
+        Log.d("LOG : ","AddItemHistory running on sell.java");
+
+        try {
+            JSONObject item = (JSONObject) jsonArray.get(p);
+            Map<String, String> params = new HashMap();
+            params.put("ItemId", id);
+            params.put("SellerId", item.get("SellerId").toString());
+
+            JSONObject parameters = new JSONObject(params);
+            Log.d("LOG : ", "JSON for addItem is " + parameters);
+
+            String URL = ITEMHISTORYURL1 + id + ITEMHISTORYURL2;
+
+            Log.d("LOG : ", "URL for request is  " + URL);
+
+            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.PUT, URL,parameters,
+                    new Response.Listener<JSONObject>()
+                    {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            // response
+                            pd.cancel();
+                            Log.d("Response", " " +response);
+                            Intent historyIntent = new Intent(Sell.this,Sell.class);
+                            startActivity(historyIntent);
+                        }
+                    },
+                    new Response.ErrorListener()
+                    {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            // error
+                            pd.cancel();
+                            Log.d("Error.Response", "Error is " + error);
+                        }
+                    }
+            );
+
+            MySingleton.getInstance(Sell.this).addToRequestQueue(jsObjPostRequest);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void updateAnItem(int id) {
        // pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);

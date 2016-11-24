@@ -100,6 +100,7 @@ public class History extends Activity {
         }
 
     }
+
     public void getHistoryItems(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         String URL = GETUSERHISTORYURL1 + id + GETUSERHISTORYURL2;
