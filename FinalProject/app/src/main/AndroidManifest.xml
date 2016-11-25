@@ -38,7 +38,7 @@
         <activity
             android:name=".UserMenu"
             android:label="@string/title_activity_user_menu"
-            android:theme="@style/AppTheme" />
+           />
         <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu"
