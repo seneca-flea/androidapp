@@ -86,7 +86,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     //    Log.d("Oleg", "Preferences " + sharedpreferences);
         id = sharedpreferences.getString("id", "");
         fullName = sharedpreferences.getString("fullName", "");
-        Log.d("Oleg","we are here again");
+        Log.d("LOG : ","onCreate Started for Sell.java");
 
       //  final TextView tvCongratulation = (TextView) findViewById(R.id.sellTVCongratulations);
       //  tvItemsList = (TextView) findViewById(R.id.sellTVitemsList);
@@ -118,9 +118,16 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
 
     }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_sell, menu);
+        Log.d("Oleg","onCreate hrer");
+        return true;
+    }
 
     public void getMyItems(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        Log.d("LOG : ","getMyItems for Sell.java running");
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETITEMSURL+id, null, new Response.Listener<JSONArray>() {
 
 
@@ -240,13 +247,6 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
       //  adapter.notifyItemRemoved(position);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_sell, menu);
-        Log.d("Oleg","onCreate hrer");
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -393,15 +393,14 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
             Map<String, String> params = new HashMap();
             params.put("ItemId", id);
             params.put("SellerId", item.get("SellerId").toString());
-
+            String userId = item.get("SellerId").toString();
             JSONObject parameters = new JSONObject(params);
             Log.d("LOG : ", "JSON for addItem is " + parameters);
-
-            String URL = ITEMHISTORYURL1 + id + ITEMHISTORYURL2;
+            String URL = ITEMHISTORYURL1 + userId + ITEMHISTORYURL2;
 
             Log.d("LOG : ", "URL for request is  " + URL);
 
-            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.PUT, URL,parameters,
+            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, URL,parameters,
                     new Response.Listener<JSONObject>()
                     {
                         @Override

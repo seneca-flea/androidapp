@@ -9,34 +9,6 @@
     tools:context="com.example.yugenshtil.finalproject.item.AddItem">
 
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
-        android:id="@+id/itemfrag"
-        android:text="Book frag"
-        android:name="layout.NoItemAdded"
-        android:layout_below="@+id/btAddItem_Book"
-        android:layout_alignParentEnd="true"></fragment>
-
-
-    <Button
-        android:text="Book"
-        android:layout_width="143dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/btAddItem_Book"
-        android:onClick="changeFragment"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="Material"
-        android:layout_width="143dp"
-                android:layout_height="wrap_content"
-        android:id="@+id/btAddItem_Material"
-        android:onClick="changeFragment"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
     <Button
         android:text="Save"
         android:layout_width="wrap_content"
@@ -45,21 +17,42 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <ImageButton
+    <TextView
+        android:text="Item type:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:id="@+id/itemfrag"
+        android:text="Book frag"
+        android:name="layout.NoItemAdded"
+        android:layout_below="@+id/ibAddItem_Image"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="19dp"></fragment>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
         app:srcCompat="@drawable/ic_add_a_photo_black_36dp"
         android:id="@+id/ibAddItem_Image"
-        android:layout_above="@+id/itemfrag"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="23dp" />
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/sp_itemtype"
+        android:layout_marginStart="12dp" />
 
     <Spinner
         android:id="@+id/sp_itemtype"
-        android:layout_width="180dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btAddItem_Save"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginStart="14dp"
+        android:layout_alignBottom="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
 
 
 </RelativeLayout>

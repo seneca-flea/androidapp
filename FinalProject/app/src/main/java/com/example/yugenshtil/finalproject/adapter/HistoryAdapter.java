@@ -25,14 +25,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.DerpHold
     private LayoutInflater inflater;
     private JSONArray itemList;
 
-    private HistoryAdapter.ItemClickCallback itemClickCallBack;
+    private ItemClickCallback itemClickCallBack;
 
     public interface ItemClickCallback{
         void onItemClick(int p);
         void onDeleteIconClick(int p);
     }
 
-    public void setItemClickCallback(final HistoryAdapter.ItemClickCallback itemClickCallBack){
+    public void setItemClickCallback(final ItemClickCallback itemClickCallBack){
         this.itemClickCallBack = itemClickCallBack;
 
     }

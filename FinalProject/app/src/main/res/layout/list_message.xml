@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cont_message_list_root"
+    android:layout_width="match_parent"
+    android:layout_height="115dp"
+    android:background="@color/cardview_light_background"
+    android:clickable="true"
+    android:layout_marginBottom="5dp"
+
+    >
+
+
+    <TextView
+        android:id="@+id/tv_message_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="92dp"
+        android:layout_marginRight="48dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:singleLine="true"
+        android:text="Desc"
+        android:textColor="#7E7E7E"
+        android:textSize="14sp"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/tv_content_message"
+        android:layout_marginEnd="111dp" />
+
+    <TextView
+        android:id="@+id/tv_content_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="92dp"
+        android:layout_marginRight="48dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:singleLine="true"
+        android:text="Sois comme l'eau mon ami"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:layout_below="@+id/tv_message_date"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="165dp" />
+
+</RelativeLayout>

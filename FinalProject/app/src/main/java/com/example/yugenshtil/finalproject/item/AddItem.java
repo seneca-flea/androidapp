@@ -1,63 +1,53 @@
 package com.example.yugenshtil.finalproject.item;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+//NEW!
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.Response;
+import com.android.volley.Request;
+import com.android.volley.VolleyError;
+
 //import android.support.v7.widget.LinearLayoutManager;
 //import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.ParseError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.HttpHeaderParser;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.yugenshtil.finalproject.LoginPage;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.MySingleton;
 import com.example.yugenshtil.finalproject.R;
-//import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
-import com.example.yugenshtil.finalproject.UserMenu;
-import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
-import com.example.yugenshtil.finalproject.model.DerpData;
 import com.example.yugenshtil.finalproject.useCases.Sell;
+//import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
+
+import java.util.ArrayList;
+import java.util.Date;
+
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-
 import layout.AddBook;
 import layout.AddMaterial;
 import layout.NoItemAdded;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class AddItem extends Activity {
@@ -67,14 +57,26 @@ public class AddItem extends Activity {
     private String title = "";
     private String description = "";
     private double price = 0.0;
+    private String program ="";
+    private String   pickUpDate = null;
+    private String course ="";
+    private String publisher ="";
     private String errors = "";
     private String ADDITEMURL="http://senecaflea.azurewebsites.net/api/Item";
+    private String ADDMATERIALMURL="http://senecaflea.azurewebsites.net/api/Item";
     private static final String PROTOCOL_CHARSET = "utf-8";
     private String imageCode ="";
     Fragment fragment;
     ArrayList<String> difficultyLevelOptionsList = new ArrayList<String>();
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
+
+    //ADDED!
+    //itemType assigned to test what we are adding when the add button is clicked(a book or an item)
+    private String itemType="";
+
+    public ProgressDialog pd;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,104 +87,12 @@ public class AddItem extends Activity {
         if (sharedpreferences.contains("id")) {
             id = sharedpreferences.getString("id", "");
         }
+        //item fields
 
-        final Button btBook = (Button) findViewById(R.id.btAddItem_Book);
-        final Button btMaterial = (Button) findViewById(R.id.btAddItem_Material);
         final Button btSave = (Button) findViewById(R.id.btAddItem_Save);
+        //button so save image
         final ImageButton ibImage = (ImageButton) findViewById(R.id.ibAddItem_Image);
 
-
-        //   final Button btAddImage = (Button) findViewById(R.id.addImageBTaddItem);
-        //   final EditText etTitle = (EditText) findViewById(R.id.addItemETtitle);
-        //   final EditText etDescription = (EditText) findViewById(R.id.addItemETDescription);
-        //   final EditText etPrice = (EditText) findViewById(R.id.addItemETprice);
-
-
-        // Spinner. Does not work
-        Spinner spinner = (Spinner) findViewById(R.id.sp_itemtype);
-
-
-        difficultyLevelOptionsList.add("Please select type");
-        difficultyLevelOptionsList.add("Book");
-        difficultyLevelOptionsList.add("Item");
-        //difficultyLevelOptionsList.add("Too Hard");
-
-
-        // Create the ArrayAdapter
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(AddItem.this,android.R.layout.simple_spinner_item,difficultyLevelOptionsList);
-
-        // Set the Adapter
-        spinner.setAdapter(arrayAdapter);
-
-
-        // Set the ClickListener for Spinner
-        spinner.setOnItemSelectedListener(new  AdapterView.OnItemSelectedListener() {
-
-            public void onItemSelected(AdapterView<?> adapterView,
-                                       View view, int i, long l) {
-                // TODO Auto-generated method stub
-                Toast.makeText(AddItem.this,"You Selected : "
-
-                        + difficultyLevelOptionsList.get(i)+" Level ",Toast.LENGTH_SHORT).show();
-
-                Fragment fragment;
-
-
-                if (i==0) {
-                    Log.d("Oleg", "No choosen");
-                    fragment = new NoItemAdded();
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.itemfrag, fragment);
-                    ft.commit();
-                }
-
-                if (i==1) {
-                    Log.d("Oleg", "Book");
-                    fragment = new AddBook();
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.itemfrag, fragment);
-                    ft.commit();
-                }
-
-                if (i==2) {
-                    Log.d("Oleg", "Meterial");
-                    fragment = new AddMaterial();
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.itemfrag, fragment);
-                    ft.commit();
-                }
-
-
-
-            }
-            // If no option selected
-            public void onNothingSelected(AdapterView<?> arg0) {
-                // TODO Auto-generated method stub
-
-            }
-
-        });
-
-
-
-
-
-
-        /*
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.itemtype_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-       // spinner.setOnItemSelectedListener(new SpinnerActivity());
-*/
-
-
-
-        // Waiting for Add Image Image Button to be clicked
         ibImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,182 +101,262 @@ public class AddItem extends Activity {
             }
         });
 
+        // Spinner for selecting item
+        Spinner spinner = (Spinner) findViewById(R.id.sp_itemtype);
+
+        difficultyLevelOptionsList.add("Please select type");
+        difficultyLevelOptionsList.add("Book");
+        difficultyLevelOptionsList.add("Item");
+        //difficultyLevelOptionsList.add("Too Hard");
+
+        // Create the ArrayAdapter
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(AddItem.this, android.R.layout.simple_spinner_item, difficultyLevelOptionsList);
+
+        // Set the Adapter
+        spinner.setAdapter(arrayAdapter);
+
+        // Set the ClickListener for Spinner
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            public void onItemSelected(AdapterView<?> adapterView,
+                                       View view, int i, long l) {
+
+                Fragment fragment;
+
+
+                if (i == 0) {
+                    Log.d("LOG :", "No choosen");
+                    //itemType assigned to test for when added button is clicked
+                    itemType = "empty";
+                    fragment = new NoItemAdded();
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.itemfrag, fragment);
+                    ft.commit();
+
+                }
+
+                if (i == 1) {
+                    itemType = "Book";
+                    Log.d("LOG :", "Book");
+                    //itemType assigned to test for when added button is clicked
+                    fragment = new AddBook();
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.itemfrag, fragment);
+                    ft.commit();
+                }
+
+                if (i == 2) {
+                    itemType = "Material";
+                    Log.d("LOG :", "Meterial");
+                    //itemType assigned to test for when added button is clicked
+                    fragment = new AddMaterial();
+                    FragmentManager fm = getFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.itemfrag, fragment);
+                    ft.commit();
+                }
+
+
+            }
+
+            // If no option selected
+            public void onNothingSelected(AdapterView<?> arg0) {
+                // TODO Auto-generated method stub
+
+            }
+
+        });
 
         // Waiting for Save Button to be clicked
         btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (type.equals("Book")) {
-                    EditText bookTitle = (EditText) findViewById(R.id.addBookETtitle);
-                    Log.d("Oleg", "" + bookTitle.getText());
+                if (itemType == "empty") {
+                    Log.d("LOG : ", "Adding item: attempted to save item on empty fragment");
 
-                }
+                } else if (itemType == "Book") {
+                    Log.d("LOG :", "Adding book");
+                    addBook();
 
-
-                /*
-                title = etTitle.getText().toString();
-                description = etDescription.getText().toString();
-                price = Double.parseDouble(etPrice.getText().toString());
-
-                if (validateInput()) {
-                    Map<String, String> params = new HashMap();
-                    params.put("Title", imageCode);
-                    params.put("Status", "Available");
-                    params.put("Description", description);
-                    params.put("Price", String.valueOf(price));
-                    params.put("SellerId", String.valueOf(id));
-
-                    JSONObject parameters = new JSONObject(params);
-                    Log.d("Oleg ", "JSON is " + parameters);
-                    JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, ADDITEMURL, parameters, new Response.Listener<JSONObject>() {
-
-                        @Override
-                        public void onResponse(JSONObject response) {
-
-
-
-                            Log.d("Oleg", "Response is " + response);
-                        }
-                    }, new Response.ErrorListener() {
-
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-
-                            Log.d("Oleg", "Error is " + error);
-                            // TODO Auto-generated method stub
-
-                        }
-
-
-
-                    });
-
-                    MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjRequest);
-
-                    Context context = getApplicationContext();
-                    int duration = Toast.LENGTH_SHORT;
-
-                    Toast toast = Toast.makeText(context, "Item was added. Redirection to Items page", duration);
-                    toast.show();
-
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    Intent sellIntent = new Intent(AddItem.this,Sell.class);
-                    // RegistrationPage.this.startActivity(loginIntent);
-                    startActivity(sellIntent);
+                } else if (itemType == "Material") {
+                    Log.d("LOG :", "Adding Material");
+                    addMaterial();
 
                 } else {
-
-                    Context context = getApplicationContext();
-                    int duration = Toast.LENGTH_LONG;
-
-                    Toast toast = Toast.makeText(context, errors, duration);
-                    toast.show();
-
-                }*/
+                    Log.d("LOG :", "Something went seriously wrong");
+                }
             }
         });
-
     }
+    public void addBook() {
+        Log.d("LOG :", "addBook was called ");
+        TextView bookTitle = (TextView) findViewById(R.id.tv_addBookTitle);
+        TextView bookPrice = (TextView) findViewById(R.id.tv_addBookPrice);
+        TextView bookCourse = (TextView) findViewById(R.id.tv_addBookCourse);
+        TextView bookPublisher = (TextView) findViewById(R.id.tv_addBookPublisher);
+        TextView bookProgram = (TextView) findViewById(R.id.tv_addBookProgram);
+        TextView bookDate = (TextView) findViewById(R.id.tv_addBookPickUpDate);
+        TextView bookDescription = (TextView) findViewById(R.id.tv_AddBookDesc);
 
 
-    /*
-    public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener {
+        title = bookTitle.getText().toString();
+        course = bookCourse.getText().toString();
+        price = Double.parseDouble(bookPrice.getText().toString());
+        publisher = bookPublisher.getText().toString();
+        pickUpDate = bookDate.getText().toString();
+        program = bookProgram.getText().toString();
+        description = bookDescription.getText().toString();
+        if (validateInput()) {
+            pd = ProgressDialog.show(this, "", "Adding item, please wait..", true);
 
-
-        public void onItemSelected(AdapterView<?> parent, View view,
-                                   int pos, long id) {
-
-            Log.d("Oleg", "Selcted spinner " + pos);
-
-            if(pos ==1) {
-                fragment = new AddBook();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.itemfrag,fragment);
-                ft.commitAllowingStateLoss();
-            }
-
-            if(pos ==0) {
-                fragment = new NoItemAdded();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.itemfrag,fragment);
-                ft.commit();
-            }
-
-            else if(pos==2){
-                fragment = new AddMaterial();
-                FragmentManager fm = getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.itemfrag,fragment);
-                ft.commit();
-            }
-
-        }
-
-        public void onNothingSelected(AdapterView<?> parent) {
-            // Another interface callback
-            Log.d("Oleg","Nothing selected");
-        }
-    }
-
-*/
-            // Waiting to be clicked on of the options: Item/Material
-            public void changeFragment(View v) {
-                Log.d("Oleg", "Here");
-                Fragment fragment;
-
-                if (v == findViewById(R.id.btAddItem_Material)) {
-                    Log.d("Oleg", "Meterial");
-                    fragment = new AddMaterial();
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.itemfrag, fragment);
-                    ft.commit();
-                    //   Log.d("Oleg","Book");
-                    type = "Material";
-                } else if (v == findViewById(R.id.btAddItem_Book)) {
-                    fragment = new AddBook();
-                    FragmentManager fm = getFragmentManager();
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.itemfrag, fragment);
-                    ft.commit();
-                    Log.d("Oleg", "Book");
-                    type = "Book";
+            Map<String, String> params = new HashMap();
+            params.put("SellerId", String.valueOf(id));
+            params.put("Title", title);
+            params.put("Status", "Available");
+            params.put("Price", String.valueOf(price));
+            params.put("Program",program);
+            params.put("Course", course);
+            params.put("Publisher", publisher);
+            params.put("PickUpDate", pickUpDate);
+            params.put("Description", description);
+            JSONObject parameters = new JSONObject(params);
+            Log.d("LOG : ", "JSON is " + parameters);
+            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, ADDITEMURL, parameters, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    pd.cancel();
+                    Log.d("LOG :", "Response is " + response);
+                    Intent itemIntent = new Intent(AddItem.this, Sell.class);
+                    startActivity(itemIntent);
                 }
+            }, new Response.ErrorListener() {
 
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    pd.cancel();
+                    Log.d("LOG :", "Error is " + error);
+                }
+            });
 
+            MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjPostRequest);
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, "Item was added.", duration);
+            toast.show();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            Intent sellIntent = new Intent(AddItem.this, Sell.class);
+            // RegistrationPage.this.startActivity(loginIntent);
+            startActivity(sellIntent);
+
+        } else {
+
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, errors, duration);
+            toast.show();
+
+        }
+    }
+    public void addMaterial() {
+        Log.d("LOG :", "addMaterial was called");
+        TextView MaterialTitle = (TextView) findViewById(R.id.tv_addMaterialTitle);
+        TextView MaterialPrice = (TextView) findViewById(R.id.tv_addMaterialPrice);
+        TextView MaterialDate = (TextView) findViewById(R.id.tv_addMaterialPickUpDate);
+        TextView MaterialProgram = (TextView) findViewById(R.id.tv_addMaterialProgram);
+        TextView MaterialDescription = (TextView) findViewById(R.id.tv_AddMaterialDesc);
+
+        title = MaterialTitle.getText().toString();
+        program = MaterialProgram.getText().toString();
+        price = Double.parseDouble(MaterialPrice.getText().toString());
+        pickUpDate = MaterialDate.getText().toString();
+        program = MaterialProgram.getText().toString();
+        description = MaterialDescription.getText().toString();
+        if (validateInput()) {
+            pd = ProgressDialog.show(this, "", "Adding item, please wait..", true);
+
+            Map<String, String> params = new HashMap();
+            params.put("SellerId", String.valueOf(id));
+            params.put("Title", title);
+            params.put("Status", "Available");
+            params.put("Price", String.valueOf(price));
+            params.put("Program",program);
+            params.put("PickUpDate", pickUpDate);
+            params.put("Description", description);
+            JSONObject parameters = new JSONObject(params);
+            Log.d("LOG : ", "JSON is " + parameters);
+            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, ADDITEMURL, parameters, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    pd.cancel();
+                    Log.d("LOG :", "Response is " + response);
+                    Intent itemIntent = new Intent(AddItem.this, Sell.class);
+                    startActivity(itemIntent);
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    pd.cancel();
+                    Log.d("LOG :", "Error is " + error);
+                }
+            });
+
+            MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjPostRequest);
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, "Item was added.", duration);
+            toast.show();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Intent sellIntent = new Intent(AddItem.this, Sell.class);
+            // RegistrationPage.this.startActivity(loginIntent);
+            startActivity(sellIntent);
+
+        } else {
+
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, errors, duration);
+            toast.show();
+
+        }
+    }
 
     public boolean validateInput(){
         boolean inputIsValid = true;
-        // Log.d("Oleg","firstNAme va" +firstName);
         errors="";
         if(title.equals("")){
-            //  Log.d("Oleg","firstNAme" +firstName);
             errors+="Please, do not leave title blank\n";
             inputIsValid = false;
         }
         if(description.equals("")){
-            //  Log.d("Oleg","lastName" +lastName);
             errors+="Please, do not leave description blank\n";
             inputIsValid = false;
         }
-        if(price==0 || price==0.0){
-            //  Log.d("Oleg","email" +email);
+        //NEW! test for price < 0
+        if(price==0 || price==0.0 || price < 0){
             errors+="Please, provide correct price for the item\n";
             inputIsValid = false;
         }
 
         return inputIsValid;
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -398,7 +388,6 @@ public class AddItem extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

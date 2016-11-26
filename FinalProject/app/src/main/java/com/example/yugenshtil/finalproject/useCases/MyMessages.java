@@ -1,28 +1,144 @@
-package com.example.yugenshtil.finalproject.useCases;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
 
-import com.example.yugenshtil.finalproject.R;
+        package com.example.yugenshtil.finalproject.useCases;
 
-public class MyMessages extends AppCompatActivity {
+        import android.app.Activity;
+        import android.app.ProgressDialog;
+        import android.content.Context;
+        import android.content.Intent;
+        import android.content.SharedPreferences;
+        import android.support.v7.app.AppCompatActivity;
+        import android.os.Bundle;
+        import android.support.v7.widget.LinearLayoutManager;
+        import android.support.v7.widget.RecyclerView;
+        import android.support.v7.widget.helper.ItemTouchHelper;
+        import android.util.Log;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.widget.Toast;
+
+        import com.android.volley.Request;
+        import com.android.volley.Response;
+        import com.android.volley.VolleyError;
+        import com.android.volley.toolbox.JsonArrayRequest;
+        import com.android.volley.toolbox.StringRequest;
+        import com.example.yugenshtil.finalproject.MySingleton;
+        import com.example.yugenshtil.finalproject.R;
+        import com.example.yugenshtil.finalproject.UserMenu;
+
+        import com.example.yugenshtil.finalproject.adapter.MyMessagesAdapter;
+        import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
+
+        import org.json.JSONArray;
+        import org.json.JSONException;
+        import org.json.JSONObject;
+
+public class MyMessages extends Activity {
+
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+
+    private String GETCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/filter/User/";//missing ID
+    private String DELETECONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/filter/User/";//missing ID
+
+    JSONArray jsonArray=null;
+    private String id = "";
+    private String fullName="";
+
+    private RecyclerView recView;
+
+    public ProgressDialog pd;
+    private MyMessagesAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_messages);
 
-      //  final TextView sample = (TextView) findViewById(R.id.messageText);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+        id = sharedpreferences.getString("id", "");
+        fullName = sharedpreferences.getString("fullName", "");
+        Log.d("LOG : ","onCreate for my messages running");
+
+        getMyMessages();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_my_messages, menu);
+        getMenuInflater().inflate(R.menu.menu_history, menu);
         return true;
+    }
+
+    public void getMyMessages(){
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        Log.d("LOG : ", "getHistoryItems for History.java is running");
+        String URL = GETCONVERSATIONURL + id;
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
+            String myMessagesList="";
+
+            @Override
+            public void onResponse(JSONArray response) {
+
+                pd.cancel();
+
+                if(response!=null){
+                    JSONArray items = response;
+
+                    jsonArray = response;
+                    if(items!=null) {
+                        Log.d("Log : ", "number of conversations is: " + items.length());
+                        for (int i = 0; i < items.length(); i++) {
+                            try {
+                                JSONObject item = (JSONObject) items.get(i);
+                                //TODO: find out how to handle a return with a collection of messages
+                                myMessagesList+="Title: "+ item.getString("Title")+" Date:"+item.getString("Date")+" Sender: " + item.getString("Sender")+ " Receiver:"+item.getString("Receiver")+" Content: " + item.getString("Sender") +"\n";
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        // tvItemsList.setText(myItemsList);
+                    }
+
+
+                    recView = (RecyclerView)findViewById(R.id.recViewMessage);
+
+                    recView.setLayoutManager(new LinearLayoutManager(MyMessages.this));
+
+                    adapter = new MyMessagesAdapter(MyMessages.this, jsonArray);
+
+                    Log.d("LOG : ","Setting adapter for History.java");
+                    recView.setAdapter(adapter);
+                    //TODO: not working for some reason:
+                    //adapter.setItemClickCallback(MysMessages.this);
+
+                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+                    itemTouchHelper.attachToRecyclerView(recView);
+
+                }
+                else{
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, "JSON RETURNED NULL", duration);
+                    toast.show();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                pd.cancel();
+                Log.d("LOG :","error : " + error);
+
+            }
+        });
+        MySingleton.getInstance(MyMessages.this).addToRequestQueue(jsObjRequest);
     }
 
     @Override
@@ -38,5 +154,117 @@ public class MyMessages extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onItemClick(int p) {
+
+        try {
+            //TODO: develop MessageDissplayActivity to display individual messages
+
+            JSONObject item = (JSONObject) jsonArray.get(p);
+            Intent i  = new Intent(this, ItemDisplayActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("ItemId",item.get("ItemId").toString());
+            extras.putString("Title",item.get("Title").toString());
+            extras.putString("SellerId",item.get("SellerId").toString());
+            extras.putString("Description",item.get("Description").toString());
+            extras.putString("Price",item.get("Price").toString());
+            i.putExtras(extras);
+            startActivity(i);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+    private ItemTouchHelper.Callback createHelperCallback() {
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
+                new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN,
+                        ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+
+                    @Override
+                    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                          RecyclerView.ViewHolder target) {
+                        moveItem(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+                        return true;
+                    }
+
+                    @Override
+                    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                        deleteItem(viewHolder.getAdapterPosition());
+                    }
+                };
+        return simpleItemTouchCallback;
+    }
+    private void moveItem(int oldPos, int newPos) {
+
+        //  ListItem item = (ListItem) listData.get(oldPos);
+        //  listData.remove(oldPos);
+        //  listData.add(newPos, item);
+        adapter.notifyItemMoved(oldPos, newPos);
+    }
+
+    private void deleteItem(final int position) {
+        //  listData.remove(position);
+        //  adapter.notifyItemRemoved(position);
+    }
+
+
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(MyMessages.this, UserMenu.class));
+        Log.d("LOG : ","Back button pressed on MyMessages.java");
+        finish();
+
+    }
+
+    public void onDeleteIconClick(int p) {
+
+        try {
+            Log.d("LOG : ","Delete icon clicked on MyMessages.java");
+            JSONObject item = (JSONObject)jsonArray.get(p);
+            String deleteConversationId = item.getString("ConversationId");
+            Log.d("LOG : ","deleting conversation, with id: " + deleteConversationId);
+            deleteAnItem(deleteConversationId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteAnItem(String id){
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        Log.d("LOG :","deleteAnItem running on itemHistory");
+        String URL = DELETECONVERSATIONURL + id;
+        StringRequest dr = new StringRequest(Request.Method.DELETE, URL,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        //stop progress dialog
+                        pd.cancel();
+                        Log.d("LOG : ","Response is "+response);
+                        //    adapter.notifyDataSetChanged();
+                        Intent conversationIntent = new Intent(MyMessages.this,MyMessages.class);
+                        startActivity(conversationIntent);
+
+
+                    }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        pd.cancel();
+                        Log.d("LOG : ","Response error is "+error);
+
+                    }
+                }
+        );
+        MySingleton.getInstance(MyMessages.this).addToRequestQueue(dr);
     }
 }

@@ -7,22 +7,85 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <!-- TODO: Update blank fragment layout -->
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment" />
+            android:text="Please add book info:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/tv_bookTitle"
+            android:textSize="24sp"
+            android:textColor="@android:color/black" />
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_addBookTitle"
+            android:hint="Book Title"
+            android:layout_marginTop="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_addBookPrice"
+            android:hint="Price"
+            android:layout_below="@+id/tv_addBookTitle"
+            android:layout_alignStart="@+id/tv_addBookTitle" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_addBookCourse"
+            android:hint="Course"
+            android:layout_below="@+id/tv_addBookPrice"
+            android:layout_alignStart="@+id/tv_addBookPrice" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/addBookETtitle"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:hint="Title" />
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:layout_below="@+id/tv_addBookCourse"
+            android:layout_alignStart="@+id/tv_addBookCourse"
+            android:id="@+id/tv_addBookProgram"
+            android:hint="Program" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/tv_addBookPublisher"
+            android:hint="Publisher"
+            android:layout_below="@+id/tv_addBookProgram"
+            android:layout_alignStart="@+id/tv_addBookProgram" />
+
+
+        <EditText
+            android:layout_width="320sp"
+            android:layout_height="130dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:layout_below="@+id/tv_addBookPickUpDate"
+            android:layout_alignStart="@+id/tv_addBookPickUpDate"
+            android:id="@+id/tv_AddBookDesc"
+            android:hint="Description..." />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/tv_addBookPickUpDate"
+            android:hint="Pick Up Date"
+            android:layout_below="@+id/tv_addBookPublisher"
+            android:layout_alignStart="@+id/tv_addBookPublisher" />
+
 
     </RelativeLayout>
+
+
 </FrameLayout>

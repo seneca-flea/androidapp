@@ -65,7 +65,7 @@ public class UserMenu extends Activity {
         bSell.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Oleg", "Login clicked");
+                Log.d("LOG : ", "Sell button clicked on userMenu");
 
                 Intent sellIntent = new Intent(UserMenu.this,Sell.class);
                 sellIntent.putExtra("id", id);
@@ -92,8 +92,11 @@ public class UserMenu extends Activity {
         bHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Oleg", "Login clicked");
+                Log.d("LOG : ", "History button clicked on userMenu");
                 Intent historyIntent = new Intent(UserMenu.this,History.class);
+                historyIntent.putExtra("id", id);
+                historyIntent.putExtra("fullName", fullName);
+                historyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(historyIntent);
 
             }

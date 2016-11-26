@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="androidapp-master">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/androidapp-master.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
