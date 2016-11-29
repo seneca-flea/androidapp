@@ -6,7 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.yugenshtil.finalproject.useCases.History"
+    tools:context="com.example.yugenshtil.finalproject.useCases.MyMessages"
     android:background="#d7d5d5"
     android:orientation="vertical"
     >

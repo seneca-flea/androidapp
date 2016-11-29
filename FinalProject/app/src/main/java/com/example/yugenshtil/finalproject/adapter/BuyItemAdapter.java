@@ -39,6 +39,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         void onMyFavoriteDeleteClick(int p);
         void onMyFavoriteAddClick(int p);
         void onItemClick(int p);
+        void onMessageIconClick(int p);
 
     }
 
@@ -185,6 +186,10 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
                 String backgroundImageName = String.valueOf(favoriteIcon.getTag());
                 Log.d("Oleg1","Fav tag is " + backgroundImageName);
              //   itemClickCallBack.onDeleteIconClick(getAdapterPosition());
+            }
+            else if(v.getId()==R.id.im_new_message){
+                Log.d("LOG : ","Clicked message item on buyItemAdapter.java for item :" +getAdapterPosition());
+                itemClickCallBack.onMessageIconClick(getAdapterPosition());
             }
 
 

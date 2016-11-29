@@ -24,7 +24,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="42dp"
         android:layout_marginTop="26dp"
-        android:id="@+id/imageView4" />
+        android:id="@+id/im_new_message" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -50,8 +50,8 @@
         android:src="@drawable/psswdlogpic"
         android:id="@+id/imageView6"
         android:layout_marginTop="16dp"
-        android:layout_below="@+id/imageView4"
-        android:layout_alignStart="@+id/imageView4" />
+        android:layout_below="@+id/im_new_message"
+        android:layout_alignStart="@+id/im_new_message" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -59,11 +59,11 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/etLogin_Email"
-        android:layout_alignBottom="@+id/imageView4"
+        android:layout_alignBottom="@+id/im_new_message"
         android:layout_alignEnd="@+id/etLogin_Password"
-        android:layout_toEndOf="@+id/imageView4"
+        android:layout_toEndOf="@+id/im_new_message"
         tools:background="@android:color/white"
-        android:layout_alignTop="@+id/imageView4"
+        android:layout_alignTop="@+id/im_new_message"
         android:hint="Email"
         android:textColorHint="@color/primaryColorDark"
         android:background="@android:color/background_light"

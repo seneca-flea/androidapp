@@ -79,7 +79,7 @@ public class UserMenu extends Activity {
         bBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Oleg", "Login clicked");
+                Log.d("Oleg", "Buy button clicked on userMenu");
                 Intent buyIntent = new Intent(UserMenu.this,Buy.class);
                 startActivity(buyIntent);
                 finish();
@@ -116,7 +116,7 @@ public class UserMenu extends Activity {
         bMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Oleg", "Login clicked");
+                Log.d("Oleg", "Message button clicked on userMenu");
                 Intent messageIntent = new Intent(UserMenu.this,MyMessages.class);
                 startActivity(messageIntent);
 

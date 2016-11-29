@@ -602,6 +602,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     @Override
     public void onItemClick(int p) {
         try {
+            Log.d("LOG : ", "it goest to buy.java");
             JSONObject item = (JSONObject) jsonArray.get(p);
             Intent i  = new Intent(this, ItemBuy.class);
             Bundle extras = new Bundle();
@@ -616,6 +617,13 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Override
+    public void onMessageIconClick(int p){
+
+        //TODO: implement to start activity for layout to send message
     }
 
     @Override
