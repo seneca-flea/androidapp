@@ -7,128 +7,97 @@
     tools:context="com.example.yugenshtil.finalproject.Account.Login"
     android:background="#ff0000">
 
-
-    <TextView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Dont have an account yet? Sign up Now"
-        android:id="@+id/tvLogin_SignIn"
-        tools:text="Dont have an account yet? Sign up Now"
-        android:fontFamily="sans-serif-condensed"
-        android:textSize="14sp"
-        android:textColor="@android:color/white"
-        android:layout_marginRight="72dp"
-        android:layout_alignTop="@+id/tvLogin_ForgotPassword"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp" />
-
-    <ImageView
-        android:layout_width="95dp"
-        android:layout_height="98dp"
-        app:srcCompat="@drawable/loginpiclogo"
+        app:srcCompat="@drawable/appicon"
+        android:layout_marginTop="35dp"
         android:id="@+id/imageView3"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="18dp" />
-
-    <TextView
-        android:text="Sign in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/signIntext"
-        tools:text="Sign in"
-        android:textColor="@android:color/white"
-        android:textStyle="normal|bold"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/imageView3"
         android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="306dp"
-        android:layout_height="41dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/etLogin_Email"
-        android:hint=" Email"
-        android:textColor="@android:color/holo_red_dark"
-        android:background="@android:color/white"
-        tools:textColorHint="@android:color/holo_red_dark"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/signIntext"
-        android:layout_alignParentEnd="true" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/emailloginpic"
+        android:layout_below="@+id/imageView3"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="26dp"
+        android:id="@+id/imageView4" />
 
     <EditText
-        android:layout_width="306dp"
-        android:layout_height="43dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/etLogin_Password"
-        android:hint=" Password"
-        android:textColor="@android:color/holo_red_dark"
-        android:textColorHint="@android:color/holo_red_dark"
-        android:background="@android:color/white"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/etLogin_Email" />
-
-    <ImageView
-        android:layout_width="54dp"
-        android:layout_height="42dp"
-        app:srcCompat="@drawable/bt5mymessages"
-        android:id="@+id/emailloginpic"
-        android:contentDescription="emaillogo"
-        tools:layout_editor_absoluteY="202dp"
-        tools:layout_editor_absoluteX="37dp"
-        android:layout_alignBottom="@+id/etLogin_Email"
-        android:layout_toStartOf="@+id/etLogin_Email" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Forgot your password?"
-        android:id="@+id/tvLogin_ForgotPassword"
-        tools:text="Forgot your password?"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:layout_marginRight="104dp"
-        android:layout_below="@+id/etLogin_Password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp" />
-
-    <Button
-        android:layout_width="352dp"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/btLogin_Login"
-        android:textColor="@android:color/holo_red_dark"
         tools:background="@android:color/white"
-        android:layout_marginRight="16dp"
-        android:layout_below="@+id/tvLogin_SignIn"
-        android:layout_alignStart="@+id/psswdpiclogo"
-        android:layout_marginTop="16dp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/facebookloginpic"
-        android:layout_marginBottom="26dp"
-        android:id="@+id/imageButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@color/primaryColor" />
+        android:layout_marginEnd="17dp"
+        android:layout_alignTop="@+id/imageView6"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/imageView6"
+        android:layout_toEndOf="@+id/imageView6"
+        tools:hint="Password" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/psswdlogpic"
-        android:id="@+id/psswdpiclogo"
-        android:layout_marginLeft="16dp"
-        android:contentDescription="psswdpic"
-        android:layout_alignTop="@+id/etLogin_Password"
-        android:layout_toStartOf="@+id/imageButton" />
+        android:id="@+id/imageView6"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/imageView4"
+        android:layout_alignStart="@+id/imageView4" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/etLogin_Email"
+        android:layout_alignBottom="@+id/imageView4"
+        android:layout_alignEnd="@+id/etLogin_Password"
+        android:layout_toEndOf="@+id/imageView4"
+        tools:background="@android:color/white"
+        android:layout_alignTop="@+id/imageView4"
+        android:hint="Email" />
+
+    <TextView
+        android:text="Forgot your password?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etLogin_Password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:id="@+id/tvLogin_ForgotPassword"
+        tools:textColor="@android:color/white" />
+
+    <TextView
+        android:text="Dont have an account yet? Sing up Now"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLogin_ForgotPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:id="@+id/tvLogin_SignIn"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:text="Log In"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLogin_SignIn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="11dp"
+        android:id="@+id/btLogin_Login" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/facebookloginpic"
+        android:layout_marginTop="14dp"
+        android:id="@+id/im_fb_login"
+        android:background="@color/primaryColor"
+        android:layout_below="@+id/btLogin_Login"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
