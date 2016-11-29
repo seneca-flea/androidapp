@@ -1,80 +1,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="com.example.yugenshtil.finalproject.Account.Login">
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etRegistration_FirstName"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="First Name" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etRegistration_LastName"
-        android:layout_below="@+id/etRegistration_FirstName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etRegistration_FirstName"
-        android:layout_alignEnd="@+id/etRegistration_FirstName"
-        android:hint="Last Name" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/etLogin_Email"
-        android:layout_below="@+id/etRegistration_LastName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etRegistration_LastName"
-        android:layout_alignEnd="@+id/etRegistration_LastName"
-        android:hint="Email" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/etLogin_Password"
-        android:layout_below="@+id/etLogin_Email"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etLogin_Email"
-        android:layout_alignEnd="@+id/etLogin_Email"
-        android:hint="Password" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/etRegistration_PasswordConfirmation"
-        android:layout_below="@+id/etLogin_Password"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etLogin_Password"
-        android:layout_alignEnd="@+id/etLogin_Password"
-        android:hint="Password Confirmation" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Registration"
-        android:id="@+id/btRegistration_Registration"
-        android:layout_below="@+id/etRegistration_PasswordConfirmation"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etRegistration_PasswordConfirmation"
-        android:layout_alignEnd="@+id/etRegistration_PasswordConfirmation" />
+    tools:context="com.example.yugenshtil.finalproject.Account.Login"
+    android:background="#ffff0000">
 
     <TextView
         android:layout_width="wrap_content"
@@ -84,6 +16,124 @@
         android:id="@+id/tvRegistration_Login"
         android:layout_marginTop="29dp"
         android:layout_below="@+id/btRegistration_Registration"
+        android:layout_centerHorizontal="true"
+        tools:textColor="@android:color/white" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registration"
+        android:id="@+id/btRegistration_Registration"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/etRegistration_PasswordConfirmation"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:id="@+id/etRegistration_PasswordConfirmation"
+        android:hint="Password Confirmation"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_below="@+id/etLogin_Password"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36sp"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/etLogin_Password"
+        android:hint="Password"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/etLogin_Email"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:id="@+id/editText6"
+        android:hint="Password Confirmation"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_below="@+id/etLogin_Password"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:id="@+id/editText5"
+        android:hint="Password Confirmation"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_below="@+id/etLogin_Password"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:id="@+id/editText4"
+        android:hint="Password Confirmation"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_below="@+id/etLogin_Password"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="14dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36sp"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/etLogin_Email"
+        android:hint="Email"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/etRegistration_LastName"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36sp"
+        android:id="@+id/etRegistration_LastName"
+        android:hint="Last Name"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/etRegistration_FirstName"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36sp"
+        android:id="@+id/etRegistration_FirstName"
+        android:hint="First Name"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_marginTop="121dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/appicon"
+        android:id="@+id/imageView2"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
