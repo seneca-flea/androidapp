@@ -37,9 +37,9 @@ public class ItemHistoryDisplayActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_history_display);
 
-        final TextView etTitle = (TextView) findViewById(R.id.tvTitle_itemDisplay);
-        final TextView etDescription = (TextView) findViewById(R.id.tvDescription_itemDisplay);
-        final TextView etPrice = (TextView) findViewById(R.id.tvPrice_itemDisplay);
+        final TextView etTitle = (TextView) findViewById(R.id.tvItemBuy_Title);
+        final TextView etDescription = (TextView) findViewById(R.id.tvItemBuy_Description);
+        final TextView etPrice = (TextView) findViewById(R.id.tvItemBuy_Price);
         final ImageView imDelete = (ImageView) findViewById(R.id.imDelete_itemDisplay);
 
 

@@ -1,4 +1,4 @@
-package com.example.yugenshtil.finalproject.item;
+package com.example.yugenshtil.finalproject.Item;
 
 import android.app.Activity;
 import android.content.Intent;

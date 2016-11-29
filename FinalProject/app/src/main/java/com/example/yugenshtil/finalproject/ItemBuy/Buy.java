@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.List;
 
 
 import android.os.Bundle;
@@ -30,12 +31,12 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.BuyItemAdapter;
-import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
 import com.example.yugenshtil.finalproject.useCases.ProgramFilter;
 import com.example.yugenshtil.finalproject.useCases.RangeChoose;
 
@@ -49,12 +50,20 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     private String GETALLITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?status=Available";
     private String GETCOURSEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?title=";
     private String GETRANGEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/price?min=";
+    private String GETMYFAVORITESURL="http://senecaflea.azurewebsites.net/api/User/";
+    private String MYFAVORITES="http://senecaflea.azurewebsites.net/api/User/";
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    private String userId="";
+
+
     private JSONArray jsonArray=null;
     public ProgressDialog pd;
     private RecyclerView recView;
     private BuyItemAdapter adapter;
     private double priceFilterLow = 0.0;
     private double priceFilterMax = 10000000;
+    private List<String> favoriteIds;
 
     private PopupWindow popupWindow;
     private LayoutInflater layoutInflater;
@@ -64,13 +73,19 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
+        favoriteIds = new ArrayList<String>();
 
+        //Get userId from SharedPreferences
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        userId = sharedpreferences.getString("id", "");
+
+        Log.d("Oleg","UseId is " + userId);
 
         final Button btDisplayNew = (Button) findViewById(R.id.btDisplayAll_Buy);
     //    final Button btRange = (Button) findViewById(R.id.btRange_Buy);
 
+        getFavorites();
 
-        getItems();
 
         btDisplayNew.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,7 +139,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     //Send list here
                     //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
 
-                    adapter = new BuyItemAdapter(Buy.this,jsonArray);
+                    adapter = new BuyItemAdapter(Buy.this,jsonArray,favoriteIds);
 
                     Log.d("Oleg","Setting adapter1");
                     recView.setAdapter(adapter);
@@ -149,6 +164,55 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                 pd.cancel();
 
                 Log.d("Oleg","error" + error);
+                getItems();
+            }
+        });
+
+        MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjRequest);
+
+    }
+
+    // Retrieve Myfavorites
+    public void getFavorites(){
+
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETMYFAVORITESURL+userId+"/Favorites", null, new Response.Listener<JSONArray>() {
+
+            @Override
+            public void onResponse(JSONArray response) {
+
+                if(response!=null){
+                    JSONArray items = response;
+                    jsonArray = response;
+                    if(items!=null) {
+                        Log.d("Oleg", "size " + items.length());
+                        Log.d("Oleg", "JSON " + items.toString());
+                         for (int i = 0; i < items.length(); i++) {
+                            try {
+                                JSONObject item = (JSONObject) items.get(i);
+                                String itemId = item.getString("ItemId");
+                                favoriteIds.add(itemId);
+                              //  Log.d("Oleg","Id is  " + id);
+                                //  myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        // tvItemsList.setText(myItemsList);
+                    }
+
+
+
+                }
+                getItems();
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                              Log.d("Oleg","error" + error);
                 getItems();
             }
         });
@@ -191,7 +255,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     //Send list here
                     //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
 
-                    adapter = new BuyItemAdapter(Buy.this,jsonArray);
+                    adapter = new BuyItemAdapter(Buy.this,jsonArray,favoriteIds);
 
                     Log.d("Oleg","Setting adapter2");
                     recView.setAdapter(adapter);
@@ -257,7 +321,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     //Send list here
                     //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
 
-                    adapter = new BuyItemAdapter(Buy.this,jsonArray);
+                    adapter = new BuyItemAdapter(Buy.this,jsonArray, favoriteIds);
 
                     Log.d("Oleg","Setting adapter");
                     recView.setAdapter(adapter);
@@ -488,6 +552,11 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     }
 
 
+
+
+
+
+
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
@@ -534,7 +603,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     public void onItemClick(int p) {
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
-            Intent i  = new Intent(this, ItemDisplayActivity.class);
+            Intent i  = new Intent(this, ItemBuy.class);
             Bundle extras = new Bundle();
             extras.putString("ItemId",item.get("ItemId").toString());
             extras.putString("Title",item.get("Title").toString());
@@ -555,4 +624,109 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         Intent back = new Intent(this, UserMenu.class);
         startActivity(back);
     }
+
+    @Override
+    public void onMyFavoriteDeleteClick(int p) {
+        try {
+            JSONObject item = (JSONObject) jsonArray.get(p);
+            Log.d("Oleg","Wanna delete an item with Id " + item.get("ItemId"));
+            String itemId = item.get("ItemId").toString();
+            deleteMyFavorite(itemId);
+          /*  Intent i  = new Intent(this, ItemDisplayActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("ItemId",item.get("ItemId").toString());
+            extras.putString("Title",item.get("Title").toString());
+            extras.putString("SellerId",item.get("SellerId").toString());
+            extras.putString("Description",item.get("Description").toString());
+            extras.putString("Price",item.get("Price").toString());
+            i.putExtras(extras);
+            startActivity(i);*/
+
+        } catch (JSONException e) {
+            Log.d("Oleg","Error " + e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void onMyFavoriteAddClick(int p) {
+        try {
+            JSONObject item = (JSONObject) jsonArray.get(p);
+            Log.d("Oleg","Wanna add item with Id " + item.get("ItemId"));
+            String itemId = item.get("ItemId").toString();
+            addMyFavorite(itemId);
+          /*  Intent i  = new Intent(this, ItemDisplayActivity.class);
+            Bundle extras = new Bundle();
+            extras.putString("ItemId",item.get("ItemId").toString());
+            extras.putString("Title",item.get("Title").toString());
+            extras.putString("SellerId",item.get("SellerId").toString());
+            extras.putString("Description",item.get("Description").toString());
+            extras.putString("Price",item.get("Price").toString());
+            i.putExtras(extras);
+            startActivity(i);*/
+
+        } catch (JSONException e) {
+            Log.d("Oleg","Error " + e.getMessage());
+        }
+
+    }
+
+
+    public void addMyFavorite(String itemId){
+        Log.d("Oleg","Item id is " + itemId);
+        JSONObject jsonObject = new JSONObject();
+        //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
+        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, MYFAVORITES+userId+"/AddFavorite/"+itemId,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response", " " +response);
+                        Log.d("Oleg","MyFavorite was added");
+                    }
+
+
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", "Error is " + error);
+                    }
+                }
+        );
+
+        MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjPutRequest);
+    }
+
+    public void deleteMyFavorite(String itemId){
+        Log.d("Oleg","Item id is " + itemId);
+        JSONObject jsonObject = new JSONObject();
+        //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
+        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, MYFAVORITES+userId+"/RemoveFavorite/"+itemId,
+                new Response.Listener<String>()
+                {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Response", " " +response);
+                        Log.d("Oleg","MyFavorite was deleted");
+                    }
+
+
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // error
+                        Log.d("Error.Response", "Error is " + error);
+                    }
+                }
+        );
+
+        MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjPutRequest);
+    }
+
+
 }

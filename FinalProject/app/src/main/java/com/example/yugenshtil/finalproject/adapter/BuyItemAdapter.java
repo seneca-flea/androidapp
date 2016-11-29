@@ -31,14 +31,14 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
 
     private LayoutInflater inflater;
     private JSONArray itemList;
+    private List<String> ids;
 
     private ItemClickCallback itemClickCallBack;
 
     public interface ItemClickCallback{
+        void onMyFavoriteDeleteClick(int p);
+        void onMyFavoriteAddClick(int p);
         void onItemClick(int p);
-       // void onDeleteIconClick(int p);
-      //  void onUpdateIconClick(int p);
-
 
     }
 
@@ -47,7 +47,8 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
 
     }
 
-    public BuyItemAdapter(Context c, JSONArray jsonArray){
+    public BuyItemAdapter(Context c, JSONArray jsonArray, List<String> ids){
+        this.ids = ids;
         this.inflater = LayoutInflater.from(c);
         //  this.listData = listData;
         Log.d("Oleg",jsonArray.toString());
@@ -68,13 +69,22 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         String title="";
         String description="";
         String price="";
-
+      //  boolean isFavorite = false;
         //Here it sets to the view
         try {
             JSONObject item = (JSONObject)itemList.get(i);
             title = item.get("Title").toString();
             description = item.get("Description").toString();
             price = item.get("Price").toString();
+            if(ids.contains(item.getString("ItemId"))){
+                Log.d("Oleg",item.getString("ItemId") + " was found");
+                derpHolder.isFavorite = true;
+
+            }
+
+
+
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -84,6 +94,12 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         derpHolder.title.setText(title);
         derpHolder.description.setText(description);
         derpHolder.price.setText(price+"$");
+        if(derpHolder.isFavorite){
+            derpHolder.favoriteIcon.setImageResource(R.drawable.ic_star_black_36dp);
+            derpHolder.favoriteIcon.setTag("fav");
+        }else{
+            derpHolder.favoriteIcon.setTag("notfav");
+        }
 
         //    derpHolder.icon.setImageResource(item.getImageResId());
       /*
@@ -121,6 +137,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         private TextView price;
         private View container;
         private ImageView favoriteIcon;
+        private boolean isFavorite=false;
 
         //New
         private ImageView thumbnail;
@@ -154,6 +171,19 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
             }
             else if(v.getId()==R.id.im_favorite_icon){
                 Log.d("Oleg","Clicked Favorite for line " + getAdapterPosition());
+                if(favoriteIcon.getTag().equals("fav")){
+                    favoriteIcon.setTag("notfav");
+                    favoriteIcon.setImageResource(R.drawable.ic_star_border_black_36dp);
+                    itemClickCallBack.onMyFavoriteDeleteClick(getAdapterPosition());
+                }else{
+                    favoriteIcon.setTag("fav");
+                    favoriteIcon.setImageResource(R.drawable.ic_star_black_36dp);
+                    itemClickCallBack.onMyFavoriteAddClick(getAdapterPosition());
+                }
+
+
+                String backgroundImageName = String.valueOf(favoriteIcon.getTag());
+                Log.d("Oleg1","Fav tag is " + backgroundImageName);
              //   itemClickCallBack.onDeleteIconClick(getAdapterPosition());
             }
 

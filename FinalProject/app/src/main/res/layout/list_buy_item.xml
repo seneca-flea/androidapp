@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cont_item_root"
     android:layout_width="match_parent"
     android:layout_height="115dp"
@@ -67,13 +69,21 @@
         android:textSize="14sp" />
 
     <ImageView
-        android:id="@+id/im_favorite_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="96dp"
-        android:src="@drawable/ic_star_border_black_36dp"
+        app:srcCompat="@drawable/ic_message_black_36dp"
+        android:id="@+id/imageView4"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/tv_price"
-        android:layout_alignStart="@+id/tv_price" />
+        android:layout_alignEnd="@+id/tv_price"
+        android:layout_marginEnd="61dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_star_border_black_36dp"
+        android:id="@+id/im_favorite_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/imageView4"
+        android:layout_marginEnd="20dp" />
 
 </RelativeLayout>

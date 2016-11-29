@@ -12,7 +12,7 @@
 
 
     <TextView
-        android:id="@+id/tvTitle_itemDisplay"
+        android:id="@+id/tvItemBuy_Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -27,10 +27,10 @@
 
 
     <TextView
-        android:id="@+id/tvDescription_itemDisplay"
+        android:id="@+id/tvItemBuy_Description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTitle_itemDisplay"
+        android:layout_below="@+id/tvItemBuy_Title"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="92dp"
         android:layout_marginRight="48dp"
@@ -43,11 +43,11 @@
 
 
     <TextView
-        android:id="@+id/tvPrice_itemDisplay"
+        android:id="@+id/tvItemBuy_Price"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDescription_itemDisplay"
+        android:layout_below="@+id/tvItemBuy_Description"
         android:layout_marginTop="4dp"
         android:layout_marginLeft="92dp"
         android:layout_marginRight="48dp"
@@ -74,8 +74,8 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_delete_black_36dp"
         android:paddingRight="6dp"
-        android:layout_below="@+id/tvPrice_itemDisplay"
-        android:layout_alignEnd="@+id/tvPrice_itemDisplay" />
+        android:layout_below="@+id/tvItemBuy_Price"
+        android:layout_alignEnd="@+id/tvItemBuy_Price" />
 
 </RelativeLayout>
 

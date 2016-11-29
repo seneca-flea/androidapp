@@ -1,4 +1,4 @@
-package com.example.yugenshtil.finalproject.model;
+package com.example.yugenshtil.finalproject.ItemBuy;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -15,13 +15,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.yugenshtil.finalproject.MainMenu;
-import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
-import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.Item.EditItem;
+import com.example.yugenshtil.finalproject.MainMenu;
+import com.example.yugenshtil.finalproject.R;
+import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.useCases.Sell;
 
-public class ItemDisplayActivity extends Activity {
+/**
+ * Created by yugenshtil on 29/11/16.
+ */
+
+public class ItemBuy extends Activity {
 
     private static String ItemId = "";
     private static String Title = "";
@@ -35,13 +39,13 @@ public class ItemDisplayActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_display);
+        setContentView(R.layout.activity_item_sell_display);
 
         final TextView etTitle = (TextView) findViewById(R.id.tvItemBuy_Title);
         final TextView etDescription = (TextView) findViewById(R.id.tvItemBuy_Description);
         final TextView etPrice = (TextView) findViewById(R.id.tvItemBuy_Price);
-        final ImageView imDelete = (ImageView) findViewById(R.id.imDelete_itemDisplay);
-        final ImageView imUpdate = (ImageView) findViewById(R.id.ivItemBuy_Favorite);
+        final ImageView ivFavorite = (ImageView) findViewById(R.id.ivItemBuy_Favorite);
+        final ImageView ivMessage = (ImageView) findViewById(R.id.ivItemBuy_Message);
 
 
 
@@ -60,20 +64,21 @@ public class ItemDisplayActivity extends Activity {
         etDescription.setText(Description);
         etPrice.setText(Price);
 
-        imDelete.setOnClickListener(new View.OnClickListener() {
+        ivFavorite.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                Log.d("Oleg","Delete clicked");
-                deleteAnItem(ItemId);
+                Log.d("Oleg","Myfav clicked");
+               // deleteAnItem(ItemId);
 
             }
         });
 
-        imUpdate.setOnClickListener(new View.OnClickListener() {
+        ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAnItem(ItemId);
+                Log.d("Oleg","Message clicked");
+               // updateAnItem(ItemId);
 
             }
         });
@@ -91,7 +96,7 @@ public class ItemDisplayActivity extends Activity {
                         pd.cancel();
                         Log.d("Oleg","Response is "+response);
                         //    adapter.notifyDataSetChanged();
-                        Intent sellIntent = new Intent(ItemDisplayActivity.this,Sell.class);
+                        Intent sellIntent = new Intent(ItemBuy.this,Sell.class);
                         startActivity(sellIntent);
 
                     }
@@ -106,7 +111,7 @@ public class ItemDisplayActivity extends Activity {
                     }
                 }
         );
-        MySingleton.getInstance(ItemDisplayActivity.this).addToRequestQueue(dr);
+        MySingleton.getInstance(ItemBuy.this).addToRequestQueue(dr);
 
     }
 
@@ -116,7 +121,7 @@ public class ItemDisplayActivity extends Activity {
 
         try {
             Log.d("Oleg","Update");
-            Intent i = new Intent(ItemDisplayActivity.this, EditItem.class);
+            Intent i = new Intent(ItemBuy.this, EditItem.class);
             i.putExtra("ItemId",ItemId);
             i.putExtra("Title",Title);
             i.putExtra("SellerId",SellerId);
@@ -148,7 +153,7 @@ public class ItemDisplayActivity extends Activity {
             editor.clear();
             editor.commit();
 
-            Intent mainMenuIntent = new Intent(ItemDisplayActivity.this,MainMenu.class);
+            Intent mainMenuIntent = new Intent(ItemBuy.this,MainMenu.class);
             startActivity(mainMenuIntent);
 
 
@@ -157,6 +162,7 @@ public class ItemDisplayActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 
 
 

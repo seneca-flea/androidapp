@@ -35,7 +35,7 @@ import org.json.JSONObject;
 public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClickCallback{
 
     private String GETALLMYFAVORITES="http://senecaflea.azurewebsites.net/api/User/";
-    private String REMOVEMYFAVORITES="http://senecaflea.azurewebsites.net/api/User/";
+    private String MYFAVORITES="http://senecaflea.azurewebsites.net/api/User/";
 
 
     private JSONArray jsonArray=null;
@@ -167,11 +167,11 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
 
     }
 
-    public void deleteMyFaforite(String itemId){
+    public void deleteMyFavorite(String itemId){
         Log.d("Oleg","Item id is " + id);
         JSONObject jsonObject = new JSONObject();
       //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
-        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,
+        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, MYFAVORITES+id+"/RemoveFavorite/"+itemId,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -201,7 +201,7 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
             JSONObject item = (JSONObject) jsonArray.get(p);
             Log.d("Oleg","Wanna delete an item with Id " + item.get("ItemId"));
             String itemId = item.get("ItemId").toString();
-            deleteMyFaforite(itemId);
+            deleteMyFavorite(itemId);
           /*  Intent i  = new Intent(this, ItemDisplayActivity.class);
             Bundle extras = new Bundle();
             extras.putString("ItemId",item.get("ItemId").toString());
@@ -224,7 +224,7 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
             JSONObject item = (JSONObject) jsonArray.get(p);
             Log.d("Oleg","Wanna add item with Id " + item.get("ItemId"));
             String itemId = item.get("ItemId").toString();
-            addMyFaforite(itemId);
+            addMyFavorite(itemId);
           /*  Intent i  = new Intent(this, ItemDisplayActivity.class);
             Bundle extras = new Bundle();
             extras.putString("ItemId",item.get("ItemId").toString());
@@ -262,17 +262,17 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
 
     }
 
-    public void addMyFaforite(String itemId){
+    public void addMyFavorite(String itemId){
         Log.d("Oleg","Item id is " + id);
         JSONObject jsonObject = new JSONObject();
         //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
-        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,
+        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT,MYFAVORITES+id+"/AddFavorite/"+itemId,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", " " +response);
-                        Log.d("Oleg","MyFavorite was deleted");
+                        Log.d("Oleg","MyFavorite was added");
                     }
 
 

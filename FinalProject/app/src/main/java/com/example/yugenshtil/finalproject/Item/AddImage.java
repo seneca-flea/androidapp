@@ -1,4 +1,4 @@
-package com.example.yugenshtil.finalproject.item;
+package com.example.yugenshtil.finalproject.Item;
 
 import android.Manifest;
 import android.app.Activity;
@@ -98,7 +98,7 @@ public class AddImage extends AppCompatActivity {
         gallery = (ImageView) findViewById(R.id.ivGallery);
         image = (ImageView) findViewById(R.id.ivImage);
         load = (ImageView) findViewById(R.id.ivLoad);
-        loaded = (ImageView) findViewById(R.id.ivLoaded);
+        //loaded = (ImageView) findViewById(R.id.ivLoaded);
         submit = (Button) findViewById(R.id.btnSubmit_addImage);
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,12 +131,14 @@ public class AddImage extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.d("Oleg","Uploading");
                 try {
                     Bitmap bitmap = ImageLoader.init().from(selectedPhoto).requestSize(1024,1024).getBitmap();
                     imageDecoded = ImageBase64.encode(bitmap);
                     images.add(imageDecoded);
                     Log.d(TAG,"List size is " + images.size());
                     Log.d(TAG,imageDecoded);
+                    Toast.makeText(getApplicationContext(),"Picture was uploaded",Toast.LENGTH_SHORT).show();
                 } catch (FileNotFoundException e) {
                     Log.d("Oleg",e.toString());
                     Toast.makeText(getApplicationContext(),"Something wrong with upload",Toast.LENGTH_SHORT).show();

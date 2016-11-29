@@ -72,6 +72,9 @@
             android:name=".useCases.MyMessages"
             android:label="@string/title_activity_my_messages" />
         <activity
+            android:name=".ItemBuy.ItemBuy"
+            android:label="@string/title_activity_my_messages" />
+        <activity
             android:name=".RESTExample"
             android:label="@string/title_activity_restexample" />
         <activity
@@ -84,18 +87,18 @@
             android:name=".ForgotPassword"
             android:label="@string/title_activity_forgot_password" />
         <activity
-            android:name=".item.AddItem"
+            android:name=".Item.AddItem"
             android:label="@string/title_activity_add_item"
             android:theme="@style/AppTheme" />
         <activity android:name=".model.ItemDisplayActivity" />
-        <activity android:name=".item.EditItem" />
+        <activity android:name=".Item.EditItem" />
         <activity
             android:name=".Test"
             android:label="@string/title_activity_test"
             android:theme="@style/AppTheme" />
         <activity android:name=".useCases.ProgramFilter" />
         <activity
-            android:name=".item.AddImage"
+            android:name=".Item.AddImage"
             android:theme="@style/AppTheme" />
         <activity android:name=".model.ItemHistoryDisplayActivity"></activity>
     </application>

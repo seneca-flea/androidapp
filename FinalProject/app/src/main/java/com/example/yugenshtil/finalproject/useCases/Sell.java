@@ -28,8 +28,8 @@ import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
-import com.example.yugenshtil.finalproject.item.AddItem;
-import com.example.yugenshtil.finalproject.item.EditItem;
+import com.example.yugenshtil.finalproject.Item.AddItem;
+import com.example.yugenshtil.finalproject.Item.EditItem;
 import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
 
 import org.json.JSONArray;
