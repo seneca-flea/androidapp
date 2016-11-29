@@ -35,8 +35,9 @@ public class MyMessagesListDisplayActivity extends Activity {
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     //TODO:update URLS to retrieve conversation by one user.
-    private String GETUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/User/";
-    private String DELETEUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/User/";
+    //add id to get conversation
+    private String GETUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
+    private String DELETEUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
 
     JSONArray jsonArray=null;
     private String id = "";
