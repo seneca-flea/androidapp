@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,26 +23,19 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.example.yugenshtil.finalproject.AboutApp;
-import com.example.yugenshtil.finalproject.LoginPage;
 import com.example.yugenshtil.finalproject.MainMenu;
-import com.example.yugenshtil.finalproject.MySingleton;
+import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
-import com.example.yugenshtil.finalproject.RegistrationPage;
 import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 import com.example.yugenshtil.finalproject.item.AddItem;
 import com.example.yugenshtil.finalproject.item.EditItem;
-import com.example.yugenshtil.finalproject.model.DerpData;
 import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
-import com.example.yugenshtil.finalproject.model.ListItem;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 

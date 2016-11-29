@@ -1,29 +1,22 @@
 package com.example.yugenshtil.finalproject.item;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.yugenshtil.finalproject.ContactUs;
 import com.example.yugenshtil.finalproject.MainMenu;
-import com.example.yugenshtil.finalproject.MySingleton;
+import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
-import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.useCases.Sell;
 
 import org.json.JSONObject;

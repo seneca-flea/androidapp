@@ -75,6 +75,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
             title = item.get("Title").toString();
             description = item.get("Description").toString();
             price = item.get("Price").toString();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -83,6 +84,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         derpHolder.title.setText(title);
         derpHolder.description.setText(description);
         derpHolder.price.setText(price+"$");
+
         //    derpHolder.icon.setImageResource(item.getImageResId());
       /*
         if(item.isFavourite())

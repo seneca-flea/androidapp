@@ -1,48 +1,29 @@
-package com.example.yugenshtil.finalproject.useCases;
+package com.example.yugenshtil.finalproject.ItemBuy;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
+
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
-import android.support.v7.view.menu.MenuItemImpl;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -50,22 +31,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.yugenshtil.finalproject.MainMenu;
-import com.example.yugenshtil.finalproject.MySingleton;
+import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
-import com.example.yugenshtil.finalproject.Test;
 import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.BuyItemAdapter;
-import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
-import com.example.yugenshtil.finalproject.item.AddItem;
 import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
+import com.example.yugenshtil.finalproject.useCases.ProgramFilter;
+import com.example.yugenshtil.finalproject.useCases.RangeChoose;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-
-import static com.example.yugenshtil.finalproject.R.id.btDisplayAll_Buy;
-import static com.example.yugenshtil.finalproject.R.id.start;
 
 public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickCallback {
 

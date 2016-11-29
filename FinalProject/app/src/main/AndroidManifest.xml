@@ -44,7 +44,7 @@
             android:label="@string/title_activity_main_menu"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".LoginPage"
+            android:name=".Account.Login"
             android:label="@string/title_activity_login_page" />
         <activity
             android:name=".ContactUs"
@@ -65,7 +65,7 @@
             android:label="@string/title_activity_sell"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".useCases.Buy"
+            android:name=".ItemBuy.Buy"
             android:label="@string/title_activity_buy"
             android:theme="@style/AppTheme" />
         <activity
@@ -78,7 +78,7 @@
             android:name=".useCases.RangeChoose"
             android:theme="@style/AppTheme.CustomTheme" />
         <activity
-            android:name=".RegistrationPage"
+            android:name=".Account.Registration"
             android:label="@string/title_activity_registration_page" />
         <activity
             android:name=".ForgotPassword"

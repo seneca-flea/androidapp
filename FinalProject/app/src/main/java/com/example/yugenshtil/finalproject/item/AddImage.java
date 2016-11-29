@@ -50,7 +50,29 @@ public class AddImage extends AppCompatActivity {
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d("Oleeg","NOT GRANTED");
+            int permissionCheckCamera = ContextCompat.checkSelfPermission(AddImage.this,
+                    Manifest.permission.CAMERA);
+            Log.d("Oleg","Permission for CAMERA " + permissionCheckCamera+"");
+
+            int permissionCheckEXTERNAL = ContextCompat.checkSelfPermission(AddImage.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+            Log.d("Oleg","Permission for External " + permissionCheckEXTERNAL+"");
+
+
             requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    MY_REQUEST_CODE);
+        }
+
+        else if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.d("Oleeg","NOT GRANTED EXTERNAL");
+
+            int permissionCheckEXTERNAL = ContextCompat.checkSelfPermission(AddImage.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE);
+            Log.d("Oleg","Permission for External " + permissionCheckEXTERNAL+"");
+
+
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     MY_REQUEST_CODE);
         }
         else
@@ -60,7 +82,14 @@ public class AddImage extends AppCompatActivity {
         Log.d("Oleg","Permission for INTERNET " + permissionCheck+"");
         int permissionCheckCamera = ContextCompat.checkSelfPermission(AddImage.this,
                 Manifest.permission.CAMERA);
-        Log.d("Oleg","Permission for CAMERA " + permissionCheck+"");
+        Log.d("Oleg","Permission for CAMERA " + permissionCheckCamera+"");
+
+
+        int permissionCheckEXTERNAL = ContextCompat.checkSelfPermission(AddImage.this,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        Log.d("Oleg","Permission for External " + permissionCheckEXTERNAL+"");
+
+
         cameraPhoto = new CameraPhoto(getApplicationContext());
         galleryPhoto = new GalleryPhoto(getApplicationContext());
 

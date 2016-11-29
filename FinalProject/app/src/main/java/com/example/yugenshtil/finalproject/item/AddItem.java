@@ -26,20 +26,18 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.yugenshtil.finalproject.MainMenu;
-import com.example.yugenshtil.finalproject.MySingleton;
+import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.useCases.Sell;
 //import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.widget.Toast;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import layout.AddBook;

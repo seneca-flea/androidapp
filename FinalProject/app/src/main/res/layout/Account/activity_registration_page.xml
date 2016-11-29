@@ -9,7 +9,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etRegistration_FirstName"
+        android:id="@+id/etFirstName"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -20,12 +20,12 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etRegistration_LastName"
-        android:layout_below="@+id/etRegistration_FirstName"
+        android:id="@+id/etLastName"
+        android:layout_below="@+id/etFirstName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etRegistration_FirstName"
-        android:layout_alignEnd="@+id/etRegistration_FirstName"
+        android:layout_alignRight="@+id/etFirstName"
+        android:layout_alignEnd="@+id/etFirstName"
         android:hint="Last Name" />
 
     <EditText
@@ -33,12 +33,12 @@
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
         android:ems="10"
-        android:id="@+id/etLogin_Email"
-        android:layout_below="@+id/etRegistration_LastName"
+        android:id="@+id/loginETemail"
+        android:layout_below="@+id/etLastName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etRegistration_LastName"
-        android:layout_alignEnd="@+id/etRegistration_LastName"
+        android:layout_alignRight="@+id/etLastName"
+        android:layout_alignEnd="@+id/etLastName"
         android:hint="Email" />
 
     <EditText
@@ -46,44 +46,44 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/etLogin_Password"
-        android:layout_below="@+id/etLogin_Email"
+        android:id="@+id/loginETPassword"
+        android:layout_below="@+id/loginETemail"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etLogin_Email"
-        android:layout_alignEnd="@+id/etLogin_Email"
+        android:layout_alignRight="@+id/loginETemail"
+        android:layout_alignEnd="@+id/loginETemail"
         android:hint="Password" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etRegistration_PasswordConfirmation"
-        android:layout_below="@+id/etLogin_Password"
+        android:id="@+id/etPhoneNumber"
+        android:layout_below="@+id/loginETPassword"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etLogin_Password"
-        android:layout_alignEnd="@+id/etLogin_Password"
-        android:hint="Password Confirmation" />
+        android:layout_alignRight="@+id/loginETPassword"
+        android:layout_alignEnd="@+id/loginETPassword"
+        android:hint="Phone Number" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registration"
-        android:id="@+id/btRegistration_Registration"
-        android:layout_below="@+id/etRegistration_PasswordConfirmation"
+        android:id="@+id/bRegistration"
+        android:layout_below="@+id/etPhoneNumber"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etRegistration_PasswordConfirmation"
-        android:layout_alignEnd="@+id/etRegistration_PasswordConfirmation" />
+        android:layout_alignRight="@+id/etPhoneNumber"
+        android:layout_alignEnd="@+id/etPhoneNumber" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Login Here"
-        android:id="@+id/tvRegistration_Login"
+        android:id="@+id/tvLogin"
         android:layout_marginTop="29dp"
-        android:layout_below="@+id/btRegistration_Registration"
+        android:layout_below="@+id/bRegistration"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

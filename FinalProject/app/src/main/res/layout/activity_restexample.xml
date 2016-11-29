@@ -9,7 +9,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/etFirstName"
+        android:id="@+id/etRegistration_FirstName"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -22,24 +22,24 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:id="@+id/loginETPassword"
-        android:layout_below="@+id/etFirstName"
+        android:id="@+id/etLogin_Password"
+        android:layout_below="@+id/etRegistration_FirstName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/etFirstName"
-        android:layout_alignEnd="@+id/etFirstName"
+        android:layout_alignRight="@+id/etRegistration_FirstName"
+        android:layout_alignEnd="@+id/etRegistration_FirstName"
         android:hint="Password" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:id="@+id/loginBLogin"
-        android:layout_below="@+id/loginETPassword"
+        android:id="@+id/btLogin_Login"
+        android:layout_below="@+id/etLogin_Password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/loginETPassword"
-        android:layout_alignEnd="@+id/loginETPassword" />
+        android:layout_alignRight="@+id/etLogin_Password"
+        android:layout_alignEnd="@+id/etLogin_Password" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -47,7 +47,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Register Here"
         android:id="@+id/tvRegister"
-        android:layout_below="@+id/loginBLogin"
+        android:layout_below="@+id/btLogin_Login"
         android:layout_centerHorizontal="true" />
 
     <Button

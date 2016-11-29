@@ -1,7 +1,6 @@
 package com.example.yugenshtil.finalproject;
 
 import android.app.Activity;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +15,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +31,9 @@ public class RESTExample extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_restexample);
 
-        final EditText etUsername = (EditText) findViewById(R.id.etFirstName);
-        final EditText etPassword = (EditText) findViewById(R.id.loginETPassword);
-        final Button bLogin = (Button) findViewById(R.id.loginBLogin);
+        final EditText etUsername = (EditText) findViewById(R.id.etRegistration_FirstName);
+        final EditText etPassword = (EditText) findViewById(R.id.etLogin_Password);
+        final Button bLogin = (Button) findViewById(R.id.btLogin_Login);
         final Button bGet = (Button) findViewById(R.id.bGet);
         final Button bPost = (Button) findViewById(R.id.bPost);
         final TextView registerLink = (TextView) findViewById(R.id.tvRegister);
