@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/appicon"
+        android:src="@drawable/appicon"
         android:layout_marginTop="35dp"
         android:id="@+id/imageView3"
         android:layout_alignParentTop="true"
@@ -19,7 +19,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/emailloginpic"
+        android:src="@drawable/emailloginpic"
         android:layout_below="@+id/imageView3"
         android:layout_alignParentStart="true"
         android:layout_marginStart="42dp"
@@ -43,7 +43,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/psswdlogpic"
+        android:src="@drawable/psswdlogpic"
         android:id="@+id/imageView6"
         android:layout_marginTop="16dp"
         android:layout_below="@+id/imageView4"
@@ -94,7 +94,7 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/facebookloginpic"
+        android:src="@drawable/facebookloginpic"
         android:layout_marginTop="14dp"
         android:id="@+id/im_fb_login"
         android:background="@color/primaryColor"

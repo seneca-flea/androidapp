@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="352dp"
         android:layout_height="112dp"
-        app:srcCompat="@drawable/applogomain"
+        android:src="@drawable/applogomain"
         android:id="@+id/imageView5"
         android:contentDescription="app logo"
         tools:layout_constraintTop_creator="1"
