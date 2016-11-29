@@ -1,4 +1,5 @@
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,6 +8,56 @@
     android:background="#ff0000">
 
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Dont have an account yet? Sign up Now"
+        android:id="@+id/tvLogin_SignIn"
+        tools:text="Dont have an account yet? Sign up Now"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="14sp"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="72dp"
+        android:layout_alignTop="@+id/tvLogin_ForgotPassword"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="23dp" />
+
+    <ImageView
+        android:layout_width="95dp"
+        android:layout_height="98dp"
+        app:srcCompat="@drawable/loginpiclogo"
+        android:id="@+id/imageView3"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp" />
+
+    <TextView
+        android:text="Sign in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/signIntext"
+        tools:text="Sign in"
+        android:textColor="@android:color/white"
+        android:textStyle="normal|bold"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        app:layout_constraintBottom_toTopOf="@+id/etLogin_Email"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/imageView3"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="306dp"
@@ -18,11 +69,12 @@
         android:textColor="@android:color/holo_red_dark"
         android:background="@android:color/white"
         tools:textColorHint="@android:color/holo_red_dark"
-        android:layout_marginEnd="8dp"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginRight="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="280dp" />
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/signIntext"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="306dp"
@@ -36,21 +88,19 @@
         android:background="@android:color/white"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="224dp"
-        android:layout_marginEnd="8dp" />
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/etLogin_Email" />
 
-    <Button
-        android:layout_width="352dp"
-        android:layout_height="wrap_content"
-        android:text="Login"
-        android:id="@+id/btLogin_Login"
-        android:textColor="@android:color/holo_red_dark"
-        tools:background="@android:color/white"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="160dp" />
+    <ImageView
+        android:layout_width="54dp"
+        android:layout_height="42dp"
+        app:srcCompat="@drawable/bt5mymessages"
+        android:id="@+id/emailloginpic"
+        android:contentDescription="emaillogo"
+        tools:layout_editor_absoluteY="202dp"
+        tools:layout_editor_absoluteX="37dp"
+        android:layout_alignBottom="@+id/etLogin_Email"
+        android:layout_toStartOf="@+id/etLogin_Email" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,78 +111,47 @@
         tools:text="Forgot your password?"
         android:textColor="@android:color/white"
         android:textSize="16sp"
-        android:layout_marginTop="16dp"
         app:layout_constraintTop_toBottomOf="@+id/btLogin_Login"
-        android:layout_marginEnd="104dp"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="104dp" />
+        android:layout_marginRight="104dp"
+        android:layout_below="@+id/etLogin_Password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp" />
 
-    <TextView
+    <Button
+        android:layout_width="352dp"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:id="@+id/btLogin_Login"
+        android:textColor="@android:color/holo_red_dark"
+        tools:background="@android:color/white"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_below="@+id/tvLogin_SignIn"
+        android:layout_alignStart="@+id/psswdpiclogo"
+        android:layout_marginTop="16dp" />
+
+    <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Dont have an account yet? Sign up Now"
-        android:id="@+id/tvLogin_SignIn"
-        tools:text="Dont have an account yet? Sign up Now"
-        android:fontFamily="sans-serif-condensed"
-        android:textSize="14sp"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="96dp"
-        android:layout_marginEnd="72dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="72dp" />
-
-    <ImageView
-        android:layout_width="95dp"
-        android:layout_height="98dp"
-        app:srcCompat="@drawable/loginpiclogo"
-        android:id="@+id/imageView3"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1" />
-
-    <ImageView
-        android:layout_width="54dp"
-        android:layout_height="42dp"
-        app:srcCompat="@drawable/bt5mymessages"
-        android:id="@+id/emailpiclogo"
-        android:contentDescription="emaillogo"
-        tools:layout_editor_absoluteY="202dp"
-        tools:layout_editor_absoluteX="37dp" />
+        app:srcCompat="@drawable/facebookloginpic"
+        android:layout_marginBottom="26dp"
+        android:id="@+id/imageButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/primaryColor" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/psswdlogpic"
         android:id="@+id/psswdpiclogo"
-        android:layout_marginStart="16dp"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="224dp"
-        android:contentDescription="psswdpic" />
+        android:contentDescription="psswdpic"
+        android:layout_alignTop="@+id/etLogin_Password"
+        android:layout_toStartOf="@+id/imageButton" />
 
-    <TextView
-        android:text="Sign in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/signIntext"
-        tools:text="Sign in"
-        android:textColor="@android:color/white"
-        android:textStyle="normal|bold"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif"
-        app:layout_constraintBottom_toTopOf="@+id/etLogin_Email"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/imageView3"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintLeft_creator="1" />
-
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
