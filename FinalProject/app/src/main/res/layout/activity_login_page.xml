@@ -32,13 +32,17 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/etLogin_Password"
-        tools:background="@android:color/white"
+        tools:background="@android:color/background_light"
         android:layout_marginEnd="17dp"
         android:layout_alignTop="@+id/imageView6"
         android:layout_alignParentEnd="true"
         android:layout_alignBottom="@+id/imageView6"
         android:layout_toEndOf="@+id/imageView6"
-        tools:hint="Password" />
+        tools:hint="Password"
+        android:hint="Password"
+        android:background="#fff"
+        android:textColorHint="@color/primaryColorDark"
+        android:textColor="@android:color/black" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -60,7 +64,10 @@
         android:layout_toEndOf="@+id/imageView4"
         tools:background="@android:color/white"
         android:layout_alignTop="@+id/imageView4"
-        android:hint="Email" />
+        android:hint="Email"
+        android:textColorHint="@color/primaryColorDark"
+        android:background="@android:color/background_light"
+        android:textColor="@android:color/black" />
 
     <TextView
         android:text="Forgot your password?"
@@ -91,13 +98,4 @@
         android:layout_marginTop="11dp"
         android:id="@+id/btLogin_Login" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/facebookloginpic"
-        android:layout_marginTop="14dp"
-        android:id="@+id/im_fb_login"
-        android:background="@color/primaryColor"
-        android:layout_below="@+id/btLogin_Login"
-        android:layout_centerHorizontal="true" />
 </RelativeLayout>

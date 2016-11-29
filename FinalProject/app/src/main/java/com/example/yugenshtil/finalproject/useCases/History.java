@@ -33,9 +33,9 @@ public class History extends Activity {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
-    private String GETUSERHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String GETUSERHISTORYURL1="http://senecafleamarket.azurewebsites.net/api/User/";
     private String GETUSERHISTORYURL2="/History";
-    private String DELETEUSERHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String DELETEUSERHISTORYURL1="http://senecafleamarket.azurewebsites.net/api/User/";
     private String DELETEUSERHISTORYURL2="/History";
 
     JSONArray jsonArray=null;

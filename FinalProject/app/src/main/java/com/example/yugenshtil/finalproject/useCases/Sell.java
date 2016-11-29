@@ -43,9 +43,9 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
-    private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?userid=";
-    private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
-    private String ITEMHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String GETITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/filter?userid=";
+    private String DELETEITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/";
+    private String ITEMHISTORYURL1="http://senecafleamarket.azurewebsites.net/api/User/";
     private String ITEMHISTORYURL2="/History";
 
     //for itemHistory
@@ -304,6 +304,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     }
     public void onHistoryIconClick(int p) {
         try {
+            Log.d("LOG : ","onHistoryIconClick running ");
             JSONObject item = (JSONObject)jsonArray.get(p);
             String ItemId = item.getString("ItemId");
             Log.d("LOG : ","adding item : " + p + " to item history");
@@ -342,7 +343,6 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         //    adapter.setListData(listData);
         adapter.notifyDataSetChanged();
     }
-
 
     public void deleteAnItem(String id){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
