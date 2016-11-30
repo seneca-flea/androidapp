@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.ItemBuy.Buy;
 import com.example.yugenshtil.finalproject.useCases.History;
@@ -28,30 +29,19 @@ public class UserMenu extends Activity {
 
     private String id = "";
     private String token = "";
-    private String fullName="";
+    private String email="";
     public ProgressDialog pd;
-    private String DELETEUSERURL="http://senecaflea.azurewebsites.net/api/User/";
+    private String DELETEUSERURL="http://senecafleamarket.azurewebsites.net/api/User/";
+    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_menu);
-        Log.d("Oleg","UserMenu");
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            id = extras.getString("id");
-            fullName = extras.getString("fullName");
-
-            Context context = getApplicationContext();
-            int duration = Toast.LENGTH_SHORT;
-            Toast toast = Toast.makeText(context, fullName+", welcome back! You id is " + id, duration);
-            toast.show();
-
-
-
-            //The key argument here must match that used in the other activity
-        }
-
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        id = sharedpreferences.getString("UserId", "");
+        email = sharedpreferences.getString("Email", "");
 
         final ImageView bSell = (ImageView) findViewById(R.id.userMenuSellButton);
         final ImageView bBuy = (ImageView) findViewById(R.id.userMenuBuyButton);
@@ -69,7 +59,7 @@ public class UserMenu extends Activity {
 
                 Intent sellIntent = new Intent(UserMenu.this,Sell.class);
                 sellIntent.putExtra("id", id);
-                sellIntent.putExtra("fullName", fullName);
+              //  sellIntent.putExtra("fullName", fullName);
                 sellIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(sellIntent);
 
@@ -95,7 +85,7 @@ public class UserMenu extends Activity {
                 Log.d("LOG : ", "History button clicked on userMenu");
                 Intent historyIntent = new Intent(UserMenu.this,History.class);
                 historyIntent.putExtra("id", id);
-                historyIntent.putExtra("fullName", fullName);
+              //  historyIntent.putExtra("fullName", fullName);
                 historyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(historyIntent);
 

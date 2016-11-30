@@ -24,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -43,10 +44,12 @@ import java.util.Map;
 public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
     private String GETITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/filter?userid=";
-    private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
-    private String ITEMHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String DELETEITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/";
+
+
+
+    private String ITEMHISTORYURL1="http://senecafleamarket.azurewebsites.net/api/User/";
     private String ITEMHISTORYURL2="/History";
 
     //for itemHistory
@@ -57,15 +60,11 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     JSONArray jsonArray=null;
     private String id = "";
-    private String fullName="";
-    private String token ="";
-
+    private String token = "";
 
     // New
     private RecyclerView recView;
     private DerpAdapter adapter;
- //   private ArrayList listData;
-
     public ProgressDialog pd;
 
 
@@ -74,16 +73,10 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sell);
 
-      //  listData = (ArrayList) DerpData.getListData();
-   //   Bundle extras = getIntent().getExtras();
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-    //    Log.d("Oleg", "Preferences " + sharedpreferences);
-        id = sharedpreferences.getString("userId", "");
-        fullName = sharedpreferences.getString("fullName", "");
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        id = sharedpreferences.getString("UserId", "");
         token = sharedpreferences.getString("token", "");
-        Log.d("LOG : ","onCreate Started for Sell.java");
-        Log.d("LOG : ","oToken " + token);
-        Log.d("LOG : ","User ID " + id);
+        Log.d("LOG : ","User ID is " + id);
       //  final TextView tvCongratulation = (TextView) findViewById(R.id.sellTVCongratulations);
       //  tvItemsList = (TextView) findViewById(R.id.sellTVitemsList);
         final Button btAddItem = (Button) findViewById(R.id.sellBTaddItem);
@@ -394,7 +387,27 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
                     }
                 }
-        );
+        ){
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                Log.d("Oleg","I will add token " + token);
+                headers.put("Authorization","Bearer "+token);
+                // params.put("username",email);
+                //params.put("password", password);
+
+                Log.d("Token ", headers.toString());
+                return headers;
+            }
+
+
+        };
         MySingleton.getInstance(Sell.this).addToRequestQueue(dr);
 
     }
@@ -472,8 +485,5 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         finish();
 
     }
-
-
-
 
 }
