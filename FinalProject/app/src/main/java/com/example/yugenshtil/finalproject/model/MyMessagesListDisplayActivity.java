@@ -15,6 +15,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -38,10 +41,15 @@ public class MyMessagesListDisplayActivity extends Activity {
     //add id to get conversation
     private String GETUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
     private String DELETEUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
+    private String POSTMESSAGE ="http://senecafleamarket.azurewebsites.net/api/Message";
 
     JSONArray jsonArray=null;
     private String id = "";
     private String fullName="";
+    private String item_Id = "";
+    private String seller_Id ="";
+    private String msg_Content="";
+    private TextView messageText;
 
     private RecyclerView recView;
 
@@ -59,8 +67,30 @@ public class MyMessagesListDisplayActivity extends Activity {
         fullName = sharedpreferences.getString("fullName", "");
         Log.d("LOG : ","onCreate for MyMessagesListDisplayActivity.java running");
 
+        Intent intent = getIntent();
+        item_Id = intent.getStringExtra("ItemId");
+        seller_Id = intent.getStringExtra("SellerId");
+
+        Button sendButton = (Button) findViewById(R.id.bt_sendMessageButton);
+
         getMessages();
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("LOG : ","sen button clicked for myMessageListDisplayActivity.java");
+                sendMessage();
+            };
+
+    });
+    
     }
+
+    private void sendMessage() {
+        pd = ProgressDialog.show(this,"","Sending message, please wait..",true);
+        Log.d("LOG : ", "sendMessage running on myMessagesListDisplayActivity.java");
+    }
+
     public void getMessages(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         Log.d("LOG : ", "getHistoryItems for History.java is running");
@@ -138,8 +168,6 @@ public class MyMessagesListDisplayActivity extends Activity {
         return true;
     }
 
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -195,6 +223,7 @@ public class MyMessagesListDisplayActivity extends Activity {
                 };
         return simpleItemTouchCallback;
     }
+    
     private void moveItem(int oldPos, int newPos) {
 
         //  ListItem item = (ListItem) listData.get(oldPos);

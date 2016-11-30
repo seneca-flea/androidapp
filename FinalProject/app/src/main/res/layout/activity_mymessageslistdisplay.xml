@@ -15,10 +15,25 @@
         android:id="@+id/recViewMessageList"
         android:layout_marginLeft="1dp"
         android:paddingLeft="0dp"
-        android:layout_width="371dp"
-        android:layout_height="0dp"
-        android:layout_weight="0.72"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.46"
         android:background="#efeeee"
         />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/tv_messageContent"
+        android:layout_weight="0.12"
+        android:hint="Write a mesage..."
+        android:textColor="@android:color/black" />
+
+    <Button
+        android:text="Send"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/bt_sendMessageButton" />
 
 </LinearLayout>
