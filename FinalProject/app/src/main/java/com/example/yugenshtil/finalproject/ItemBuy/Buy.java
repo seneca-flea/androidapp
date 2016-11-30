@@ -8,7 +8,9 @@ import android.content.SharedPreferences;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 import android.os.Bundle;
@@ -27,11 +29,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -47,14 +51,15 @@ import org.json.JSONObject;
 public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickCallback {
 
 
-    private String GETALLITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?status=Available";
-    private String GETCOURSEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter?title=";
-    private String GETRANGEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/price?min=";
-    private String GETMYFAVORITESURL="http://senecaflea.azurewebsites.net/api/User/";
-    private String MYFAVORITES="http://senecaflea.azurewebsites.net/api/User/";
+    private String GETALLITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/filter?status=Available";
+    private String GETCOURSEITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/filter?title=";
+    private String GETRANGEITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/filter/price?min=";
+    private String GETMYFAVORITESURL="http://senecafleamarket.azurewebsites.net/api/User/";
+    private String MYFAVORITES="http://senecafleamarket.azurewebsites.net/api/User/";
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
     private String userId="";
+    private String token="";
+
 
 
     private JSONArray jsonArray=null;
@@ -76,10 +81,9 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         favoriteIds = new ArrayList<String>();
 
         //Get userId from SharedPreferences
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        userId = sharedpreferences.getString("id", "");
-
-        Log.d("Oleg","UseId is " + userId);
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        userId = sharedpreferences.getString("UserId", "");
+        token = sharedpreferences.getString("token", "");
 
         final Button btDisplayNew = (Button) findViewById(R.id.btDisplayAll_Buy);
     //    final Button btRange = (Button) findViewById(R.id.btRange_Buy);
@@ -95,15 +99,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
             }
         });
-
-      /*  btRange.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d("Oleg","Clicked to Range");
-                getRange();
-            }
-        });*/
-
     }
 
     public void getItems(){
@@ -166,7 +161,14 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                 Log.d("Oleg","error" + error);
                 getItems();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
         MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjRequest);
 
@@ -215,7 +217,14 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                               Log.d("Oleg","error" + error);
                 getItems();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
         MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjRequest);
 
@@ -287,7 +296,27 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
 
 
-        );
+        ){
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+             //   Log.d("Oleg","I will add token " + token);
+               // headers.put("Authorization","Bearer "+token);
+                // params.put("username",email);
+                //params.put("password", password);
+
+                Log.d("Token ", headers.toString());
+                return headers;
+            }
+
+
+
+        };
 
         MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjRequest);
 
@@ -352,7 +381,14 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                 Log.d("Oleg","error" + error);
 
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
         MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjRequest);
 
@@ -689,7 +725,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         Log.d("Oleg","Item id is " + itemId);
         JSONObject jsonObject = new JSONObject();
         //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
-        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, MYFAVORITES+userId+"/AddFavorite/"+itemId,
+        StringRequest jsObjPutRequest = new StringRequest(Request.Method.POST, MYFAVORITES+userId+"/Favorite/"+itemId,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -708,7 +744,14 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                         Log.d("Error.Response", "Error is " + error);
                     }
                 }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
         MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjPutRequest);
     }
@@ -717,7 +760,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         Log.d("Oleg","Item id is " + itemId);
         JSONObject jsonObject = new JSONObject();
         //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
-        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, MYFAVORITES+userId+"/RemoveFavorite/"+itemId,
+        StringRequest jsObjPutRequest = new StringRequest(Request.Method.DELETE, MYFAVORITES+userId+"/Favorite/"+itemId,
                 new Response.Listener<String>()
                 {
                     @Override
@@ -736,7 +779,14 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                         Log.d("Error.Response", "Error is " + error);
                     }
                 }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
         MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjPutRequest);
     }

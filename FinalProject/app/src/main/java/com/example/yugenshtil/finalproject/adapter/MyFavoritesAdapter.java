@@ -158,6 +158,7 @@ public class MyFavoritesAdapter extends RecyclerView.Adapter<MyFavoritesAdapter.
             else if (v.getId() == R.id.cont_item_root_myfavorites) {
                 // itemClickCallBack.onItemClick(getAdapterPosition());
                 Log.d("Oleg", "Clicked MyfavItem for line " + getAdapterPosition());
+                
             }
 
         }

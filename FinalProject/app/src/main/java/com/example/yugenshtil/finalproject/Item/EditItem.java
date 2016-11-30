@@ -1,6 +1,7 @@
 package com.example.yugenshtil.finalproject.Item;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -10,10 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -31,13 +34,18 @@ public class EditItem extends Activity {
     private String SellerId="";
     private String Description="";
     private String Price="";
-    private String EDITITEMURL="http://senecaflea.azurewebsites.net/api/Item/";
+    private String EDITITEMURL="http://senecafleamarket.azurewebsites.net/api/Item/";
+    private String token="";
+    SharedPreferences sharedpreferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        token = sharedpreferences.getString("token","");
+
 
         final EditText etTitle = (EditText) findViewById(R.id.etTitle_editItem);
         final EditText etDescription = (EditText) findViewById(R.id.etDescription_editItem);
@@ -111,7 +119,14 @@ public class EditItem extends Activity {
                         Log.d("Error.Response", "Error is " + error);
                     }
                 }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
         MySingleton.getInstance(EditItem.this).addToRequestQueue(jsObjPutRequest);
     }

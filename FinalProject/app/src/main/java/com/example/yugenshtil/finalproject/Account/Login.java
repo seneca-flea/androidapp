@@ -96,12 +96,7 @@ public class Login extends Activity {
                 email = etEmail.getText().toString();
                 password = etPassword.getText().toString();
                 if(isInputValid()){
-                    checkUserIsValid2();
-
-                 //   receiveJson();
-
-
-
+                    checkUserIsValid();
                 }
                 else{
                     Context context = getApplicationContext();
@@ -113,8 +108,149 @@ public class Login extends Activity {
         });
     }
 
+    // THE RIGHT ONE!!!
 
-    public boolean isUserFound(){
+    public void checkUserIsValid(){
+        final boolean isValid = true;
+        //  pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        Log.d("Oleg","Check User Valid");
+        StringRequest sr = new StringRequest(Request.Method.POST,"http://senecafleaia.azurewebsites.net/token",  new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.d("oleg","response " + response.toString());
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    token  = jsonObject.get("access_token").toString();
+                    Log.d("Oleg","Valid user");
+                    getUserId();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("volley", "Error: " + error.getMessage());
+                error.printStackTrace();
+                //  MyFunctions.croutonAlert(LoginActivity.this,
+                //      MyFunctions.parseVolleyError(error));
+                //  loading.setVisibility(View.GONE);
+            }
+        }) {
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("grant_type","password");
+                params.put("username",email);
+                params.put("password", password);
+                return params;
+            }
+
+        };
+
+
+        MySingleton.getInstance(Login.this).addToRequestQueue(sr);
+    }
+
+    public boolean isInputValid(){
+        boolean inputIsValid  = true;
+        errors="";
+        if(email.equals("") || !email.contains("@")){
+            errors += "Please, provide correct username\n";
+            inputIsValid = false;
+        }
+        if(password.equals("")|| password.length()<3){
+            errors += "Please, provide correct password\n";
+            inputIsValid = false;
+        }
+
+        return inputIsValid;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_login_page, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void getUserId(){
+
+        StringRequest sr = new StringRequest(Request.Method.GET,"http://senecafleamarket.azurewebsites.net/api/User/CurrentUser",  new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject jsonObject = new JSONObject(response.toString());
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("token", token);
+                    editor.putString("UserId", jsonObject.getString("UserId"));
+                    editor.putString("Email", jsonObject.getString("Email"));
+                    editor.commit();
+
+                    Intent userMenuIntent = new Intent(Login.this, UserMenu.class);
+                    startActivity(userMenuIntent);
+                    Log.d("Oleg","Token is " + token);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("volley", "Error: " + error.getMessage());
+                error.printStackTrace();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
+
+        MySingleton.getInstance(Login.this).addToRequestQueue(sr);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+  /*  public boolean isUserFound(){
         boolean userIsFound = false;
 
         if(users!=null) {
@@ -138,8 +274,8 @@ public class Login extends Activity {
 
 
         return userIsFound;
-    }
-
+    }*/
+/*
     public void checkUserIsValid(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
 
@@ -280,138 +416,5 @@ public class Login extends Activity {
         Log.d("Oleg", "clicked");
 
 
-    }
+    }*/
 
-    // THE RIGHT ONE!!!
-
-    public void checkUserIsValid2(){
-        final boolean isValid = true;
-        //  pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("Oleg","Check User Valid");
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://senecafleaia.azurewebsites.net/token",  new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                Log.d("oleg","response " + response.toString());
-                try {
-                    JSONObject jsonObject = new JSONObject(response.toString());
-                    token  = jsonObject.get("access_token").toString();
-                  //  id = jsonObject.get("UserId").toString();
-                    Log.d("Oleg","Valid user");
-                  //  Log.d("Oleg",id);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                    editor.putString("token", token);
-                    editor.putString("userId", "16");
-
-                    //  editor.putString("fullName", fullName);
-                    editor.commit();
-
-                    Intent userMenuIntent = new Intent(Login.this, UserMenu.class);
-                    userMenuIntent.putExtra("id", id);
-                    userMenuIntent.putExtra("fullName", fullName);
-                    startActivity(userMenuIntent);
-
-
-
-
-
-
-
-                    Log.d("Oleg","Token is " + token);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d("volley", "Error: " + error.getMessage());
-                error.printStackTrace();
-              //  MyFunctions.croutonAlert(LoginActivity.this,
-                  //      MyFunctions.parseVolleyError(error));
-              //  loading.setVisibility(View.GONE);
-            }
-        }) {
-
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
-
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("grant_type","password");
-                params.put("username",email);
-                params.put("password", password);
-                                return params;
-            }
-
-        };
-
-
-        MySingleton.getInstance(Login.this).addToRequestQueue(sr);
-
-        Log.d("Oleg", "clicked");
-
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public boolean isInputValid(){
-        boolean inputIsValid  = true;
-        errors="";
-        if(email.equals("") || !email.contains("@")){
-            errors += "Please, provide correct username\n";
-            inputIsValid = false;
-
-        }
-        if(password.equals("")|| password.length()<3){
-            errors += "Please, provide correct password\n";
-            inputIsValid = false;
-
-        }
-
-
-        return inputIsValid;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login_page, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-}

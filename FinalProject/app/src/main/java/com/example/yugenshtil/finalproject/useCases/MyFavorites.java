@@ -16,11 +16,13 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -32,10 +34,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClickCallback{
 
-    private String GETALLMYFAVORITES="http://senecaflea.azurewebsites.net/api/User/";
-    private String MYFAVORITES="http://senecaflea.azurewebsites.net/api/User/";
+    private String GETALLMYFAVORITES="http://senecafleamarket.azurewebsites.net/api/User/";
+    private String MYFAVORITES="http://senecafleamarket.azurewebsites.net/api/User/";
 
 
     private JSONArray jsonArray=null;
@@ -43,8 +48,8 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
     private RecyclerView recView;
     private MyFavoritesAdapter adapter;
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs";
     private String id="";
+    private String token="";
 
 
     private PopupWindow popupWindow;
@@ -57,9 +62,10 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_favorites);
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        id = sharedpreferences.getString("id", "");
-
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        id = sharedpreferences.getString("UserId", "");
+        Log.d("Oleg","ID is "+ id);
+        token = sharedpreferences.getString("token", "");
 
         getItems();
 
@@ -161,7 +167,14 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
                 Log.d("Oleg","error" + error);
 
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
         MySingleton.getInstance(MyFavorites.this).addToRequestQueue(jsObjRequest);
 
@@ -190,7 +203,15 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
                         Log.d("Error.Response", "Error is " + error);
                     }
                 }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+
+        };
 
         MySingleton.getInstance(MyFavorites.this).addToRequestQueue(jsObjPutRequest);
     }
@@ -285,7 +306,14 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
                         Log.d("Error.Response", "Error is " + error);
                     }
                 }
-        );
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
         MySingleton.getInstance(MyFavorites.this).addToRequestQueue(jsObjPutRequest);
     }

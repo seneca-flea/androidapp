@@ -29,10 +29,7 @@ public class MainActivity extends Activity {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         Log.d("Oleg", "Preferences " + sharedpreferences);
-        if (sharedpreferences.contains("id")) {
-
-
-            Log.d("Oleg", "Preferences " + sharedpreferences);
+        if (sharedpreferences.contains("token")) {
             Log.d("Oleg", "Preferences " + sharedpreferences.getString("id", ""));
             Log.d("Oleg", "Preferences " + sharedpreferences.getString("fullName", ""));
 

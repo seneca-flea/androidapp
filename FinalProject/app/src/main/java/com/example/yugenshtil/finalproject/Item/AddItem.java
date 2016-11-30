@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 //NEW!
+import com.android.volley.AuthFailureError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.Response;
 import com.android.volley.Request;
@@ -25,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -51,23 +53,23 @@ import java.util.Map;
 public class AddItem extends Activity {
 
     private String id = "";
+    private String token = "";
     public String type = "Book";
     private String title = "";
     private String description = "";
     private double price = 0.0;
     private String program ="";
-    private String   pickUpDate = null;
+    private String pickUpDate = null;
     private String course ="";
     private String publisher ="";
     private String errors = "";
-    private String ADDITEMURL="http://senecaflea.azurewebsites.net/api/Item";
-    private String ADDMATERIALMURL="http://senecaflea.azurewebsites.net/api/Item";
+    private String ADDITEMURL="http://senecafleamarket.azurewebsites.net/api/Item";
+    private String ADDMATERIALMURL="http://senecafleamarket.azurewebsites.net/api/Item";
     private static final String PROTOCOL_CHARSET = "utf-8";
     private String imageCode ="";
     Fragment fragment;
     ArrayList<String> difficultyLevelOptionsList = new ArrayList<String>();
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
 
     //ADDED!
     //itemType assigned to test what we are adding when the add button is clicked(a book or an item)
@@ -80,12 +82,10 @@ public class AddItem extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        Log.d("Oleg", "Preferences " + sharedpreferences);
-        if (sharedpreferences.contains("id")) {
-            id = sharedpreferences.getString("id", "");
-        }
-        //item fields
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+
+        id = sharedpreferences.getString("UserId","");
+        token = sharedpreferences.getString("token","");
 
         final Button btSave = (Button) findViewById(R.id.btAddItem_Save);
         //button so save image
@@ -237,7 +237,22 @@ public class AddItem extends Activity {
                     pd.cancel();
                     Log.d("LOG :", "Error is " + error);
                 }
-            });
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    Log.d("Oleg","I will add token " + token);
+                    headers.put("Authorization","Bearer "+token);
+                    // params.put("username",email);
+                    //params.put("password", password);
+
+                    Log.d("Token ", headers.toString());
+                    return headers;
+                }
+
+
+
+            };
 
             MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjPostRequest);
             Context context = getApplicationContext();
@@ -307,7 +322,19 @@ public class AddItem extends Activity {
                     pd.cancel();
                     Log.d("LOG :", "Error is " + error);
                 }
-            });
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    Log.d("Oleg","I will add token " + token);
+                    headers.put("Authorization","Bearer "+token);
+                    // params.put("username",email);
+                    //params.put("password", password);
+
+                    Log.d("Token ", headers.toString());
+                    return headers;
+                }
+            };
 
             MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjPostRequest);
             Context context = getApplicationContext();
