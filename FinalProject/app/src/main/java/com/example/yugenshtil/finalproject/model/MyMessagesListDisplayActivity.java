@@ -89,6 +89,7 @@ public class MyMessagesListDisplayActivity extends Activity {
     private void sendMessage() {
         pd = ProgressDialog.show(this,"","Sending message, please wait..",true);
         Log.d("LOG : ", "sendMessage running on myMessagesListDisplayActivity.java");
+        //TODO: continue here, implement the request to post a message.
     }
 
     public void getMessages(){
