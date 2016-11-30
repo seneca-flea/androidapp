@@ -4,6 +4,7 @@ package com.example.yugenshtil.finalproject.model;
  * Created by rbocanegramez on 11/25/2016.
  */
 import android.app.Activity;
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.adapter.MyMessagesListAdapter;
@@ -33,14 +35,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
 public class MyMessagesListDisplayActivity extends Activity {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     //TODO:update URLS to retrieve conversation by one user.
     //add id to get conversation
-    private String GETUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
-    private String DELETEUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
+    //TODO: GETUSERCONVERSATIONURL will send two ids
+    private String GETUSERCONVERSATIONURL="http://senecafleamarket.azurewebsites.net/api/Message/filter/UserWithReceiver?receiverid=";
+    //private String DELETEUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
     private String POSTMESSAGE ="http://senecafleamarket.azurewebsites.net/api/Message";
 
     JSONArray jsonArray=null;
@@ -49,7 +58,10 @@ public class MyMessagesListDisplayActivity extends Activity {
     private String item_Id = "";
     private String seller_Id ="";
     private String msg_Content="";
-    private TextView messageText;
+    private Date currDate = null;
+    private String jsonDate = "";
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+    private String errors = "";
 
     private RecyclerView recView;
 
@@ -70,6 +82,8 @@ public class MyMessagesListDisplayActivity extends Activity {
         Intent intent = getIntent();
         item_Id = intent.getStringExtra("ItemId");
         seller_Id = intent.getStringExtra("SellerId");
+        currDate = new Date();
+        jsonDate = dateFormat.format(currDate);
 
         Button sendButton = (Button) findViewById(R.id.bt_sendMessageButton);
 
@@ -83,22 +97,100 @@ public class MyMessagesListDisplayActivity extends Activity {
             };
 
     });
-    
+
     }
 
     private void sendMessage() {
-        pd = ProgressDialog.show(this,"","Sending message, please wait..",true);
         Log.d("LOG : ", "sendMessage running on myMessagesListDisplayActivity.java");
-        //TODO: continue here, implement the request to post a message.
+
+        TextView messageText = (TextView) findViewById(R.id.tv_messageContent);
+
+        msg_Content = messageText.getText().toString();
+
+        if (validateInput()){
+            pd = ProgressDialog.show(this,"","Sending message, please wait..",true);
+
+            Map<String, String> params = new HashMap();
+            params.put("Text", msg_Content);
+            params.put("SenderId", id);
+            params.put("ReceiverId", seller_Id);
+            params.put("Time", jsonDate);
+            params.put("ItemId",item_Id);
+            JSONObject parameters = new JSONObject(params);
+            Log.d("LOG : ", "JSON is " + parameters);
+            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, POSTMESSAGE, parameters, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    pd.cancel();
+                    Log.d("LOG :", "Response is " + response);
+                    Intent msgIntent = new Intent(MyMessagesListDisplayActivity.this, MyMessagesListDisplayActivity.class);
+                    startActivity(msgIntent);
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    pd.cancel();
+                    Log.d("LOG :", "Error is " + error);
+                }
+            });
+
+            MySingleton.getInstance(MyMessagesListDisplayActivity.this).addToRequestQueue(jsObjPostRequest);
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, "Message sent", duration);
+            toast.show();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Intent displayIntent = new Intent(MyMessagesListDisplayActivity.this, MyMessagesListDisplayActivity.class);
+            // RegistrationPage.this.startActivity(loginIntent);
+            startActivity(displayIntent);
+
+        } else {
+            //message content was bad.
+
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_LONG;
+
+            Toast toast = Toast.makeText(context, errors, duration);
+            toast.show();
+
+        }
+
+    }
+
+    public boolean validateInput(){
+        boolean inputIsValid = true;
+        errors="";
+        if(msg_Content.equals("") || msg_Content.trim().length() <= 0){
+            errors+="Please dont leave blank spaces in message";
+            inputIsValid = false;
+        }
+
+        return  inputIsValid;
     }
 
     public void getMessages(){
-        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("LOG : ", "getHistoryItems for History.java is running");
-        String URL = GETUSERCONVERSATIONURL + id;
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
+        pd = ProgressDialog.show(this, "", "Loading messages. Please wait...", true);
+        Log.d("LOG : ", "getMessages for MyMessagesListDisplayActivity.java is running");
+
+        Map<String,String> params = new HashMap();
+        //id is current users id, get request returns all messages where current user(id) is equal to sender or receiver.
+        params.put("UserId",id);
+        params.put("SenderId",seller_Id);
+        JSONObject parameters = new JSONObject(params);
+        Log.d("LOG : ","JSON is " + parameters);
+
+
+        JsonArrayRequest jsObjGetRequest = new JsonArrayRequest(Request.Method.GET, GETUSERCONVERSATIONURL+seller_Id, null, new Response.Listener<JSONArray>() {
             String myMessagesList="";
 
+            //TODO: add url that send receiver and retrieves all messages between user and receiver (conversation) DONE!!!
             @Override
             public void onResponse(JSONArray response) {
 
@@ -113,8 +205,9 @@ public class MyMessagesListDisplayActivity extends Activity {
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
-                                //TODO: update to accept the fields of the incoming messages(what each individual message will return)
-                                myMessagesList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
+                                //TODO: RICO: update to accept the fields of the incoming messages(what each individual message will return)
+                                //TODO: RICO: change Sender to appropriate name from response. then update in Adapter where **here**
+                                myMessagesList+="Content: "+ item.getString("Text")+" Sender:"+item.getString("SenderNAme")+"\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -159,7 +252,7 @@ public class MyMessagesListDisplayActivity extends Activity {
 
             }
         });
-        MySingleton.getInstance(MyMessagesListDisplayActivity.this).addToRequestQueue(jsObjRequest);
+        MySingleton.getInstance(MyMessagesListDisplayActivity.this).addToRequestQueue(jsObjGetRequest);
     }
 
     @Override
@@ -186,7 +279,7 @@ public class MyMessagesListDisplayActivity extends Activity {
 
     public void onItemClick(int p) {
 
-        //TODO: update to do nothing, items can't be clicked
+        //TODO: update to do nothing, items can't be clicked **connected to onClick in MyMessagesListAdapter.java
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
             Intent i  = new Intent(this, ItemDisplayActivity.class);
@@ -224,7 +317,7 @@ public class MyMessagesListDisplayActivity extends Activity {
                 };
         return simpleItemTouchCallback;
     }
-    
+
     private void moveItem(int oldPos, int newPos) {
 
         //  ListItem item = (ListItem) listData.get(oldPos);

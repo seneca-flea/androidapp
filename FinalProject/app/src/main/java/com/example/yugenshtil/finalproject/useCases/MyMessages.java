@@ -28,6 +28,7 @@
 
         import com.example.yugenshtil.finalproject.adapter.MyMessagesAdapter;
         import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
+        import com.example.yugenshtil.finalproject.model.MyMessagesListDisplayActivity;
 
         import org.json.JSONArray;
         import org.json.JSONException;
@@ -41,8 +42,9 @@
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
 
-    private String GETCONVERSATIONURL="http://senecafleamarket.azurewebsites.net/api/Conversation/filter/User/";//missing ID
-    private String DELETECONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/filter/User/";//missing ID
+
+    private String GETCONVERSATIONURL="http://senecafleamarket.azurewebsites.net/api/Conversation";
+    private String DELETECONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation";//missing ID
 
 
     //private String token = "rvgZI8JrpdCFy4JvMxLj6WlyvwxSiL8JTVmlafEuhiZpDcMn4E8xvRrYGrTrUnE_bGG2rKfMfDllUF0O6pQYPV7-C9JJQ7j8OCmOQhvmvYdXYJpYZjwsLoynoRtpdwPBOT_-lAyPrl8twOjfNaFCTXGsQ17ci5byDrIJclHsFSP7bhpkJ3dwTnAJvplRIHN2k0yYi9x4H1BEIC0qBaHZ5Omh1tlTIFzr3Zigkbfo014T9fy_jpvEoyNI3vES_w2jWrW8282DASK6JAFPAwUJr_-G1_mZrSLKrLFblQPFKbo-HLhLZTAQSq6zY14J7LJoBTyWu-nM6sEAeiCNYc5tZrP2gYKjLz-H119j_Uuw8xOOLKyKyNOZlGNtBqumc2weLF-ESDBvYCdFNGQKizCLz4Nwvp2CldBIzTZj9bw-lopSxZXPhO4TsKYko9xcZYauIe5PBOeoxqxzbxkXOnKQyZiwisPYec33opPW8bG-Aem_pDkuuhjJHGEv4Kdipxm3V1BnEquJnWPs2qTAc2dpgXpB6JHcD7DU84pPvstRAM4hsS7wccvbBZ5jf1zuLU-xbzDFwA";
@@ -66,7 +68,7 @@
         fullName = sharedpreferences.getString("fullName", "");
         Log.d("LOG : ","onCreate for my messages running");
 
-        getMyMessages();
+        getMyConversations();
     }
 
     @Override
@@ -76,11 +78,10 @@
         return true;
     }
 
-    public void getMyMessages(){
+    public void getMyConversations(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("LOG : ", "getHistoryItems for History.java is running");
-        String URL = GETCONVERSATIONURL + id;
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
+        Log.d("LOG : ", "getMyConversations in MyMessages.java is running");
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETCONVERSATIONURL, null, new Response.Listener<JSONArray>() {
             String myMessagesList="";
 
             @Override
@@ -97,8 +98,8 @@
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
-                                //TODO: find out how to handle a return with a collection of messages
-                                myMessagesList+="Title: "+ item.getString("Title")+" Date:"+item.getString("Date")+" Sender: " + item.getString("Sender")+ " Receiver:"+item.getString("Receiver")+" Content: " + item.getString("Sender") +"\n";
+                                //TODO: Desc should be changed to field prevviewing conversation.
+                                myMessagesList+="Date: "+ item.getString("Time")+" Des:"+item.getString("Desc") +"\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -185,7 +186,7 @@
             //TODO: develop MessageDissplayActivity to display individual messages
 
             JSONObject item = (JSONObject) jsonArray.get(p);
-            Intent i  = new Intent(this, ItemDisplayActivity.class);
+            Intent i  = new Intent(this, MyMessagesListDisplayActivity.class);
             Bundle extras = new Bundle();
             extras.putString("ItemId",item.get("ItemId").toString());
             extras.putString("Title",item.get("Title").toString());
@@ -217,7 +218,7 @@
 
                     @Override
                     public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                        deleteItem(viewHolder.getAdapterPosition());
+                        deleteAnItem(viewHolder.getAdapterPosition());
                     }
                 };
         return simpleItemTouchCallback;
@@ -247,7 +248,7 @@
 
     }
 
-    public void onDeleteIconClick(int p) {
+/*    public void onDeleteIconClick(int p) {
 
         try {
             Log.d("LOG : ","Delete icon clicked on MyMessages.java");
@@ -258,10 +259,10 @@
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-    public void deleteAnItem(String id){
-        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("LOG :","deleteAnItem running on itemHistory");
+    }*/
+    public void deleteAnItem(int id){
+        pd = ProgressDialog.show(this, "", "Deleting. Please wait...", true);
+        Log.d("LOG :","deleteAnItem running on MyMEssages.java");
         String URL = DELETECONVERSATIONURL + id;
         StringRequest dr = new StringRequest(Request.Method.DELETE, URL,
                 new Response.Listener<String>()

@@ -164,7 +164,6 @@ public class RESTExample extends Activity {
 
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                // TODO Auto-generated method stub
 
                             }
                         });

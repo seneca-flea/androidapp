@@ -77,7 +77,8 @@ public class ItemBuy extends Activity {
         ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("Oleg","Message clicked");
+                Log.d("LOG : ","Message clicked on ItemBuy.java");
+                //TODO: implement method to start messageactivity
                // updateAnItem(ItemId);
 
             }

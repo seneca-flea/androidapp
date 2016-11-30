@@ -263,7 +263,6 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
       //  adapter.notifyItemRemoved(position);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -326,6 +325,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     //    adapter.setListData(listData);
         adapter.notifyDataSetChanged();
     }
+
     public void onHistoryIconClick(int p) {
         try {
             Log.d("LOG : ","onHistoryIconClick running ");
