@@ -16,6 +16,7 @@
         import android.view.MenuItem;
         import android.widget.Toast;
 
+        import com.android.volley.AuthFailureError;
         import com.android.volley.Request;
         import com.android.volley.Response;
         import com.android.volley.VolleyError;
@@ -32,14 +33,19 @@
         import org.json.JSONException;
         import org.json.JSONObject;
 
-public class MyMessages extends Activity {
+        import java.util.HashMap;
+        import java.util.Map;
+
+        public class MyMessages extends Activity {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
 
-    private String GETCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/filter/User/";//missing ID
+    private String GETCONVERSATIONURL="http://senecafleamarket.azurewebsites.net/api/Conversation/filter/User/";//missing ID
     private String DELETECONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/filter/User/";//missing ID
 
+
+    //private String token = "rvgZI8JrpdCFy4JvMxLj6WlyvwxSiL8JTVmlafEuhiZpDcMn4E8xvRrYGrTrUnE_bGG2rKfMfDllUF0O6pQYPV7-C9JJQ7j8OCmOQhvmvYdXYJpYZjwsLoynoRtpdwPBOT_-lAyPrl8twOjfNaFCTXGsQ17ci5byDrIJclHsFSP7bhpkJ3dwTnAJvplRIHN2k0yYi9x4H1BEIC0qBaHZ5Omh1tlTIFzr3Zigkbfo014T9fy_jpvEoyNI3vES_w2jWrW8282DASK6JAFPAwUJr_-G1_mZrSLKrLFblQPFKbo-HLhLZTAQSq6zY14J7LJoBTyWu-nM6sEAeiCNYc5tZrP2gYKjLz-H119j_Uuw8xOOLKyKyNOZlGNtBqumc2weLF-ESDBvYCdFNGQKizCLz4Nwvp2CldBIzTZj9bw-lopSxZXPhO4TsKYko9xcZYauIe5PBOeoxqxzbxkXOnKQyZiwisPYec33opPW8bG-Aem_pDkuuhjJHGEv4Kdipxm3V1BnEquJnWPs2qTAc2dpgXpB6JHcD7DU84pPvstRAM4hsS7wccvbBZ5jf1zuLU-xbzDFwA";
     JSONArray jsonArray=null;
     private String id = "";
     private String fullName="";
@@ -136,7 +142,25 @@ public class MyMessages extends Activity {
                 Log.d("LOG :","error : " + error);
 
             }
-        });
+        }){
+
+            /*@Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                Log.d("Oleg","I will add token " + token);
+                headers.put("Authorization","Bearer "+token);
+                // params.put("username",email);
+                //params.put("password", password);
+
+                Log.d("Token ", headers.toString());
+                return headers;
+            }*/
+        };
         MySingleton.getInstance(MyMessages.this).addToRequestQueue(jsObjRequest);
     }
 

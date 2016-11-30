@@ -41,6 +41,7 @@ import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.BuyItemAdapter;
+import com.example.yugenshtil.finalproject.model.MyMessagesListDisplayActivity;
 import com.example.yugenshtil.finalproject.useCases.ProgramFilter;
 import com.example.yugenshtil.finalproject.useCases.RangeChoose;
 
@@ -394,11 +395,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
     }
 
-
-
-
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -592,12 +588,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
-
-
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
@@ -605,7 +595,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         // Get the Camera instance as the activity achieves full user focus
         Log.d("Oleg","On resume");
     }
-
 
     @Override
     protected void onActivityResult(int requestCode,
@@ -639,7 +628,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         }
 
     }
-
     @Override
     public void onItemClick(int p) {
         try {
@@ -660,11 +648,24 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         }
     }
 
-
     @Override
     public void onMessageIconClick(int p){
 
-        //TODO: implement to start activity for layout to send message
+        try {
+            JSONObject item = (JSONObject) jsonArray.get(p);
+
+            Log.d("LOG : ","onMessageIconClick for Buy.java on item :" + item.get("ItemId"));
+
+            Intent msgIntent = new Intent(this, MyMessagesListDisplayActivity.class);
+
+            String itemId = item.get("ItemId").toString();
+            String sellerId = item.get("SellerId").toString();
+            msgIntent.putExtra("ITEM_ID",itemId);
+            msgIntent.putExtra("SELLER_ID",sellerId);
+            startActivity(msgIntent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -719,7 +720,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         }
 
     }
-
 
     public void addMyFavorite(String itemId){
         Log.d("Oleg","Item id is " + itemId);
