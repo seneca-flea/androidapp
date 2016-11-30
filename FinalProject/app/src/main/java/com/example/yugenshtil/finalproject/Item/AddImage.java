@@ -135,7 +135,7 @@ public class AddImage extends AppCompatActivity {
                 try {
                     Bitmap bitmap = ImageLoader.init().from(selectedPhoto).requestSize(1024,1024).getBitmap();
                     imageDecoded = ImageBase64.encode(bitmap);
-                    images.add(imageDecoded);
+                   // images.add(imageDecoded);
                     Log.d(TAG,"List size is " + images.size());
                     Log.d(TAG,imageDecoded);
                     Toast.makeText(getApplicationContext(),"Picture was uploaded",Toast.LENGTH_SHORT).show();

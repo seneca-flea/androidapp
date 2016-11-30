@@ -44,7 +44,7 @@ public class Registration extends Activity {
     private String passwordConfirmation="";
     private String errors="";
     private String USERAUTHENTICATIONURL="http://senecafleaia.azurewebsites.net/api/Account/Register";
-    private String USERREGISTRATIONURL="http://senecaflea.azurewebsites.net/api/User";
+    private String USERREGISTRATIONURL="http://senecafleamarket.azurewebsites.net/api/User";
 
 
     @Override

@@ -282,7 +282,12 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                 Log.d("Oleg","Blin" );
 
             }
-        });
+        }
+
+
+
+
+        );
 
         MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjRequest);
 

@@ -47,7 +47,7 @@ public class Login extends Activity {
 
     private String email="";
     private String password="";
-    private String LOGINUSERURL="http://senecaflea.azurewebsites.net/api/User";
+    private String LOGINUSERURL="http://senecafleamarket.azurewebsites.net/api/User";
     private boolean inputIsValid = false;
     private boolean userFound = false;
     private String id="";
@@ -57,6 +57,7 @@ public class Login extends Activity {
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public ProgressDialog pd;
+    public String token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +96,8 @@ public class Login extends Activity {
                 email = etEmail.getText().toString();
                 password = etPassword.getText().toString();
                 if(isInputValid()){
-                    checkUserIsValid();
+                    checkUserIsValid2();
+
                  //   receiveJson();
 
 
@@ -283,6 +285,7 @@ public class Login extends Activity {
     // THE RIGHT ONE!!!
 
     public void checkUserIsValid2(){
+        final boolean isValid = true;
         //  pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         Log.d("Oleg","Check User Valid");
         StringRequest sr = new StringRequest(Request.Method.POST,"http://senecafleaia.azurewebsites.net/token",  new Response.Listener<String>() {
@@ -292,7 +295,28 @@ public class Login extends Activity {
                 Log.d("oleg","response " + response.toString());
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
-                    String token  = jsonObject.get("access_token").toString();
+                    token  = jsonObject.get("access_token").toString();
+                  //  id = jsonObject.get("UserId").toString();
+                    Log.d("Oleg","Valid user");
+                  //  Log.d("Oleg",id);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+
+                    editor.putString("token", token);
+                    editor.putString("userId", "16");
+
+                    //  editor.putString("fullName", fullName);
+                    editor.commit();
+
+                    Intent userMenuIntent = new Intent(Login.this, UserMenu.class);
+                    userMenuIntent.putExtra("id", id);
+                    userMenuIntent.putExtra("fullName", fullName);
+                    startActivity(userMenuIntent);
+
+
+
+
+
+
 
                     Log.d("Oleg","Token is " + token);
 
@@ -324,7 +348,7 @@ public class Login extends Activity {
                 params.put("grant_type","password");
                 params.put("username",email);
                 params.put("password", password);
-                return params;
+                                return params;
             }
 
         };

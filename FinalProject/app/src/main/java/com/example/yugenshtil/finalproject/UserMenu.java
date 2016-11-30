@@ -27,6 +27,7 @@ import com.example.yugenshtil.finalproject.useCases.Sell;
 public class UserMenu extends Activity {
 
     private String id = "";
+    private String token = "";
     private String fullName="";
     public ProgressDialog pd;
     private String DELETEUSERURL="http://senecaflea.azurewebsites.net/api/User/";
