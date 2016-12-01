@@ -257,7 +257,6 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
       //  adapter.notifyItemRemoved(position);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -320,6 +319,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     //    adapter.setListData(listData);
         adapter.notifyDataSetChanged();
     }
+
     public void onHistoryIconClick(int p) {
         try {
             Log.d("LOG : ","onHistoryIconClick running ");
@@ -430,15 +430,13 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
             Log.d("LOG : ", "URL for request is  " + URL);
 
-            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, URL,parameters,
-                    new Response.Listener<JSONObject>()
-                    {
+            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, URL,parameters, new Response.Listener<JSONObject>(){
                         @Override
                         public void onResponse(JSONObject response) {
                             // response
                             pd.cancel();
                             Log.d("Response", " " +response);
-                            Intent historyIntent = new Intent(Sell.this,Sell.class);
+                            Intent historyIntent = new Intent(Sell.this,History.class);
                             startActivity(historyIntent);
                         }
                     },
@@ -448,12 +446,38 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                         public void onErrorResponse(VolleyError error) {
                             // error
                             pd.cancel();
-                            Log.d("Error.Response", "Error is " + error);
+
+                            String errorText = error.toString();
+
+                            if (errorText.contains("End of input at character 0 of")){
+                                Toast toast = Toast.makeText(getApplicationContext(),"Item added to item history",Toast.LENGTH_SHORT);
+                                toast.show();
+                            }
+                            else {
+                                Log.d("LOG : ", "the following error occurred in addItemHistory for Sell.java : " + error);
+                            }
                         }
                     }
-            );
+            ){
+
+
+                //token inserted here (when implemented)
+            };
 
             MySingleton.getInstance(Sell.this).addToRequestQueue(jsObjPostRequest);
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context,"Item added to history", duration);
+            toast.show();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Intent historyIntent = new Intent(Sell.this,History.class);
+            startActivity(historyIntent);
 
         } catch (JSONException e) {
             e.printStackTrace();

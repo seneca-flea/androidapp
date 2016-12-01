@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.yugenshtil.finalproject.R;
@@ -55,21 +54,21 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
     public void onBindViewHolder(DerpHolder derpHolder, int i) {
         //TODO: update to process response by server
         Log.d("LOG : ", "Setting onBind "+i);
-        String dateSent="";
+
         String sender="";
         String content="";
 
         try {
             JSONObject item = (JSONObject)itemList.get(i);
-            dateSent = item.get("Title").toString();
-            sender = item.get("Description").toString();
-            content = item.get("Price").toString();
+            //TODO: update **here** from messagelist.etc
+            sender = item.get("Sender").toString();
+            content = item.get("Content").toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        derpHolder.msgDate.setText(dateSent);
-        derpHolder.msgContent.setText(sender);
+        derpHolder.msgSender.setText(sender);
+        derpHolder.msgContent.setText(content);
 
 
 
@@ -85,7 +84,7 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
 
         //TODO: update to reflect contents of messagelist_list;(individual message)
 
-        private TextView msgDate;
+        private TextView msgSender;
         private TextView msgContent;
         private View container;
 
@@ -94,7 +93,7 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
         public DerpHolder(View itemView) {
             super(itemView);
 
-            msgDate = (TextView) itemView.findViewById(R.id.tv_message_date);
+            msgSender = (TextView) itemView.findViewById(R.id.tv_sender_name);
             msgContent = (TextView) itemView.findViewById(R.id.tv_content_message);
             container = itemView.findViewById(R.id.cont_message_list_root);
 
