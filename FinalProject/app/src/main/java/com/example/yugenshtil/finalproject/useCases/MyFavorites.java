@@ -184,7 +184,7 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
         Log.d("Oleg","Item id is " + id);
         JSONObject jsonObject = new JSONObject();
       //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
-        StringRequest jsObjPutRequest = new StringRequest(Request.Method.PUT, MYFAVORITES+id+"/RemoveFavorite/"+itemId,
+        StringRequest jsObjPutRequest = new StringRequest(Request.Method.DELETE, MYFAVORITES+id+"/Favorite/"+itemId,
                 new Response.Listener<String>()
                 {
                     @Override
