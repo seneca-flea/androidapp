@@ -61,12 +61,8 @@ public class History extends Activity {
 
         sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
 
-<<<<<<< HEAD
+
         id = sharedpreferences.getString("UserId", "");
-=======
-        id = sharedpreferences.getString("id","");
-        Log.d("LOG:", "id here is " + id );
->>>>>>> 2fb64b1e9059ad0b52838bf33bcf2d13304b8718
         fullName = sharedpreferences.getString("fullName", "");
         token = sharedpreferences.getString("token","");
         Log.d("LOG : ","onCreate for history running");
