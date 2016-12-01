@@ -19,7 +19,12 @@ import com.example.yugenshtil.finalproject.Item.EditItem;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
+import com.example.yugenshtil.finalproject.model.MyMessagesListDisplayActivity;
 import com.example.yugenshtil.finalproject.useCases.Sell;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by yugenshtil on 29/11/16.
@@ -35,6 +40,7 @@ public class ItemBuy extends Activity {
     private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/user/";
     private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
     public ProgressDialog pd;
+    private JSONArray jsonArray=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,8 +169,5 @@ public class ItemBuy extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
 
 }

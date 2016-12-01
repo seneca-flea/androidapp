@@ -79,6 +79,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
+        Log.d("LOG : ", "onCreate for Buy.java running");
         favoriteIds = new ArrayList<String>();
 
         //Get userId from SharedPreferences
@@ -104,6 +105,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
     public void getItems(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        Log.d("LOG : ", "getItems for Buy.java running");
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETALLITEMSURL, null, new Response.Listener<JSONArray>() {
 
             @Override
@@ -660,8 +662,10 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
             String itemId = item.get("ItemId").toString();
             String sellerId = item.get("SellerId").toString();
-            msgIntent.putExtra("ITEM_ID",itemId);
-            msgIntent.putExtra("SELLER_ID",sellerId);
+
+            Log.d("LOG : ","itemId is " + itemId + "and seller id is " + sellerId);
+            msgIntent.putExtra("itemIdMessageInt",itemId);
+            msgIntent.putExtra("sellerIdMessageInt",sellerId);
             startActivity(msgIntent);
         } catch (JSONException e) {
             e.printStackTrace();

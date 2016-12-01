@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -23,24 +24,29 @@ import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.UserMenu;
 import com.example.yugenshtil.finalproject.adapter.HistoryAdapter;
+import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class History extends Activity {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
-    private String GETUSERHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String GETUSERHISTORYURL1="http://senecafleamarket.azurewebsites.net/api/User/";
     private String GETUSERHISTORYURL2="/History";
-    private String DELETEUSERHISTORYURL1="http://senecaflea.azurewebsites.net/api/User/";
+    private String DELETEUSERHISTORYURL1="http://senecafleamarket.azurewebsites.net/api/User/";
     private String DELETEUSERHISTORYURL2="/History";
 
     JSONArray jsonArray=null;
     private String id = "";
     private String fullName="";
+    private String token = "";
 
     private RecyclerView recView;
 
@@ -54,8 +60,10 @@ public class History extends Activity {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        id = sharedpreferences.getString("id", "");
+        id = sharedpreferences.getString("id","");
+        Log.d("LOG:", "id here is " + id );
         fullName = sharedpreferences.getString("fullName", "");
+        token = sharedpreferences.getString("token","");
         Log.d("LOG : ","onCreate for history running");
 
         getHistoryItems();
@@ -71,6 +79,7 @@ public class History extends Activity {
     public void getHistoryItems(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         Log.d("LOG : ", "getHistoryItems for History.java is running");
+        Log.d("LOG : ", "id is : " + id);
         String URL = GETUSERHISTORYURL1 + id + GETUSERHISTORYURL2;
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, URL, null, new Response.Listener<JSONArray>() {
             String myItemsList="";
@@ -258,7 +267,27 @@ public class History extends Activity {
 
                     }
                 }
-        );
+        )/*{
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                Log.d("Oleg","I will add token " + token);
+                headers.put("Authorization","Bearer "+token);
+                // params.put("username",email);
+                //params.put("password", password);
+
+                Log.d("Token ", headers.toString());
+                return headers;
+            }
+
+
+        }*/;
         MySingleton.getInstance(History.this).addToRequestQueue(dr);
     }
 }

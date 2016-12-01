@@ -70,6 +70,7 @@ public class MyMessagesListDisplayActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("LOG : ","onCreate for MyMessagesListDisplayActivity.java running");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mymessageslistdisplay);
 
@@ -77,7 +78,7 @@ public class MyMessagesListDisplayActivity extends Activity {
 
         id = sharedpreferences.getString("id", "");
         fullName = sharedpreferences.getString("fullName", "");
-        Log.d("LOG : ","onCreate for MyMessagesListDisplayActivity.java running");
+
 
         Intent intent = getIntent();
         item_Id = intent.getStringExtra("ItemId");

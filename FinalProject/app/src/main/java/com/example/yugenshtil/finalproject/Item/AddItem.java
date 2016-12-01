@@ -236,7 +236,8 @@ public class AddItem extends Activity {
                     pd.cancel();
                     Log.d("LOG :", "Error is " + error);
                 }
-            }){
+            }
+            ){
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<String, String>();

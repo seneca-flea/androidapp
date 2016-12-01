@@ -138,6 +138,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         private TextView price;
         private View container;
         private ImageView favoriteIcon;
+        private ImageView messageIcon;
         private boolean isFavorite=false;
 
         //New
@@ -152,9 +153,11 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
             description = (TextView)itemView.findViewById(R.id.tv_description);
             price = (TextView)itemView.findViewById(R.id.tv_price);
             favoriteIcon = (ImageView)itemView.findViewById(R.id.im_favorite_icon);
+            messageIcon = (ImageView) itemView.findViewById(R.id.im_new_message);
             container = itemView.findViewById(R.id.cont_item_root);
 
            favoriteIcon.setOnClickListener(this);
+            messageIcon.setOnClickListener(this);
            container.setOnClickListener(this);
 
             //  description =(ImageView)itemView.findViewById(R.id.im_item_icon);
