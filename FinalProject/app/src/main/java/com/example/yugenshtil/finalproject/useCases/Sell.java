@@ -198,7 +198,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                 return "application/x-www-form-urlencoded; charset=UTF-8";
             }
 
-            @Override
+           @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
                 Log.d("Oleg","I will add token " + token);
@@ -209,6 +209,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                 Log.d("Token ", headers.toString());
                 return headers;
             }
+
 
 
         };

@@ -19,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.UserMenu;
@@ -52,9 +53,9 @@ public class History extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
 
-        id = sharedpreferences.getString("id", "");
+        id = sharedpreferences.getString("UserId", "");
         fullName = sharedpreferences.getString("fullName", "");
         Log.d("LOG : ","onCreate for history running");
 
