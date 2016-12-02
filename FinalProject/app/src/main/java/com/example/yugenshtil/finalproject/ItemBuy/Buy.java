@@ -308,8 +308,8 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-             //   Log.d("Oleg","I will add token " + token);
-               // headers.put("Authorization","Bearer "+token);
+                Log.d("Oleg","I will add token " + token);
+               headers.put("Authorization","Bearer "+token);
                 // params.put("username",email);
                 //params.put("password", password);
 

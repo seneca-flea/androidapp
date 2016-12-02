@@ -20,6 +20,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.UserMenu;
@@ -59,10 +60,15 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
 
+<<<<<<< HEAD
         id = sharedpreferences.getString("UserId","");
         Log.d("LOG:", "id here is " + id );
+=======
+
+        id = sharedpreferences.getString("UserId", "");
+>>>>>>> 6003de7412f76cece2fde3438152fce37f27299c
         fullName = sharedpreferences.getString("fullName", "");
         token = sharedpreferences.getString("token","");
         Log.d("LOG : ","onCreate for history running");
