@@ -62,13 +62,13 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
 
         sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
 
-<<<<<<< HEAD
+
         id = sharedpreferences.getString("UserId","");
         Log.d("LOG:", "id here is " + id );
-=======
+
 
         id = sharedpreferences.getString("UserId", "");
->>>>>>> 6003de7412f76cece2fde3438152fce37f27299c
+
         fullName = sharedpreferences.getString("fullName", "");
         token = sharedpreferences.getString("token","");
         Log.d("LOG : ","onCreate for history running");
