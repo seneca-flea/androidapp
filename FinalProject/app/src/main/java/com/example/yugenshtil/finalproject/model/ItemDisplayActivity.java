@@ -64,7 +64,7 @@ public class ItemDisplayActivity extends Activity {
 
             @Override
             public void onClick(View view) {
-                Log.d("Oleg","Delete clicked");
+                Log.d("LOG : ","Delete clicked");
                 deleteAnItem(ItemId);
 
             }
@@ -82,7 +82,7 @@ public class ItemDisplayActivity extends Activity {
 
     public void deleteAnItem(String id){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("Oleg","Gonna delete");
+        Log.d("LOG :","Gonna delete");
         StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEITEMSURL+id,
                 new Response.Listener<String>()
                 {

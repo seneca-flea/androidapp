@@ -355,7 +355,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     //    }else
        //     item.setFavourite(true);
 
-        Log.d("Oleg","onSecondaryIconClick");
+        Log.d("LOG : ","onSecondaryIconClick");
 
         //    adapter.setListData(listData);
         adapter.notifyDataSetChanged();

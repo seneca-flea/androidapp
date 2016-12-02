@@ -23,9 +23,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by yugenshtil on 05/11/16.
- */
 
 public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
 
@@ -67,7 +64,7 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
 
     @Override
     public void onBindViewHolder(DerpHolder derpHolder, int i) {
-        Log.d("Oleg", "Setting onbind "+i);
+        Log.d("LOG : ", "Setting onbind "+i);
         String title="";
         String description="";
         String price="";
@@ -157,19 +154,19 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         public void onClick(View v){
             if(v.getId()==R.id.cont_item_root){
                 itemClickCallBack.onItemClick(getAdapterPosition());
-                Log.d("Oleg","Clicked Item for line " + getAdapterPosition());
+                Log.d("LOG : ","Clicked Item for line " + getAdapterPosition());
             }
             else if(v.getId()==R.id.im_delete_icon){
-                Log.d("Oleg","Clicked Delete for line " + getAdapterPosition());
+                Log.d("LOG : ","Clicked Delete for line " + getAdapterPosition());
                 itemClickCallBack.onDeleteIconClick(getAdapterPosition());
             }
             else if(v.getId()==R.id.im_update_icon){
-                Log.d("Oleg","Clicked Update for line " + getAdapterPosition());
+                Log.d("LOG :","Clicked Update for line " + getAdapterPosition());
                 itemClickCallBack.onUpdateIconClick(getAdapterPosition());
 
             }
             else if(v.getId()==R.id.im_history_icon){
-                Log.d("Oleg","Clicked Update for line " + getAdapterPosition());
+                Log.d("LOG : ","Clicked History for line " + getAdapterPosition());
                 itemClickCallBack.onHistoryIconClick(getAdapterPosition());
 
             }

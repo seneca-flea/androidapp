@@ -27,9 +27,9 @@ public class ItemHistoryDisplayActivity extends Activity {
     private static String SellerId = "";
     private static String Description = "";
     private static String Price = "";
-    private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/User/{id}/History";
-    private String DELETEITEMSURL1="http://senecaflea.azurewebsites.net/api/User/";
-    private String DELETEITEMSURL2="/History";
+    private String GETITEMSURL="http://senecafleamarket.azurewebsites.net/api/User/{id}/History";
+    private String DELETEITEMSURL1="http://senecafleamarket.azurewebsites.net/api/User/"; //add userId
+    private String DELETEITEMSURL2="/History"; //add historyId
     public ProgressDialog pd;
 
     @Override
@@ -73,7 +73,7 @@ public class ItemHistoryDisplayActivity extends Activity {
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         Log.d("LOG :","deleteAnItem on item hisory is running.");
 
-        String URL = DELETEITEMSURL1 + id + DELETEITEMSURL2;
+        String URL = DELETEITEMSURL1 + SellerId + DELETEITEMSURL2 + ItemId;
 
         StringRequest dr = new StringRequest(Request.Method.DELETE, URL,
                 new Response.Listener<String>()

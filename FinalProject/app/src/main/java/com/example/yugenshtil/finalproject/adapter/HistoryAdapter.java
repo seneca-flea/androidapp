@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.model.ListItem;
-import com.example.yugenshtil.finalproject.useCases.History;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,9 +60,14 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.DerpHold
 
         try {
             JSONObject item = (JSONObject)itemList.get(i);
-            title = item.get("Title").toString();
-            description = item.get("Description").toString();
-            price = item.get("Price").toString();
+
+            JSONObject historyItem = item.getJSONObject("Item");
+
+
+
+            title = historyItem.get("Title").toString();
+            description = historyItem.get("Description").toString();
+            price = historyItem.get("Price").toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -111,7 +115,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.DerpHold
                 Log.d("LOG : ","Clicked Item for line :" + getAdapterPosition());
             }
             else if (v.getId() == R.id.im_history_delete_icon) {
-                Log.d("Oleg", "Clicked Favorite for line " + getAdapterPosition());
+                Log.d("LOG : ", "Clicked delete for line " + getAdapterPosition());
                 itemClickCallBack.onDeleteIconClick(getAdapterPosition());
             }
 

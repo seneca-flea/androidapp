@@ -34,19 +34,20 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class History extends Activity {
+public class History extends Activity implements  HistoryAdapter.ItemClickCallback {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     private String GETUSERHISTORYURL1="http://senecafleamarket.azurewebsites.net/api/User/";
     private String GETUSERHISTORYURL2="/History";
     private String DELETEUSERHISTORYURL1="http://senecafleamarket.azurewebsites.net/api/User/";
-    private String DELETEUSERHISTORYURL2="/History";
+    private String DELETEUSERHISTORYURL2="/History/";
 
     JSONArray jsonArray=null;
     private String id = "";
     private String fullName="";
     private String token = "";
+    private String historyItemId ="";
 
     private RecyclerView recView;
 
@@ -60,7 +61,7 @@ public class History extends Activity {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        id = sharedpreferences.getString("id","");
+        id = sharedpreferences.getString("UserId","");
         Log.d("LOG:", "id here is " + id );
         fullName = sharedpreferences.getString("fullName", "");
         token = sharedpreferences.getString("token","");
@@ -98,7 +99,24 @@ public class History extends Activity {
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
-                                myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
+                                historyItemId = item.getString("Id");
+
+                                JSONObject historyItem = item.getJSONObject("Item");
+                                String itemId = historyItem.getString("ItemId");
+                                String imageCount = historyItem.getString("ImagesCount");
+                                String title = historyItem.getString("Title");
+                                String status = historyItem.getString("Status");
+                                String sellerId = historyItem.getString("SellerId");
+                                String description = historyItem.getString("Description");
+                                String price = historyItem.getString("Price");
+
+                                JSONObject historySeller = item.getJSONObject("Seller");
+                                String userId = historySeller.getString("UserId");
+                                String email = historySeller.getString("Email");
+
+                                String purchaseDate = item.getString("PurchaseDate");
+
+                                myItemsList+="Id: "+ historyItemId+" Title:"+ title + "Desc: " + description + "Pice: " + price + "\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -117,8 +135,8 @@ public class History extends Activity {
 
                     Log.d("LOG : ","Setting adapter for History.java");
                     recView.setAdapter(adapter);
-                    //TODO: not working for some reason:
-                    //adapter.setItemClickCallback(History.this);
+
+                    adapter.setItemClickCallback(History.this);
 
                     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
                     itemTouchHelper.attachToRecyclerView(recView);
@@ -197,7 +215,7 @@ public class History extends Activity {
 
                     @Override
                     public void onSwiped(final RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                        deleteItem(viewHolder.getAdapterPosition());
+                        deleteAnItem(viewHolder.getAdapterPosition());
                     }
                 };
         return simpleItemTouchCallback;
@@ -210,13 +228,6 @@ public class History extends Activity {
         adapter.notifyItemMoved(oldPos, newPos);
     }
 
-    private void deleteItem(final int position) {
-        //  listData.remove(position);
-        //  adapter.notifyItemRemoved(position);
-    }
-
-
-
     @Override
     public void onBackPressed()
     {
@@ -227,22 +238,28 @@ public class History extends Activity {
 
     }
 
+
     public void onDeleteIconClick(int p) {
 
         try {
             Log.d("LOG : ","Delete icon clicked on itemHistory");
             JSONObject item = (JSONObject)jsonArray.get(p);
-            String deleteItemId = item.getString("ItemId");
+
+            String deleteItemId = item.getString("Id");
+
+            int deleteItemIdInt = Integer.parseInt(deleteItemId);
             Log.d("LOG : ","deleting item form history, with id: " + deleteItemId);
-            deleteAnItem(deleteItemId);
+            deleteAnItem(deleteItemIdInt);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        adapter.notifyDataSetChanged();
     }
-    public void deleteAnItem(String id){
+    public void deleteAnItem(int id){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         Log.d("LOG :","deleteAnItem running on itemHistory");
-        String URL = DELETEUSERHISTORYURL1 + id + DELETEUSERHISTORYURL2;
+
+        String URL = DELETEUSERHISTORYURL1 + this.id + DELETEUSERHISTORYURL2 + id;
         StringRequest dr = new StringRequest(Request.Method.DELETE, URL,
                 new Response.Listener<String>()
                 {
@@ -267,7 +284,8 @@ public class History extends Activity {
 
                     }
                 }
-        )/*{
+        ){
+/*
 
             @Override
             public String getBodyContentType() {
@@ -286,8 +304,9 @@ public class History extends Activity {
                 return headers;
             }
 
+*/
 
-        }*/;
+        };
         MySingleton.getInstance(History.this).addToRequestQueue(dr);
     }
 }
