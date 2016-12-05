@@ -166,7 +166,30 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
                 Log.d("LOG :","error : " + error);
 
             }
-        });
+        }){
+
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                Log.d("LOG : ","I will add token " + token);
+                headers.put("Authorization","Bearer "+token);
+                headers.put("Accept","image/*");
+                // params.put("username",email);
+                //params.put("password", password);
+
+                Log.d("Token ", headers.toString());
+                return headers;
+            }
+
+
+
+        };
+
         MySingleton.getInstance(History.this).addToRequestQueue(jsObjRequest);
     }
 
@@ -291,12 +314,6 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
                     }
                 }
         ){
-/*
-
-            @Override
-            public String getBodyContentType() {
-                return "application/x-www-form-urlencoded; charset=UTF-8";
-            }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -310,7 +327,6 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
                 return headers;
             }
 
-*/
 
         };
         MySingleton.getInstance(History.this).addToRequestQueue(dr);

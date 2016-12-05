@@ -462,8 +462,24 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                     }
             ){
 
+                    @Override
+                    public String getBodyContentType() {
+                        return "application/json; charset=UTF-8";
+                    }
 
-                //token inserted here (when implemented)
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> headers = new HashMap<String, String>();
+                        Log.d("LOG : ", "I will add token " + token);
+                        headers.put("Authorization", "Bearer " + token);
+
+                        // params.put("username",email);
+                        //params.put("password", password);
+
+                        Log.d("Token ", headers.toString());
+                        return headers;
+                    }
+
             };
 
             MySingleton.getInstance(Sell.this).addToRequestQueue(jsObjPostRequest);
