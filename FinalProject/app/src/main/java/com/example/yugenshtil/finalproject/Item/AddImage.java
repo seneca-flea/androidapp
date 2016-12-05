@@ -8,15 +8,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Path;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -29,13 +24,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
-import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
-import com.example.yugenshtil.finalproject.useCases.Sell;
 import com.kosalgeek.android.photoutil.CameraPhoto;
 import com.kosalgeek.android.photoutil.GalleryPhoto;
 import com.kosalgeek.android.photoutil.ImageBase64;
@@ -55,7 +47,7 @@ import java.util.Map;
 
 public class AddImage extends AppCompatActivity {
     private ImageView upload, camera, gallery, image,load, loaded,imageFromServer;
-    private Button submit,getFromServer;
+    private Button submit,getFromServer, saveImage;
     private  final String TAG = this.getClass().getName();
     List<String> images = new ArrayList<String>();
     SharedPreferences sharedpreferences;
@@ -80,8 +72,6 @@ public class AddImage extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
         token = sharedpreferences.getString("token","");
 
-
-
         if (checkSelfPermission(Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
             Log.d("Oleeg","NOT GRANTED");
@@ -92,7 +82,6 @@ public class AddImage extends AppCompatActivity {
             int permissionCheckEXTERNAL = ContextCompat.checkSelfPermission(AddImage.this,
                     Manifest.permission.READ_EXTERNAL_STORAGE);
             Log.d("Oleg","Permission for External " + permissionCheckEXTERNAL+"");
-
 
             requestPermissions(new String[]{Manifest.permission.CAMERA},
                     MY_REQUEST_CODE);
@@ -128,15 +117,29 @@ public class AddImage extends AppCompatActivity {
         cameraPhoto = new CameraPhoto(getApplicationContext());
         galleryPhoto = new GalleryPhoto(getApplicationContext());
 
+        // Buttons to upload image
+        camera = (ImageView) findViewById(R.id.ivCamera_AddImage);
+        gallery = (ImageView) findViewById(R.id.ivGallery_AddImage);
+
+        // Dipslay the uploaded image
+        image = (ImageView) findViewById(R.id.ivUploadedImage_AddImage);
+
+        //Save Image
+        saveImage = (Button) findViewById(R.id.btSaveImage_AddImage);
+
+
+        /*
         upload = (ImageView) findViewById(R.id.ivUpload);
-        camera = (ImageView) findViewById(R.id.ivCamera);
-        gallery = (ImageView) findViewById(R.id.ivGallery);
-        image = (ImageView) findViewById(R.id.ivImage);
+
         load = (ImageView) findViewById(R.id.ivLoad);
         loaded = (ImageView) findViewById(R.id.decod);
-        submit = (Button) findViewById(R.id.btnSubmit_addImage);
+        submit = (Button) findViewById(R.id.btSaveImage_AddImage);
         getFromServer = (Button) findViewById(R.id.btGetFromServer_AddImage);
         imageFromServer = (ImageView) findViewById(R.id.imageFromServer);
+        */
+
+
+
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,6 +168,7 @@ public class AddImage extends AppCompatActivity {
             }
         });
 
+        /*
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -215,8 +219,9 @@ public class AddImage extends AppCompatActivity {
             //   loaded.setImageBitmap(decodedByte);
             }
         });
+        */
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        saveImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent resultIntent = new Intent();
@@ -416,19 +421,21 @@ public class AddImage extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Bitmap bitmap = null;
         if(resultCode==RESULT_OK){
             if(requestCode == CAMERA_REQUEST){
-
                 String photoPath = cameraPhoto.getPhotoPath();
                 selectedPhoto = photoPath;
                 try {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
+                    bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
                     image.setImageBitmap(bitmap);
+
                 } catch (FileNotFoundException e) {
                     Log.d("Oleg",e.toString());
                     Toast.makeText(getApplicationContext(),"Something wrong with image loader",Toast.LENGTH_SHORT).show();
                 }
                 Log.d(TAG, photoPath);
+                getBase64();
             }
             else if(requestCode == GALLERY_REQUEST){
                 Uri uri = data.getData();
@@ -436,14 +443,34 @@ public class AddImage extends AppCompatActivity {
                 String photoPath = galleryPhoto.getPath();
                 selectedPhoto = photoPath;
                 try {
-                    Bitmap bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
+                    bitmap = ImageLoader.init().from(photoPath).requestSize(512,512).getBitmap();
                     image.setImageBitmap(bitmap);
                 } catch (FileNotFoundException e) {
                     Log.d("Oleg",e.toString());
                     Toast.makeText(getApplicationContext(),"Something wrong with gallery loader",Toast.LENGTH_SHORT).show();
                 }
                 Log.d(TAG, photoPath);
+                getBase64();
             }
         }
     }
+
+
+   void getBase64(){
+
+            try {
+                Bitmap bitmap = ImageLoader.init().from(selectedPhoto).requestSize(1024,1024).getBitmap();
+                imageDecoded = ImageBase64.encode(bitmap);
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString("imageBase64", imageDecoded);
+                editor.commit();
+
+
+                // images.add(imageDecoded);
+                Log.d("Oleg","Decoded image is " + imageDecoded);
+            } catch (FileNotFoundException e) {
+                Log.d("Oleg",e.toString());
+                Toast.makeText(getApplicationContext(),"Something wrong with upload",Toast.LENGTH_SHORT).show();
+            }
+   }
 }

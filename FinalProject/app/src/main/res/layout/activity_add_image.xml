@@ -11,15 +11,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.yugenshtil.finalproject.Item.AddImage">
 
-    <Button
-        android:text="Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivLoad"
-        android:layout_toEndOf="@+id/ivImage"
-        android:layout_marginTop="14dp"
-        android:id="@+id/btnSubmit_addImage" />
-
+    <!--
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,26 +21,9 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="22dp" />
+-->
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_add_a_photo_black_36dp"
-        android:layout_marginTop="24dp"
-        android:id="@+id/ivCamera"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ivLoad" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_collections_black_36dp"
-        android:id="@+id/ivGallery"
-        android:layout_alignTop="@+id/ivCamera"
-        android:layout_toEndOf="@+id/ivImage"
-        android:layout_marginStart="8dp" />
-
-    <ImageView
+    <!-- <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_file_upload_black_36dp"
@@ -59,11 +34,12 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ivImage"
-        android:layout_toStartOf="@+id/ivImage"
+        android:layout_alignTop="@+id/ivUploadedImage_AddImage"
+        android:layout_toStartOf="@+id/ivUploadedImage_AddImage"
         android:layout_marginTop="61dp"
         android:id="@+id/decod"
-        android:layout_alignBottom="@+id/ivImage" />
+        android:layout_alignBottom="@+id/ivUploadedImage_AddImage" />
+
 
     <Button
         android:text="Server"
@@ -71,41 +47,50 @@
         android:layout_height="wrap_content"
         android:id="@+id/btGetFromServer_AddImage"
         android:layout_alignBottom="@+id/ivUpload"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true" />-->
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/ivImage"
-        android:layout_marginTop="94dp"
-        android:layout_below="@+id/ivCamera"
-        android:layout_alignStart="@+id/ivLoad"
-        android:layout_marginStart="10dp" />
-
+    <!--
     <ImageView
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:id="@+id/imageFromServer"
-        android:layout_alignTop="@+id/ivImage"
+        android:layout_alignTop="@+id/ivUploadedImage_AddImage"
         android:layout_toEndOf="@+id/ivUpload"
         android:layout_marginStart="11dp"
         android:layout_marginTop="8dp" />
-
-    <TextView
-        android:text="Gonna upload"
+-->
+    <Button
+        android:text="Save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageFromServer"
-        android:layout_toEndOf="@+id/ivLoad"
-        android:layout_marginStart="7dp"
-        android:layout_marginTop="61dp"
-        android:id="@+id/textView4" />
+        android:id="@+id/btSaveImage_AddImage"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="33dp" />
 
-    <TextView
-        android:text="Downloaded"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView4"
-        android:layout_toEndOf="@+id/btnSubmit_addImage"
-        android:id="@+id/textView5" />
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:srcCompat="@drawable/ic_collections_black_36dp"
+        android:id="@+id/ivGallery_AddImage"
+        android:layout_alignTop="@+id/ivCamera_AddImage"
+        android:layout_toEndOf="@+id/btSaveImage_AddImage" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/ivUploadedImage_AddImage"
+        android:layout_above="@+id/btSaveImage_AddImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="71dp" />
+
+    <ImageView
+        app:srcCompat="@drawable/ic_add_a_photo_black_36dp"
+        android:id="@+id/ivCamera_AddImage"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/btSaveImage_AddImage"
+        android:layout_marginTop="70dp" />
+
 </RelativeLayout>

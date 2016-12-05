@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
 
-public class SplashScreen extends Activity {
+public class SplashScreen extends Activity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

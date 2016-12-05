@@ -16,16 +16,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/emailloginpic"
-        android:layout_below="@+id/imageView3"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="42dp"
-        android:layout_marginTop="26dp"
-        android:id="@+id/im_new_message" />
-
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -97,5 +87,14 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="11dp"
         android:id="@+id/btLogin_Login" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/emailloginpic"
+        android:layout_marginTop="33dp"
+        android:id="@+id/im_new_message"
+        android:layout_below="@+id/imageView3"
+        android:layout_toStartOf="@+id/tvLogin_SignIn" />
 
 </RelativeLayout>

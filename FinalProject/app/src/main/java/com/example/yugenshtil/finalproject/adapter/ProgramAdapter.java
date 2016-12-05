@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Filter;
 import android.widget.TextView;
 
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.useCases.Program;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.yugenshtil.finalproject.R.id.mFilter;
 import static com.example.yugenshtil.finalproject.useCases.ProgramFilter.selectedPrograms;
 
 /**
@@ -23,10 +26,12 @@ import static com.example.yugenshtil.finalproject.useCases.ProgramFilter.selecte
 
 public class ProgramAdapter extends ArrayAdapter<Program> {
 
-    private final List<Program> list;
+    private List<Program> list;
+    private List<Program> listtemp;
     private final Activity context;
     boolean checkAll_flag = false;
     boolean checkItem_flag = false;
+
 
     public ProgramAdapter(Activity context, List<Program> list) {
         super(context, R.layout.program_info, list);
@@ -39,9 +44,10 @@ public class ProgramAdapter extends ArrayAdapter<Program> {
         protected CheckBox checkbox;
     }
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-
+Log.d("Position",""+position);
         ViewHolder viewHolder = null;
         if (convertView == null) {
             LayoutInflater inflator = context.getLayoutInflater();
@@ -79,4 +85,61 @@ public class ProgramAdapter extends ArrayAdapter<Program> {
 
         return convertView;
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+
+            /* (non-Javadoc)
+             * @see android.widget.Filter#performFiltering(java.lang.CharSequence)
+             */
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                listtemp = new ArrayList<Program>();
+                FilterResults filterResults = new FilterResults();
+
+                for(Program p : list){
+                    if(p.getName().contains(constraint)){
+                        listtemp.add(p);
+
+                    }
+
+                }
+
+                filterResults.values = listtemp;
+                filterResults.count = listtemp.size();
+
+              //  list = listtemp;
+                Log.d("Oleg","FilterRes");
+                // TODO Auto-generated method stub
+            /*
+             * Here, you take the constraint and let it run against the array
+             * You return the result in the object of FilterResults in a form
+             * you can read later in publichResults.
+             */
+                return filterResults;
+            }
+
+            /* (non-Javadoc)
+             * @see android.widget.Filter#publishResults(java.lang.CharSequence, android.widget.Filter.FilterResults)
+             */
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                Log.d("Oleg","PublishRes");
+                Log.d("Count",""+results.count);
+                list = (ArrayList<Program>)results.values;
+                notifyDataSetChanged();
+                // TODO Auto-generated method stub
+            /*
+             * Here, you take the result, put it into Adapters array
+             * and inform about the the change in data.
+             */
+            }
+
+        };
+    }
+
+
+
+
 }

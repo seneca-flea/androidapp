@@ -7,6 +7,8 @@
 
     </style>
 
+
+
     <style name="AppTheme.CustomTheme" parent="AppTheme.Base">
 
         <item name="android:windowCloseOnTouchOutside">true</item>
@@ -19,11 +21,10 @@
 
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppTheme.NoActionBar" parent="AppTheme.Base" >
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
+
     </style>
 
 </resources>

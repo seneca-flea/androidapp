@@ -137,6 +137,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
                                 myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
+                                Log.d("JSON",""+item.toString());
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -203,6 +204,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                 Map<String, String> headers = new HashMap<String, String>();
                 Log.d("Oleg","I will add token " + token);
                 headers.put("Authorization","Bearer "+token);
+                headers.put("Accept","image/*");
                // params.put("username",email);
                 //params.put("password", password);
 

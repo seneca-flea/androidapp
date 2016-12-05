@@ -6,53 +6,55 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:background="#ffff"
     tools:context="com.example.yugenshtil.finalproject.Item.AddItem">
+    <!--
+
+        <Button
+            android:text="Save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btAddItem_Save"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    -->
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:id="@+id/itemfrag"
+            android:text="Book frag"
+            android:name="layout.NoItemAdded"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/ibAddItem_Image"></fragment>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            app:srcCompat="@drawable/ic_add_a_photo_black_36dp"
+            android:id="@+id/ibAddItem_Image"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/sp_itemtype"
+            android:layout_marginStart="12dp" />
+
+        <Spinner
+            android:id="@+id/sp_itemtype"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_toEndOf="@+id/textView" />
+
+        <TextView
+            android:text="Item type:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:textColor="@android:color/black"
+            android:textSize="17sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="14dp" />
 
 
-    <Button
-        android:text="Save"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/btAddItem_Save"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:text="Item type:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="380dp"
-        android:id="@+id/itemfrag"
-        android:text="Book frag"
-        android:name="layout.NoItemAdded"
-        android:layout_below="@+id/ibAddItem_Image"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="19dp"></fragment>
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/ic_add_a_photo_black_36dp"
-        android:id="@+id/ibAddItem_Image"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/sp_itemtype"
-        android:layout_marginStart="12dp" />
-
-    <Spinner
-        android:id="@+id/sp_itemtype"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
-
-
-</RelativeLayout>
+    </RelativeLayout>

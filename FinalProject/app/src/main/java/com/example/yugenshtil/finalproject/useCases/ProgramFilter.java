@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ public class ProgramFilter extends Activity implements AdapterView.OnItemClickLi
         public static ArrayList<String> selectedPrograms= new ArrayList<String>();
         private Button btnDisplaySelected;
         private Button btnSubmit;
+    private SearchView sv;
         private String[] programListArray = {"3D Animation","911 and Emergency Services Communications","Academic Upgrading","Accounting Techniques","Accounting and Finance (Optional Co-op)","Accounting and Payroll (Optional Co-op)","Accounting","Acting for Camera and Voice","Advanced Investigations and Enforcement","Airline Pilot Flight Operations","Animation","Applied Electronics Design (Optional Co-op)","Art Fundamentals","Arts and Science - University Transfer","Aviation Operations (Optional Co-op)","Aviation Safety (Optional Co-op)","Behavioural Sciences","Bioinformatics","Biotechnology - Advanced (Optional Co-op)","Brand Management (Optional Co-op)","Broadcasting - Radio","Broadcasting - Radio (Joint Seneca/York)","Broadcasting - Television","Broadcasting - Television (Joint Seneca/York)","Building Systems Engineering Technician (Optional Co-op)","Business - Insurance (Optional Co-op)","Business - International Business","Business - Marketing","Business Administration - Accounting & Financial Planning (Optional Co-op)",
             "Business Administration - Entrepreneurship and Small Business","Business Administration - Financial Planning (Optional Co-op)","Business Administration - Human Resources (Optional Co-op)","Business Administration - International Business (Optional Co-op)","Business Administration - Management","Business Administration - Marketing (Optional Co-op)","Business Administration - Purchasing and Supply Management","Business","Chemical Engineering Technology (Optional Co-op)","Chemical Laboratory Technician","Chemical Laboratory Technology - Pharmaceutical (Optional Co-op)","Child Development Practitioner","Child and Youth Care (Formerly: Child and Youth Worker)","Civil Engineering Technician (Optional Co-op)","Civil Engineering Technology (Joint Program with York University) (Optional Co-op)","Civil Engineering Technology (Optional Co-op)","Clinical Research (Co-op)","College Opportunities","Computer Engineering Technology (Optional Co-op)","Computer Networking and Technical Support","Computer Programmer",
             "Computer Programming and Analysis (Optional Co-op)","Computer Systems Technology (Optional Co-op)","Cosmetic Science (Co-op)","Cosmetic Techniques and Management","Court and Tribunal Administration (Articulated)","Court and Tribunal Administration","Creative Advertising","Creative Advertising (Joint Seneca/York)","Database Application Developer (Optional Co-op)","Documentary and Non-Fiction Media Production","Early Childhood Education (Accelerated)","Early Childhood Education","Electronics Engineering Technician","Electronics Engineering Technology","Energy Management - Built Environment","Environmental Landscape Management (Co-op)","Environmental Technician - Sampling and Monitoring","Environmental Technician (Optional Co-op)","Environmental Technology (Optional Co-op)","Esthetician","Esthetics and Spa Therapies","Event Management - Event and Exhibit Design","Event Marketing - Sports, Entertainment, Arts (Optional Co-op)","Event and Media Production","Fashion Arts","Fashion Business Management",
@@ -47,12 +50,29 @@ public class ProgramFilter extends Activity implements AdapterView.OnItemClickLi
             btnSubmit =  (Button) findViewById(R.id.btnSaveSelectedPrograms);
 
             listView = (ListView) findViewById(R.id.programList);
+         //   sv = (SearchView) findViewById(R.id.simpleSearchView);
             getPrograms();
            // adapter = new ProgramAdapter(this,getModel());
             adapter = new ProgramAdapter(this,list);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(this);
+        /*    sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    Log.d("Oleg","Text submit");
+                    return false;
+                }
 
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    Log.d("Oleg","Text change");
+
+                    adapter.getFilter().filter(newText);
+
+                    return false;
+                }
+            });
+*/
 
             btnDisplaySelected.setOnClickListener(new View.OnClickListener() {
                 @Override

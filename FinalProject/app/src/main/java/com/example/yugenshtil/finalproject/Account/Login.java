@@ -24,8 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -42,37 +44,43 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Login extends Activity {
 
     private String email="";
     private String password="";
     private String LOGINUSERURL="http://senecafleamarket.azurewebsites.net/api/User";
+
     private boolean inputIsValid = false;
     private boolean userFound = false;
     private String id="";
     private String fullName="";
-    private JSONArray users= null;
-    private String errors = "";
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public ProgressDialog pd;
     public String token = "";
+    private EditText etPassword;
+    private EditText etEmail;
 
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_page);
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        etPassword = (EditText) findViewById(R.id.etLogin_Password);
+        etEmail = (EditText) findViewById(R.id.etLogin_Email);
 
-
-        final EditText etEmail = (EditText) findViewById(R.id.etLogin_Email);
-        final EditText etPassword = (EditText) findViewById(R.id.etLogin_Password);
+        // Setup Buttons
         final Button btLogin = (Button) findViewById(R.id.btLogin_Login);
         final TextView tvForgotPassword = (TextView) findViewById(R.id.tvLogin_ForgotPassword);
         final TextView tvRegister = (TextView) findViewById(R.id.tvLogin_SignIn);
 
+        // Set Buttons on Click
         tvRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,24 +109,23 @@ public class Login extends Activity {
                 else{
                     Context context = getApplicationContext();
                     int duration = Toast.LENGTH_LONG;
-                    Toast toast = Toast.makeText(context, errors, duration);
+                    Toast toast = Toast.makeText(context, "Please check provided information", duration);
                     toast.show();
                 }
             }
         });
     }
 
-    // THE RIGHT ONE!!!
 
+
+    //Check whether email/password combination works
     public void checkUserIsValid(){
         final boolean isValid = true;
-        //  pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("Oleg","Check User Valid");
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         StringRequest sr = new StringRequest(Request.Method.POST,"http://senecafleaia.azurewebsites.net/token",  new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-                Log.d("oleg","response " + response.toString());
+                pd.cancel();
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     token  = jsonObject.get("access_token").toString();
@@ -133,11 +140,13 @@ public class Login extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.cancel();
                 VolleyLog.d("volley", "Error: " + error.getMessage());
                 error.printStackTrace();
-                //  MyFunctions.croutonAlert(LoginActivity.this,
-                //      MyFunctions.parseVolleyError(error));
-                //  loading.setVisibility(View.GONE);
+                Context context = getApplicationContext();
+                int duration = Toast.LENGTH_LONG;
+                Toast toast = Toast.makeText(context, "Combination email/password does not match", duration);
+                toast.show();
             }
         }) {
 
@@ -161,15 +170,43 @@ public class Login extends Activity {
         MySingleton.getInstance(Login.this).addToRequestQueue(sr);
     }
 
+
+
+    // Validation for user input
     public boolean isInputValid(){
         boolean inputIsValid  = true;
-        errors="";
-        if(email.equals("") || !email.contains("@")){
-            errors += "Please, provide correct username\n";
+
+
+        //Email Validation
+        if(!email.equals("") ){
+            Pattern pattern;
+            Matcher matcher;
+
+            // http://stackoverflow.com/questions/8204680/java-regex-email
+            pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(email);
+            if(!matcher.matches()) {
+                etEmail.setError("Please, provide correct email");
+                inputIsValid = false;
+            }
+
+        }
+        else {
+            etEmail.setError("Email can't be blank");
             inputIsValid = false;
         }
-        if(password.equals("")|| password.length()<3){
-            errors += "Please, provide correct password\n";
+
+        // Password Validation
+        if(!password.equals("")){
+            password = password.trim();
+            if(password.length()<6){
+                inputIsValid = false;
+                etPassword.setError("Password length can't be less than 6");
+            }
+
+        }
+        else{
+            etPassword.setError("Password can't be blank");
             inputIsValid = false;
         }
 
@@ -198,6 +235,8 @@ public class Login extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+
+    // Getting user ID, after the user is successfully login
     public void getUserId(){
 
         StringRequest sr = new StringRequest(Request.Method.GET,"http://senecafleamarket.azurewebsites.net/api/User/CurrentUser",  new Response.Listener<String>() {
@@ -208,6 +247,8 @@ public class Login extends Activity {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.putString("token", token);
+                    editor.putString("PriceMin", "0");
+                    editor.putString("PriceMax", "400");
                     editor.putString("UserId", jsonObject.getString("UserId"));
                     editor.putString("Email", jsonObject.getString("Email"));
                     editor.commit();
@@ -236,185 +277,12 @@ public class Login extends Activity {
             }
         };
 
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
         MySingleton.getInstance(Login.this).addToRequestQueue(sr);
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-  /*  public boolean isUserFound(){
-        boolean userIsFound = false;
-
-        if(users!=null) {
-            Log.d("Oleg", "size " + users.length());
-            for (int i = 0; i < users.length(); i++) {
-                try {
-                    JSONObject user = (JSONObject) users.get(i);
-                    Log.d("Oleg", user.getString("Email") + "/" + email);
-                    if (user.getString("Email").equals(email)) {
-                        userIsFound = true;
-                        id = user.getString("UserId");
-                        fullName=user.getString("FirstName") + " " + user.getString("LastName");
-                        i = users.length();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }
-
-
-        return userIsFound;
-    }*/
-/*
-    public void checkUserIsValid(){
-        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-
-       JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, LOGINUSERURL, null, new Response.Listener<JSONArray>() {
-
-            @Override
-            public void onResponse(JSONArray response) {
-
-
-
-                pd.cancel();
-                if(response!=null){
-                    users = response;
-                    if(isUserFound()){
-                        SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                        editor.putString("id", id);
-                        editor.putString("fullName", fullName);
-                        editor.commit();
-
-                        Context context = getApplicationContext();
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, "User was successfully login. Redirection to user menu", duration);
-                        toast.show();
-
-                        Intent userMenuIntent = new Intent(Login.this, UserMenu.class);
-                        userMenuIntent.putExtra("id", id);
-                        userMenuIntent.putExtra("fullName", fullName);
-                        startActivity(userMenuIntent);
-
-
-
-                    }else{
-                        Context context = getApplicationContext();
-                        int duration = Toast.LENGTH_SHORT;
-
-                        Toast toast = Toast.makeText(context, "User was not found", duration);
-                        toast.show();
-
-                    }
-
-
-
-
-
-
-
-
-
-
-
-                }else{
-                    Context context = getApplicationContext();
-                    int duration = Toast.LENGTH_LONG;
-                    Toast toast = Toast.makeText(context, "JSON RETURNED NULL", duration);
-                    toast.show();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                pd.cancel();
-                Log.d("Oleg","error" + error);
-
-            }
-        });
-
-        MySingleton.getInstance(Login.this).addToRequestQueue(jsObjRequest);
-
-        Log.d("Oleg", "clicked");
-
-
-    }
-
-
-    public void checkUserIsValid1(){
-      //  pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("Oleg","Check User Valid");
-        StringRequest sr = new StringRequest(Request.Method.POST,"http://senecafleaia.azurewebsites.net/token", new Response.Listener<String>() {
-
-
-    //    JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, LOGINUSERURL, null, new Response.Listener<JSONArray>() {
-
-            @Override
-            public void onResponse(String response) {
-
-                Log.d("Oleg","We have received: " + response.toString());
-
-             }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-             //   pd.cancel();
-
-                if(error.networkResponse.data!=null) {
-
-                 //   String statusCode = String.valueOf(error.networkResponse.statusCode);
-
-                    try {
-                       String body = new String(error.networkResponse.data,"UTF-8");
-                        Log.d("Oleg","Body error" + body);
-                     //   Log.d("Oleg","Status c" + body);
-                    } catch (UnsupportedEncodingException e) {
-                        Log.d("Oleg","Error response (Message) is " + e.getMessage());
-                        e.printStackTrace();
-                    }
-                }
-                Log.d("Oleg","error" + error);
-
-            }
-        }){
-            @Override
-            protected Map<String,String> getParams(){
-
-                Log.d("Oleg","email " + email);
-                Log.d("Oleg","password " + password);
-                Map<String,String> params = new HashMap<String, String>();
-                params.put("grant_type","password");
-                params.put("username",email);
-                params.put("password", password);
-             //   params.put("comment_post_ID",String.valueOf(postId));
-            //    params.put("blogId",String.valueOf(blogId));
-
-                return params;}
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String,String> params = new HashMap<String, String>();
-                    params.put("Content-Type","x-www-form-urlencoded");
-                    return params;
-                }
-            };
-
-        MySingleton.getInstance(Login.this).addToRequestQueue(sr);
-
-        Log.d("Oleg", "clicked");
-
-
-    }*/
 

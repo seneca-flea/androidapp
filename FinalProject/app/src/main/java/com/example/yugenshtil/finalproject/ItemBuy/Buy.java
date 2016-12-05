@@ -61,7 +61,9 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     SharedPreferences sharedpreferences;
     private String userId="";
     private String token="";
-
+    private String programs="";
+    private double priceMax=0.0;
+    private double priceMin=400.0;
 
 
     private JSONArray jsonArray=null;
@@ -80,13 +82,20 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_buy);
-        Log.d("LOG : ", "onCreate for Buy.java running");
         favoriteIds = new ArrayList<String>();
 
         //Get userId from SharedPreferences
         sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
         userId = sharedpreferences.getString("UserId", "");
         token = sharedpreferences.getString("token", "");
+        priceMax = Double.parseDouble(sharedpreferences.getString("PriceMax",""));
+        priceMin = Double.parseDouble(sharedpreferences.getString("PriceMin",""));
+        programs = sharedpreferences.getString("Courses","");
+
+        Log.d("Oleg","Max " + priceMax);
+        Log.d("Oleg","Min " + priceMin);
+
+
 
         final Button btDisplayNew = (Button) findViewById(R.id.btDisplayAll_Buy);
     //    final Button btRange = (Button) findViewById(R.id.btRange_Buy);
@@ -106,7 +115,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
     public void getItems(){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("LOG : ", "getItems for Buy.java running");
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETALLITEMSURL, null, new Response.Listener<JSONArray>() {
 
             @Override
@@ -114,38 +122,33 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                 pd.cancel();
                 if(response!=null){
                     JSONArray items = response;
-                    jsonArray = response;
+                    jsonArray = new JSONArray();
                     if(items!=null) {
-                        Log.d("Oleg", "size " + items.length());
                         Log.d("Oleg", "JSON " + items.toString());
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
-                              //  myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
+                                double price=0.0;
+                                price = item.getDouble("Price");
+                                if((price>=priceMin) && (price<=priceMax) && item.getString("Status").equals("Available")){
+                                    jsonArray.put(item);
+
+                                }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
-
-                        // tvItemsList.setText(myItemsList);
                     }
 
                     recView = (RecyclerView)findViewById(R.id.recbuy_list);
-                    //LayoutManager: GridLayoutManager or StaggeredGridLayoutManager
-
                     recView.setLayoutManager(new LinearLayoutManager(Buy.this));
-                    //Send list here
-                    //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
-
+                    Log.d("Oleg","There are " + jsonArray.length() + " before I sent");
                     adapter = new BuyItemAdapter(Buy.this,jsonArray,favoriteIds);
 
-                    Log.d("Oleg","Setting adapter1");
                     recView.setAdapter(adapter);
                     adapter.setItemClickCallback(Buy.this);
-
-                //    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-                //    itemTouchHelper.attachToRecyclerView(recView);
 
 
                 }else{
@@ -159,9 +162,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
                 pd.cancel();
-
                 Log.d("Oleg","error" + error);
                 getItems();
             }
@@ -235,7 +236,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     }
 
     public void getCourse(String encodedTitle){
-
+        //getFavorites();
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETCOURSEITEMSURL+encodedTitle, null, new Response.Listener<JSONArray>() {
 
@@ -244,13 +245,20 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                 pd.cancel();
                 if(response!=null){
                     JSONArray items = response;
-                    jsonArray = response;
+                    jsonArray = new JSONArray();
                     if(items!=null) {
-                        Log.d("Oleg", "size " + items.length());
+
                         Log.d("Oleg", "JSON " + items.toString());
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
+                                double price=0.0;
+                                price = item.getDouble("Price");
+                                if((price>=priceMin) && (price<=priceMax) && item.getString("Status").equals("Available")){
+                                    jsonArray.put(item);
+
+                                }
+
                                 //  myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -327,74 +335,15 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     }
 
     public void getRange(String mn, String mx){
-        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETRANGEITEMSURL+mn+"&max="+mx, null, new Response.Listener<JSONArray>() {
+        priceMin = Double.parseDouble(mn);
+        priceMax = Double.parseDouble(mx);
 
-            @Override
-            public void onResponse(JSONArray response) {
-                pd.cancel();
-                if(response!=null){
-                    JSONArray items = response;
-                    jsonArray = response;
-                    if(items!=null) {
-                        Log.d("Oleg", "size " + items.length());
-                        Log.d("Oleg", "JSON " + items.toString());
-                        for (int i = 0; i < items.length(); i++) {
-                            try {
-                                JSONObject item = (JSONObject) items.get(i);
-                                //  myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString("PriceMin", mn);
+        editor.putString("PriceMax", mx);
+        editor.commit();
 
-                        }
-
-                        // tvItemsList.setText(myItemsList);
-                    }
-
-                    recView = (RecyclerView)findViewById(R.id.recbuy_list);
-                    //LayoutManager: GridLayoutManager or StaggeredGridLayoutManager
-
-                    recView.setLayoutManager(new LinearLayoutManager(Buy.this));
-                    //Send list here
-                    //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
-
-                    adapter = new BuyItemAdapter(Buy.this,jsonArray, favoriteIds);
-
-                    Log.d("Oleg","Setting adapter");
-                    recView.setAdapter(adapter);
-                       adapter.setItemClickCallback(Buy.this);
-
-                    //    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-                    //    itemTouchHelper.attachToRecyclerView(recView);
-
-
-                }else{
-                    Context context = getApplicationContext();
-                    int duration = Toast.LENGTH_LONG;
-                    Toast toast = Toast.makeText(context, "JSON RETURNED NULL", duration);
-                    toast.show();
-                }
-            }
-        }, new Response.ErrorListener() {
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                pd.cancel();
-                Log.d("Oleg","error" + error);
-
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization","Bearer "+token);
-                return headers;
-            }
-        };
-
-        MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjRequest);
+        getFavorites();
 
     }
 
@@ -525,16 +474,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                 return false;
             }
         });
-
-
-
-
-
-
-
-
-
-        return true;
+         return true;
     }
 
     @Override

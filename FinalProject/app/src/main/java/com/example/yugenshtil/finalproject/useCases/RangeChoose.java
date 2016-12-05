@@ -1,7 +1,9 @@
 package com.example.yugenshtil.finalproject.useCases;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -12,24 +14,38 @@ import android.widget.TextView;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.R;
 
 /**
  * Created by yugenshtil on 13/11/16.
  */
 public class RangeChoose extends Activity {
-    String min;
-    String max="100";
+    String min="";
+    String max="";
     Button btApply;
     Button btReset;
+    SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rangepopup);
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        min = sharedpreferences.getString("min", "");
+        max = sharedpreferences.getString("max", "");
+
+
 
         // get seekbar from view
         final CrystalRangeSeekbar rangeSeekbar = (CrystalRangeSeekbar) findViewById(R.id.rangeSeekbar5);
+        rangeSeekbar.setMinValue(0).setMaxValue(100).apply();
+        rangeSeekbar.setMinStartValue(65.0f);
+        rangeSeekbar.setMaxStartValue(120.0f);
+        rangeSeekbar.setMaxStartValue(60.0f);
+       // rangeSeekbar.setMinValue(5.0f);
+        rangeSeekbar.setRight(12);
+
 
 // get min and max text view
         final TextView tvMin = (TextView) findViewById(R.id.textView2);
@@ -66,6 +82,15 @@ public class RangeChoose extends Activity {
             public void onClick(View v) {
             Log.d("Oleg","Clicked");
               Intent resultIntent = new Intent();
+
+                SharedPreferences.Editor editor = sharedpreferences.edit();
+                editor.putString("min", min);
+                editor.putString("max", max);
+                editor.commit();
+
+
+
+
                 Log.d("Oleg","Min " + min);
                 Log.d("Oleg","Max " + max);
                 resultIntent.putExtra("from", min);

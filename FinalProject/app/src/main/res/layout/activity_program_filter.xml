@@ -4,16 +4,24 @@
     android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:context="com.example.yugenshtil.finalproject.useCases.ProgramFilter">
+    tools:context="com.example.yugenshtil.finalproject.useCases.ProgramFilter"
+    android:weightSum="1">
+
+
+
+
+    <ListView android:id="@+id/programList" android:layout_width="fill_parent"
+        android:layout_height="434dp"
+        android:layout_weight="0.78" />
 
     <RelativeLayout android:layout_height="wrap_content"
         android:layout_width="match_parent">
 
-    <Button
-        android:id="@+id/btnSelectedPrograms"
-        android:layout_width="124dp"
-        android:layout_height="wrap_content"
-        android:text="Selected" />
+        <Button
+            android:id="@+id/btnSelectedPrograms"
+            android:layout_width="124dp"
+            android:layout_height="wrap_content"
+            android:text="Selected" />
 
         <Button
             android:text="Reset"
@@ -34,7 +42,5 @@
 
     </RelativeLayout>
 
-    <ListView android:id="@+id/programList" android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
 
 </LinearLayout>

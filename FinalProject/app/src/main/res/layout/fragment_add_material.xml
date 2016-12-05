@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,19 +8,12 @@
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#ffff"
+        >
 
         <!-- TODO: Update blank fragment layout -->
 
-        <TextView
-            android:text="Please add item info:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/tv_MaterialTitle"
-            android:textSize="24sp"
-            android:textColor="@android:color/black" />
         <EditText
             android:layout_width="320dp"
             android:layout_height="wrap_content"
@@ -36,26 +30,21 @@
             android:layout_below="@+id/tv_addMaterialTitle"
             android:layout_alignStart="@+id/tv_addMaterialTitle" />
 
-
         <EditText
-            android:layout_width="320sp"
-            android:layout_height="130dp"
+            android:layout_width="fill_parent"
+            android:layout_height="59dp"
+            android:lines="2"
+            android:minLines="1"
+            android:gravity="top|left"
             android:inputType="textMultiLine"
             android:ems="10"
-            android:layout_below="@+id/tv_addMaterialPickUpDate"
-            android:layout_alignStart="@+id/tv_addMaterialPickUpDate"
+            android:scrollbars="vertical"
             android:id="@+id/tv_AddMaterialDesc"
-            android:hint="Description..." />
+            android:hint="Description..."
+            android:layout_below="@+id/tv_addMaterialPrice"
+            android:layout_alignStart="@+id/tv_addMaterialPrice"
+            android:layout_alignEnd="@+id/tv_addMaterialPrice" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="date"
-            android:ems="10"
-            android:id="@+id/tv_addMaterialPickUpDate"
-            android:hint="Pick Up Date"
-            android:layout_below="@+id/tv_addMaterialProgram"
-            android:layout_alignStart="@+id/tv_addMaterialProgram" />
 
         <EditText
             android:layout_width="wrap_content"
@@ -64,10 +53,55 @@
             android:ems="10"
             android:id="@+id/tv_addMaterialProgram"
             android:hint="Program"
-            android:layout_below="@+id/tv_addMaterialPrice"
-            android:layout_alignStart="@+id/tv_addMaterialPrice" />
+            android:layout_below="@+id/tv_AddMaterialDesc"
+            android:layout_alignStart="@+id/tv_AddMaterialDesc" />
+
+        <Button
+            android:text="Save Item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="ButtonOnClick"
+            android:background="#f44336"
+            android:textColor="#ffff"
+            android:id="@+id/btSave_AddMaterial"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="ButtonOnClick"
+            android:src="@drawable/ic_camera_alt_black_36dp"
+            android:id="@+id/ivCamera_AddMaterial"
+            android:layout_alignBottom="@+id/ivImage_AddMaterial"
+            android:layout_alignStart="@+id/tv_addBookPublisher"
+            android:layout_marginStart="18dp"
+            android:layout_marginBottom="10dp" />
+
+        <ImageView
+            android:src="@drawable/notuploaded"
+            android:id="@+id/ivImage_AddMaterial"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_below="@+id/tv_addMaterialProgram"
+            android:layout_toEndOf="@+id/tv_addMaterialProgram"
+            android:layout_marginTop="63dp" />
+
+        <TextView
 
 
+            android:layout_marginTop="13dp"
+
+
+            android:text="Please add item info:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_MaterialTitle"
+            android:textSize="17sp"
+            android:textColor="@android:color/black"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
 
 
     </RelativeLayout>

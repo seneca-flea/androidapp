@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,19 +7,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#ffff">
+
 
         <!-- TODO: Update blank fragment layout -->
 
-        <TextView
-            android:text="Please add book info:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/tv_bookTitle"
-            android:textSize="24sp"
-            android:textColor="@android:color/black" />
         <EditText
             android:layout_width="320dp"
             android:layout_height="wrap_content"
@@ -35,21 +29,14 @@
             android:layout_below="@+id/tv_addBookTitle"
             android:layout_alignStart="@+id/tv_addBookTitle" />
 
-        <EditText
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_addBookCourse"
-            android:hint="Course"
-            android:layout_below="@+id/tv_addBookPrice"
-            android:layout_alignStart="@+id/tv_addBookPrice" />
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
-            android:layout_below="@+id/tv_addBookCourse"
-            android:layout_alignStart="@+id/tv_addBookCourse"
+            android:layout_below="@+id/tv_addBookPrice"
+            android:layout_alignStart="@+id/tv_addBookPrice"
             android:id="@+id/tv_addBookProgram"
             android:hint="Program" />
 
@@ -60,29 +47,68 @@
             android:ems="10"
             android:id="@+id/tv_addBookPublisher"
             android:hint="Publisher"
-            android:layout_below="@+id/tv_addBookProgram"
-            android:layout_alignStart="@+id/tv_addBookProgram" />
+            android:layout_below="@+id/tv_AddBookDesc"
+            android:layout_alignStart="@+id/tv_AddBookDesc" />
 
 
-        <EditText
-            android:layout_width="320sp"
-            android:layout_height="130dp"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:layout_below="@+id/tv_addBookPickUpDate"
-            android:layout_alignStart="@+id/tv_addBookPickUpDate"
-            android:id="@+id/tv_AddBookDesc"
-            android:hint="Description..." />
-
-        <EditText
+        <TextView
+            android:text="Please add book info:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="date"
+            android:id="@+id/tv_bookTitle"
+            android:textSize="17sp"
+            android:textColor="@android:color/black"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="59dp"
+            android:lines="2"
+            android:minLines="1"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
             android:ems="10"
-            android:id="@+id/tv_addBookPickUpDate"
-            android:hint="Pick Up Date"
-            android:layout_below="@+id/tv_addBookPublisher"
-            android:layout_alignStart="@+id/tv_addBookPublisher" />
+            android:scrollbars="vertical"
+            android:id="@+id/tv_AddBookDesc"
+            android:hint="Description..."
+            android:layout_below="@+id/tv_addBookProgram"
+            android:layout_alignStart="@+id/tv_addBookProgram"
+            android:layout_alignEnd="@+id/tv_addBookProgram" />
+
+        <Button
+            android:text="Save Book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="ButtonOnClick"
+            android:background="#f44336"
+            android:textColor="#ffff"
+            android:id="@+id/btSave_AddBook"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp" />
+
+        <ImageView
+            android:src="@drawable/notuploaded"
+            android:id="@+id/ivImage_AddBook"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="38dp"
+            android:layout_above="@+id/btSave_AddBook"
+            android:layout_alignEnd="@+id/tv_addBookPublisher"
+            android:layout_marginBottom="41dp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="ButtonOnClick"
+            android:src="@drawable/ic_camera_alt_black_36dp"
+            android:id="@+id/ivCamera_AddBook"
+            android:layout_alignBottom="@+id/ivImage_AddBook"
+            android:layout_alignStart="@+id/tv_addBookPublisher"
+            android:layout_marginStart="18dp"
+            android:layout_marginBottom="10dp" />
 
 
     </RelativeLayout>

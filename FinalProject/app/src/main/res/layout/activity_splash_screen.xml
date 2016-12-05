@@ -6,18 +6,6 @@
         android:paddingBottom="@dimen/activity_vertical_margin"   tools:context=".SplashScreen"
         >
 
-        TextView android:text="@string/hello_world" android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/idi" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Seneca Flea"
-            android:id="@+id/SenecaFleaTitle"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -27,6 +15,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:src="@drawable/appicon"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Seneca Flea"
+        android:id="@+id/SenecaFleaTitle"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="231dp" />
 
 
 </RelativeLayout>

@@ -68,13 +68,18 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         String title="";
         String description="";
         String price="";
+        String imageCode = "";
 
         //Here it sets to the view
         try {
             JSONObject item = (JSONObject)itemList.get(i);
+
             title = item.get("Title").toString();
             description = item.get("Description").toString();
             price = item.get("Price").toString();
+         //   if(Integer.parseInt(item.getString("ImagesCount"))>0)
+                Log.d("Oleg","ItemID is " + item.getString("ItemId"));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -83,7 +88,8 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         derpHolder.title.setText(title);
         derpHolder.description.setText(description);
         derpHolder.price.setText(price+"$");
-    //    derpHolder.icon.setImageResource(item.getImageResId());
+        derpHolder.thumbnail.setImageResource(R.drawable.bookimage);
+       // derpHolder.icon.setImageResource(item.getImageResId());
       /*
         if(item.isFavourite())
         {
@@ -138,6 +144,7 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
             updateIcon = (ImageView)itemView.findViewById(R.id.im_update_icon);
             historyIcon =(ImageView)itemView.findViewById(R.id.im_history_icon);
             container = itemView.findViewById(R.id.cont_item_root);
+            thumbnail = (ImageView) itemView.findViewById(R.id.im_main_image);
 
             deleteIcon.setOnClickListener(this);
             updateIcon.setOnClickListener(this);

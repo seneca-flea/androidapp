@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 //NEW!
 import com.android.volley.AuthFailureError;
@@ -15,17 +17,19 @@ import com.android.volley.VolleyError;
 
 //import android.support.v7.widget.LinearLayoutManager;
 //import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
@@ -33,6 +37,7 @@ import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.useCases.Sell;
 //import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import android.app.Fragment;
@@ -40,6 +45,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import layout.AddBook;
@@ -64,12 +70,16 @@ public class AddItem extends Activity {
     private String publisher ="";
     private String errors = "";
     private String ADDITEMURL="http://senecafleamarket.azurewebsites.net/api/Item";
+    private String SENDIMAGEURL="http://senecafleamarket.azurewebsites.net/api/Item/";
     private String ADDMATERIALMURL="http://senecafleamarket.azurewebsites.net/api/Item";
     private static final String PROTOCOL_CHARSET = "utf-8";
     private String imageCode ="";
     Fragment fragment;
     ArrayList<String> difficultyLevelOptionsList = new ArrayList<String>();
     SharedPreferences sharedpreferences;
+    ImageView imageView;
+    byte[] decodedString = null;
+  //  private Button ivSaveBook;
 
     //ADDED!
     //itemType assigned to test what we are adding when the add button is clicked(a book or an item)
@@ -87,9 +97,12 @@ public class AddItem extends Activity {
         id = sharedpreferences.getString("UserId","");
         token = sharedpreferences.getString("token","");
 
-        final Button btSave = (Button) findViewById(R.id.btAddItem_Save);
+     //   final Button btSave = (Button) findViewById(R.id.btAddItem_Save);
         //button so save image
         final ImageButton ibImage = (ImageButton) findViewById(R.id.ibAddItem_Image);
+
+
+
 
         ibImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,6 +156,7 @@ public class AddItem extends Activity {
                     FragmentTransaction ft = fm.beginTransaction();
                     ft.replace(R.id.itemfrag, fragment);
                     ft.commit();
+
                 }
 
                 if (i == 2) {
@@ -167,12 +181,17 @@ public class AddItem extends Activity {
         });
 
         // Waiting for Save Button to be clicked
-        btSave.setOnClickListener(new View.OnClickListener() {
+   /*     btSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (itemType == "empty") {
                     Log.d("LOG : ", "Adding item: attempted to save item on empty fragment");
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, "You should choose type before saving", duration);
+                    toast.show();
 
                 } else if (itemType == "Book") {
                     Log.d("LOG :", "Adding book");
@@ -186,24 +205,25 @@ public class AddItem extends Activity {
                     Log.d("LOG :", "Something went seriously wrong");
                 }
             }
-        });
+        });*/
     }
     public void addBook() {
         Log.d("LOG :", "addBook was called ");
         TextView bookTitle = (TextView) findViewById(R.id.tv_addBookTitle);
         TextView bookPrice = (TextView) findViewById(R.id.tv_addBookPrice);
-        TextView bookCourse = (TextView) findViewById(R.id.tv_addBookCourse);
+       // TextView bookCourse = (TextView) findViewById(R.id.tv_addBookCourse);
         TextView bookPublisher = (TextView) findViewById(R.id.tv_addBookPublisher);
         TextView bookProgram = (TextView) findViewById(R.id.tv_addBookProgram);
-        TextView bookDate = (TextView) findViewById(R.id.tv_addBookPickUpDate);
+       // TextView bookDate = (TextView) findViewById(R.id.tv_addBookPickUpDate);
         TextView bookDescription = (TextView) findViewById(R.id.tv_AddBookDesc);
 
 
+
         title = bookTitle.getText().toString();
-        course = bookCourse.getText().toString();
+      //  course = bookCourse.getText().toString();
         price = Double.parseDouble(bookPrice.getText().toString());
         publisher = bookPublisher.getText().toString();
-        pickUpDate = bookDate.getText().toString();
+       // pickUpDate = bookDate.getText().toString();
         program = bookProgram.getText().toString();
         description = bookDescription.getText().toString();
         if (validateInput()) {
@@ -226,8 +246,32 @@ public class AddItem extends Activity {
                 public void onResponse(JSONObject response) {
                     pd.cancel();
                     Log.d("LOG :", "Response is " + response);
-                    Intent itemIntent = new Intent(AddItem.this, Sell.class);
-                    startActivity(itemIntent);
+
+
+
+                    if(decodedString == null){
+                        Log.d("Oleg","No images");
+                        Intent itemIntent = new Intent(AddItem.this, Sell.class);
+                        startActivity(itemIntent);
+
+                    }else{
+                        JSONObject res = (JSONObject) response;
+                        try {
+                            String createdItemId = res.getString("ItemId");
+
+                            addImageToItem(createdItemId);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+
+
+
+
                 }
             }, new Response.ErrorListener() {
 
@@ -284,14 +328,14 @@ public class AddItem extends Activity {
         Log.d("LOG :", "addMaterial was called");
         TextView MaterialTitle = (TextView) findViewById(R.id.tv_addMaterialTitle);
         TextView MaterialPrice = (TextView) findViewById(R.id.tv_addMaterialPrice);
-        TextView MaterialDate = (TextView) findViewById(R.id.tv_addMaterialPickUpDate);
+       // TextView MaterialDate = (TextView) findViewById(R.id.tv_addMaterialPickUpDate);
         TextView MaterialProgram = (TextView) findViewById(R.id.tv_addMaterialProgram);
         TextView MaterialDescription = (TextView) findViewById(R.id.tv_AddMaterialDesc);
 
         title = MaterialTitle.getText().toString();
         program = MaterialProgram.getText().toString();
         price = Double.parseDouble(MaterialPrice.getText().toString());
-        pickUpDate = MaterialDate.getText().toString();
+      //  pickUpDate = MaterialDate.getText().toString();
         program = MaterialProgram.getText().toString();
         description = MaterialDescription.getText().toString();
         if (validateInput()) {
@@ -312,8 +356,26 @@ public class AddItem extends Activity {
                 public void onResponse(JSONObject response) {
                     pd.cancel();
                     Log.d("LOG :", "Response is " + response);
-                    Intent itemIntent = new Intent(AddItem.this, Sell.class);
-                    startActivity(itemIntent);
+
+                    if(decodedString == null){
+                        Intent itemIntent = new Intent(AddItem.this, Sell.class);
+                        startActivity(itemIntent);
+                        Log.d("Oleg","No images");
+
+                    }else{
+                        JSONObject res = (JSONObject) response;
+                        try {
+                            String createdItemId = res.getString("ItemId");
+
+                            addImageToItem(createdItemId);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
                 }
             }, new Response.ErrorListener() {
 
@@ -424,11 +486,158 @@ public class AddItem extends Activity {
                     String newText = data.getStringExtra("Base64");
                     imageCode = newText;
                     Log.d("Oleg","Base64 is " + newText);
+                    if(type.equals("Book")){
+                        Log.d("oleg","Type is Book");
+                        decodedString = Base64.decode(imageCode, Base64.DEFAULT);
+                        Log.d("Oleg","Decoded BYTES " + decodedString );
+
+                        //   sendPicture(decodedString);
+
+
+
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        imageView = (ImageView)findViewById(R.id.ivImage_AddMaterial);
+                        imageView.setImageBitmap(decodedByte);
+
+
+
+                    }
+                    if(type.equals("Material")){
+
+                        Log.d("oleg","Type is Material");
+
+                        decodedString = Base64.decode(imageCode, Base64.DEFAULT);
+                        Log.d("Oleg","Decoded BYTES " + decodedString );
+
+                        //   sendPicture(decodedString);
+
+
+
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        imageView = (ImageView)findViewById(R.id.ivImage_AddMaterial);
+                        imageView.setImageBitmap(decodedByte);
+
+
+
+                    }
+
+
                 }
                 break;
             }
         }
     }
+
+
+
+    void addImageToItem(String id){
+        Log.d("BYte","ItemId is " + id);
+        Log.d("BYte","getting picture in bytes " + decodedString);
+
+        StringRequest myRequest = new StringRequest(Request.Method.POST, SENDIMAGEURL+id + "/addimage", new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                Log.d("LOG :", "Response is " + response);
+                Intent itemIntent = new Intent(AddItem.this, Sell.class);
+                startActivity(itemIntent);
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if(error.networkResponse.data!=null) {
+
+                    String statusCode = String.valueOf(error.networkResponse.statusCode);
+
+                    try {
+                        String body = new String(error.networkResponse.data,"UTF-8");
+                        Log.d("ERROR ",""+body);
+                    } catch (UnsupportedEncodingException e) {
+                        Log.d("Oleg","Exception Error response (Message) is " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                }
+
+
+
+                Log.d("LOG :", "Error is " + error);
+            }
+        })
+
+
+
+
+        {
+
+            @Override
+            public byte[] getBody() throws com.android.volley.AuthFailureError {
+                Log.d("Oleg","PLEASE BYTES");
+                return decodedString;
+            };/**/
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                Log.d("Oleg","I will add token " + token);
+                headers.put("Authorization","Bearer "+token);
+                //  headers.put("Content-Type","image/jpeg");
+                // params.put("username",email);
+                //params.put("password", password);
+
+                //  Log.d("Token ", headers.toString());
+                return headers;
+            }
+
+            public String getBodyContentType()
+            {
+                return "image/jpeg";
+            }
+        };
+
+        MySingleton.getInstance(AddItem.this).addToRequestQueue(myRequest);
+
+
+
+
+
+
+    }
+
+
+    private View.OnClickListener mCorkyListener = new View.OnClickListener() {
+        public void onClick(View v) {
+           Log.d("Oleg","Somethimg was clicked" + v);
+
+        }
+    };
+
+    public void ButtonOnClick(View v) {
+        switch (v.getId()) {
+            case R.id.btSave_AddBook:
+                Log.d("Oleg","clicked add book Save");
+                addBook();
+            case R.id.ivCamera_AddBook:
+                Log.d("Oleg","clicked add book Camera");
+                Intent addImage = new Intent(AddItem.this, AddImage.class);
+                startActivityForResult(addImage, 1990);
+            case R.id.btSave_AddMaterial:
+                Log.d("Oleg","clicked add Material Save");
+                addMaterial();
+
+            case R.id.ivCamera_AddMaterial:
+                Log.d("Oleg","clicked Material Camera");
+                Intent addImageToMaterial = new Intent(AddItem.this, AddImage.class);
+                startActivityForResult(addImageToMaterial, 1990);
+
+
+        }
+    }
+
+
+
 
 
 }
