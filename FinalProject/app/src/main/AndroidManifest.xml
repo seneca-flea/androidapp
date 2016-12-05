@@ -106,6 +106,12 @@
         <activity
             android:name=".Item.AddImage"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".model.MyMessagesListDisplayActivity"
+            android:theme="@style/AppTheme" />
+
+
         <activity android:name=".model.ItemHistoryDisplayActivity"></activity>
     </application>
 

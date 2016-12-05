@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -41,7 +42,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyMessagesListDisplayActivity extends Activity  {
+public class MyMessagesListDisplayActivity extends AppCompatActivity  {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;

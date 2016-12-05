@@ -36,6 +36,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
+import com.example.yugenshtil.finalproject.Item.AddItem;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -599,14 +600,17 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
             Log.d("LOG : ","onMessageIconClick for Buy.java on item :" + item.get("ItemId"));
 
-            Intent msgIntent = new Intent(this, MyMessagesListDisplayActivity.class);
 
-            String itemId = item.get("ItemId").toString();
-            String sellerId = item.get("SellerId").toString();
+       //     Intent itemIntent = new Intent(AddItem.this, Sell.class);
+        //    startActivity(itemIntent);
+            Intent msgIntent = new Intent(Buy.this, MyMessagesListDisplayActivity.class);
 
-            Log.d("LOG : ","itemId is " + itemId + "and seller id is " + sellerId);
-            msgIntent.putExtra("itemIdMessageInt",itemId);
-            msgIntent.putExtra("sellerIdMessageInt",sellerId);
+         //   String itemId = item.get("ItemId").toString();
+         //   String sellerId = item.get("SellerId").toString();
+
+       //     Log.d("LOG : ","itemId is " + itemId + "and seller id is " + sellerId);
+        //    msgIntent.putExtra("itemIdMessageInt",itemId);
+       //     msgIntent.putExtra("sellerIdMessageInt",sellerId);
             startActivity(msgIntent);
         } catch (JSONException e) {
             e.printStackTrace();
