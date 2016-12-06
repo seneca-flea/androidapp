@@ -597,6 +597,8 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
+            Log.d("LOG : ", "contents of item" + item.toString());
+
 
             Log.d("LOG : ","onMessageIconClick for Buy.java on item :" + item.get("ItemId"));
             //Testing: Log.d("LOG : ", "Json:" + item);

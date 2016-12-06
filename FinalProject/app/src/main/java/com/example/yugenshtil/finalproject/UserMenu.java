@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,9 +16,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
@@ -26,12 +31,19 @@ import com.example.yugenshtil.finalproject.useCases.MyFavorites;
 import com.example.yugenshtil.finalproject.useCases.MyMessages;
 import com.example.yugenshtil.finalproject.useCases.Sell;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class UserMenu extends Activity {
 
     private String id = "";
     private String token = "";
     private String email="";
     public ProgressDialog pd;
+    private String GETUSERINFO="http://senecafleamarket.azurewebsites.net/api/User/CurrentUser";
     private String DELETEUSERURL="http://senecafleamarket.azurewebsites.net/api/User/";
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -43,6 +55,7 @@ public class UserMenu extends Activity {
         sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
         id = sharedpreferences.getString("UserId", "");
         email = sharedpreferences.getString("Email", "");
+        token = sharedpreferences.getString("token", "");
 
         final ImageView bSell = (ImageView) findViewById(R.id.userMenuSellButton);
         final ImageView bBuy = (ImageView) findViewById(R.id.userMenuBuyButton);
@@ -130,7 +143,72 @@ public class UserMenu extends Activity {
     }
 
     private void hasNotification() {
-        
+        Log.d("LOG : ","checking notifications for user.");
+
+        JsonObjectRequest jsObjGetRequest = new JsonObjectRequest(Request.Method.GET, GETUSERINFO, null, new Response.Listener<JSONObject>() {
+            String myMessagesList="";
+
+
+            @Override
+            public void onResponse(JSONObject response) {
+
+                if(response!=null){
+                    JSONObject items = response;
+
+                    if(items!=null) {
+                        Log.d("Log : ", "user info: " + items.toString());
+
+                        try {
+                            myMessagesList+=items.getString("HasNewMessage");
+                            Log.d("LOG : ", "has message is: " + myMessagesList);
+                            if(myMessagesList.contains("false")){
+                               Log.d("LOG : ", "No new messages");
+                            }
+                            else {
+                                Log.d("LOG : ", "Triggering notification");
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                pd.cancel();
+                Log.d("LOG :","error : " + error);
+
+            }
+        }){
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+
+                Log.d("Token ", headers.toString());
+                return headers;
+            }
+        };
+        MySingleton.getInstance(UserMenu.this).addToRequestQueue(jsObjGetRequest);
     }
 
     @Override
