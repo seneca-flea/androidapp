@@ -42,6 +42,7 @@ public class Registration extends Activity {
     private String email="";
     private String password="";
     private String passwordConfirmation="";
+    private String phone="";
     private String errors="";
     private String USERAUTHENTICATIONURL="http://senecafleaia.azurewebsites.net/api/Account/Register";
     private String USERREGISTRATIONURL="http://senecafleamarket.azurewebsites.net/api/User";
@@ -57,6 +58,7 @@ public class Registration extends Activity {
         final EditText etEmail = (EditText) findViewById(R.id.etLogin_Email);
         final EditText etPassword = (EditText) findViewById(R.id.etLogin_Password);
         final EditText etPasswordConfirmation = (EditText) findViewById(R.id.etRegistration_PasswordConfirmation);
+        final EditText etPhone = (EditText) findViewById(R.id.etLogin_PhoneNumber);
 
         final Button btRegistration = (Button) findViewById(R.id.btRegistration_Registration);
         final TextView tvLogin = (TextView) findViewById(R.id.tvRegistration_Login);
@@ -81,6 +83,7 @@ public class Registration extends Activity {
                 email = etEmail.getText().toString();
                 password = etPassword.getText().toString();
                 passwordConfirmation = etPasswordConfirmation.getText().toString();
+                phone = etPhone.getText().toString();
 
                 if (validateInput()) {
                     Map<String, String> params = new HashMap();
@@ -223,6 +226,10 @@ public class Registration extends Activity {
 
         Map<String, String> addUserParams = new HashMap();
         addUserParams.put("Email", email);
+        addUserParams.put("FirstName", firstName);
+        addUserParams.put("LastName", lastName);
+        addUserParams.put("PhoneNumber",phone);
+
 
         JSONObject parameters = new JSONObject(addUserParams);
         Log.d("Oleg","Add JSON parameters"+ parameters);

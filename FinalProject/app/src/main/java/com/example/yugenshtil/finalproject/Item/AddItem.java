@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -60,20 +61,36 @@ public class AddItem extends Activity {
 
     private String id = "";
     private String token = "";
-    public String type = "Book";
+
+
+    // Common fields
     private String title = "";
     private String description = "";
     private double price = 0.0;
-    private String program ="";
-    private String pickUpDate = null;
-    private String course ="";
+    private String type = "Book";
+    private String program="";
+    //Fields for Book
+    private int year=2016;
     private String publisher ="";
+    private String author ="";
+
+    //Edit Fields
+    EditText etTitle;
+    EditText etDescription;
+    EditText etPrice;
+    EditText etYear;
+    EditText etPublisher;
+    EditText etAuthor;
+    Spinner program1;
+    Spinner programMaterial1;
+
     private String errors = "";
     private String ADDITEMURL="http://senecafleamarket.azurewebsites.net/api/Item";
     private String SENDIMAGEURL="http://senecafleamarket.azurewebsites.net/api/Item/";
     private String ADDMATERIALMURL="http://senecafleamarket.azurewebsites.net/api/Item";
     private static final String PROTOCOL_CHARSET = "utf-8";
     private String imageCode ="";
+    private Spinner spinner1;
     Fragment fragment;
     ArrayList<String> difficultyLevelOptionsList = new ArrayList<String>();
     SharedPreferences sharedpreferences;
@@ -101,7 +118,8 @@ public class AddItem extends Activity {
         //button so save image
         final ImageButton ibImage = (ImageButton) findViewById(R.id.ibAddItem_Image);
 
-
+//        addListenerOnButton();
+ //       addListenerOnSpinnerItemSelection();
 
 
         ibImage.setOnClickListener(new View.OnClickListener() {
@@ -207,38 +225,51 @@ public class AddItem extends Activity {
             }
         });*/
     }
+
+    // Adding a book
     public void addBook() {
         Log.d("LOG :", "addBook was called ");
-        TextView bookTitle = (TextView) findViewById(R.id.tv_addBookTitle);
-        TextView bookPrice = (TextView) findViewById(R.id.tv_addBookPrice);
-       // TextView bookCourse = (TextView) findViewById(R.id.tv_addBookCourse);
-        TextView bookPublisher = (TextView) findViewById(R.id.tv_addBookPublisher);
-        TextView bookProgram = (TextView) findViewById(R.id.tv_addBookProgram);
-       // TextView bookDate = (TextView) findViewById(R.id.tv_addBookPickUpDate);
-        TextView bookDescription = (TextView) findViewById(R.id.tv_AddBookDesc);
+        // Get values
+        etTitle = (EditText) findViewById(R.id.et_addBookTitle);
+        etDescription = (EditText) findViewById(R.id.et_AddBookDesc);
+        etPrice= (EditText) findViewById(R.id.et_addBookPrice);
+        etYear= (EditText) findViewById(R.id.et_AddBookYear);
+        etPublisher= (EditText) findViewById(R.id.et_addBookPublisher);
+        etAuthor= (EditText) findViewById(R.id.et_addBookAuthor);
+        program1 = (Spinner) findViewById(R.id.spinner1);
 
+        if(!validateBook()){
+            Log.d("Oleg","Not Validated");
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, "Please check all fields", duration);
+            toast.show();
+        }
+        else{
+            Log.d("Oleg","Validated");
+            title = etTitle.getText().toString();
+            price = Double.parseDouble(etPrice.getText().toString());
+            publisher = etPublisher.getText().toString();
+            program = program1.getSelectedItem().toString();
+            description = etDescription.getText().toString();
+            author = etAuthor.getText().toString();
 
-
-        title = bookTitle.getText().toString();
-      //  course = bookCourse.getText().toString();
-        price = Double.parseDouble(bookPrice.getText().toString());
-        publisher = bookPublisher.getText().toString();
-       // pickUpDate = bookDate.getText().toString();
-        program = bookProgram.getText().toString();
-        description = bookDescription.getText().toString();
-        if (validateInput()) {
             pd = ProgressDialog.show(this, "", "Adding item, please wait..", true);
 
             Map<String, String> params = new HashMap();
-            params.put("SellerId", String.valueOf(id));
             params.put("Title", title);
             params.put("Status", "Available");
-            params.put("Price", String.valueOf(price));
-            params.put("Program",program);
-            params.put("Course", course);
-            params.put("Publisher", publisher);
-            params.put("PickUpDate", pickUpDate);
+            params.put("SellerId", String.valueOf(id));
             params.put("Description", description);
+            params.put("Price", String.valueOf(price));
+            params.put("Type", itemType);
+            params.put("CourseName", "NA");
+            params.put("CourseProgram",program);
+            params.put("BookTitle", title);
+            params.put("BookYear", "1990");
+            params.put("BookPublisher", publisher);
+            params.put("BookAuthor", author);
+
             JSONObject parameters = new JSONObject(params);
             Log.d("LOG : ", "JSON is " + parameters);
             JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, ADDITEMURL, parameters, new Response.Listener<JSONObject>() {
@@ -268,7 +299,138 @@ public class AddItem extends Activity {
 
                     }
 
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, "Book was successfully added", duration);
+                    toast.show();
 
+
+
+                }
+            }, new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    pd.cancel();
+                    Log.d("LOG :", "Error is " + error);
+                }
+            }
+            ){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    Log.d("Oleg","I will add token " + token);
+                    headers.put("Authorization","Bearer "+token);
+                    // params.put("username",email);
+                    //params.put("password", password);
+
+                    Log.d("Token ", headers.toString());
+                    return headers;
+                }
+
+
+
+            };
+
+            MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjPostRequest);
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, "Item was added.", duration);
+            toast.show();
+
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            Intent sellIntent = new Intent(AddItem.this, Sell.class);
+            // RegistrationPage.this.startActivity(loginIntent);
+            startActivity(sellIntent);
+       }
+
+
+
+    }
+
+
+    public void addMaterial() {
+        Log.d("LOG :", "addMaterial was called");
+
+        //Get values
+        etTitle = (EditText) findViewById(R.id.et_addMaterialTitle);
+        etDescription = (EditText) findViewById(R.id.et_addMaterialDesc);
+        etPrice= (EditText) findViewById(R.id.et_addMaterialPrice);
+        programMaterial1 = (Spinner) findViewById(R.id.spinner1Material);
+
+
+
+        if(!validateMaterial()){
+            Log.d("Oleg","Not Validated");
+            Context context = getApplicationContext();
+            int duration = Toast.LENGTH_LONG;
+            Toast toast = Toast.makeText(context, "Please check all fields", duration);
+            toast.show();
+        }
+
+        else{
+            Log.d("Oleg","Validated");
+            title = etTitle.getText().toString();
+            price = Double.parseDouble(etPrice.getText().toString());
+            publisher = "NA";
+            program = programMaterial1.getSelectedItem().toString();
+            description = etDescription.getText().toString();
+            author = "NA";
+
+            pd = ProgressDialog.show(this, "", "Adding item, please wait..", true);
+
+            Map<String, String> params = new HashMap();
+            params.put("Title", title);
+            params.put("Status", "Available");
+            params.put("SellerId", String.valueOf(id));
+            params.put("Description", description);
+            params.put("Price", String.valueOf(price));
+            params.put("Type", itemType);
+            params.put("CourseName", "NA");
+            params.put("CourseProgram",program);
+            params.put("BookTitle", title);
+            params.put("BookYear", "2016");
+            params.put("BookPublisher", "NA");
+            params.put("BookAuthor", "NA");
+
+            JSONObject parameters = new JSONObject(params);
+            Log.d("LOG : ", "JSON is " + parameters);
+            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, ADDITEMURL, parameters, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    pd.cancel();
+                    Log.d("LOG :", "Response is " + response);
+
+
+
+                    if(decodedString == null){
+                        Log.d("Oleg","No images");
+                        Intent itemIntent = new Intent(AddItem.this, Sell.class);
+                        startActivity(itemIntent);
+
+                    }else{
+                        JSONObject res = (JSONObject) response;
+                        try {
+                            String createdItemId = res.getString("ItemId");
+
+                            addImageToItem(createdItemId);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, "Book was successfully added", duration);
+                    toast.show();
 
 
 
@@ -314,115 +476,10 @@ public class AddItem extends Activity {
             // RegistrationPage.this.startActivity(loginIntent);
             startActivity(sellIntent);
 
-        } else {
 
-            Context context = getApplicationContext();
-            int duration = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(context, errors, duration);
-            toast.show();
 
         }
-    }
-    public void addMaterial() {
-        Log.d("LOG :", "addMaterial was called");
-        TextView MaterialTitle = (TextView) findViewById(R.id.tv_addMaterialTitle);
-        TextView MaterialPrice = (TextView) findViewById(R.id.tv_addMaterialPrice);
-       // TextView MaterialDate = (TextView) findViewById(R.id.tv_addMaterialPickUpDate);
-        TextView MaterialProgram = (TextView) findViewById(R.id.tv_addMaterialProgram);
-        TextView MaterialDescription = (TextView) findViewById(R.id.tv_AddMaterialDesc);
 
-        title = MaterialTitle.getText().toString();
-        program = MaterialProgram.getText().toString();
-        price = Double.parseDouble(MaterialPrice.getText().toString());
-      //  pickUpDate = MaterialDate.getText().toString();
-        program = MaterialProgram.getText().toString();
-        description = MaterialDescription.getText().toString();
-        if (validateInput()) {
-            pd = ProgressDialog.show(this, "", "Adding item, please wait..", true);
-
-            Map<String, String> params = new HashMap();
-            params.put("SellerId", String.valueOf(id));
-            params.put("Title", title);
-            params.put("Status", "Available");
-            params.put("Price", String.valueOf(price));
-            params.put("Program",program);
-            params.put("PickUpDate", pickUpDate);
-            params.put("Description", description);
-            JSONObject parameters = new JSONObject(params);
-            Log.d("LOG : ", "JSON is " + parameters);
-            JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, ADDITEMURL, parameters, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    pd.cancel();
-                    Log.d("LOG :", "Response is " + response);
-
-                    if(decodedString == null){
-                        Intent itemIntent = new Intent(AddItem.this, Sell.class);
-                        startActivity(itemIntent);
-                        Log.d("Oleg","No images");
-
-                    }else{
-                        JSONObject res = (JSONObject) response;
-                        try {
-                            String createdItemId = res.getString("ItemId");
-
-                            addImageToItem(createdItemId);
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                }
-            }, new Response.ErrorListener() {
-
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    pd.cancel();
-                    Log.d("LOG :", "Error is " + error);
-                }
-            }){
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> headers = new HashMap<String, String>();
-                    Log.d("Oleg","I will add token " + token);
-                    headers.put("Authorization","Bearer "+token);
-                    // params.put("username",email);
-                    //params.put("password", password);
-
-                    Log.d("Token ", headers.toString());
-                    return headers;
-                }
-            };
-
-            MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjPostRequest);
-            Context context = getApplicationContext();
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, "Item was added.", duration);
-            toast.show();
-
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Intent sellIntent = new Intent(AddItem.this, Sell.class);
-            // RegistrationPage.this.startActivity(loginIntent);
-            startActivity(sellIntent);
-
-        } else {
-
-            Context context = getApplicationContext();
-            int duration = Toast.LENGTH_LONG;
-
-            Toast toast = Toast.makeText(context, errors, duration);
-            toast.show();
-
-        }
     }
 
     public boolean validateInput(){
@@ -496,8 +553,14 @@ public class AddItem extends Activity {
 
 
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                        imageView = (ImageView)findViewById(R.id.ivImage_AddMaterial);
-                        imageView.setImageBitmap(decodedByte);
+                        imageView = (ImageView)findViewById(R.id.ivImage_AddBook);
+                        if(decodedByte!=null){
+                            imageView.setImageBitmap(decodedByte);
+
+
+                        }
+
+
 
 
 
@@ -615,29 +678,108 @@ public class AddItem extends Activity {
     };
 
     public void ButtonOnClick(View v) {
-        switch (v.getId()) {
-            case R.id.btSave_AddBook:
-                Log.d("Oleg","clicked add book Save");
-                addBook();
-            case R.id.ivCamera_AddBook:
-                Log.d("Oleg","clicked add book Camera");
-                Intent addImage = new Intent(AddItem.this, AddImage.class);
-                startActivityForResult(addImage, 1990);
-            case R.id.btSave_AddMaterial:
-                Log.d("Oleg","clicked add Material Save");
-                addMaterial();
+        Log.d("OLeg","ID is " + v.getId());
+       if(v.getId()==R.id.btSave_AddBook){
+           Log.d("Oleg","clicked add book Save");
+           addBook();
+       }
+       else if(v.getId()==R.id.ivCamera_AddBook){
+           Log.d("Oleg","clicked add book Camera");
+           Intent addImage = new Intent(AddItem.this, AddImage.class);
+           startActivityForResult(addImage, 1990);
+       }
 
-            case R.id.ivCamera_AddMaterial:
-                Log.d("Oleg","clicked Material Camera");
-                Intent addImageToMaterial = new Intent(AddItem.this, AddImage.class);
-                startActivityForResult(addImageToMaterial, 1990);
-
-
+       else if(v.getId()==R.id.btSave_AddMaterial){
+           Log.d("Oleg","clicked add Material Save");
+           addMaterial();
         }
+       else if(v.getId()==R.id.ivCamera_AddMaterial){
+           Log.d("Oleg","clicked Material Camera");
+           Intent addImageToMaterial = new Intent(AddItem.this, AddImage.class);
+           startActivityForResult(addImageToMaterial, 1990);
+       }
+
+    }
+
+   /* public void addListenerOnSpinnerItemSelection() {
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+        spinner1.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
 
 
+    // get the selected dropdown list value
+    public void addListenerOnButton() {
 
+        spinner1 = (Spinner) findViewById(R.id.spinner1);
+
+        btnSubmit.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(MyAndroidAppActivity.this,
+                        "OnClickListener : " +
+                                "\nSpinner 1 : "+ String.valueOf(spinner1.getSelectedItem()) +
+                                "\nSpinner 2 : "+ String.valueOf(spinner2.getSelectedItem()),
+                        Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+
+
+*/
+
+    public boolean validateBook(){
+        boolean isValid = true;
+
+        if(etTitle.getText().toString().equals("")){
+            etTitle.setError("Do not leave title blank");
+            isValid = false;
+        }
+        if(etDescription.getText().toString().equals("")){
+           etDescription.setError("Do not leave description blank");
+           isValid = false;
+        }
+        if(etAuthor.getText().toString().equals("")){
+            etAuthor.setError("Do not leave Author blank");
+            isValid = false;
+        }
+        if(!etYear.getText().toString().equals("")){
+            int year = Integer.parseInt(etYear.getText().toString());
+            if(year < 1900 || year >2016){
+                etYear.setError("Wrong year. It should be between 1900-2016");
+                isValid = false;
+            }
+
+        }else{
+            etYear.setError("Do not leave Year blank");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    public boolean validateMaterial(){
+        boolean isValid = true;
+
+        if(etTitle.getText().toString().equals("")){
+            etTitle.setError("Do not leave title blank");
+            isValid = false;
+        }
+        if(etDescription.getText().toString().equals("")){
+            etDescription.setError("Do not leave description blank");
+            isValid = false;
+        }
+
+        if(etPrice.getText().toString().equals("")){
+            etPrice.setError("Do not leave price blank");
+            isValid = false;
+        }
+
+
+        return isValid;
+    }
 
 
 }

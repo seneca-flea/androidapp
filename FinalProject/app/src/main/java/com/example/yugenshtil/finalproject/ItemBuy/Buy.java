@@ -30,8 +30,10 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -164,8 +166,17 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             @Override
             public void onErrorResponse(VolleyError error) {
                 pd.cancel();
+                if(error.toString().contains("NoConnectionError")){
+                    Context context = getApplicationContext();
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, "The Internet Connection is absent. Please check connection", duration);
+                    toast.show();
+
+
+                }
+
                 Log.d("Oleg","error" + error);
-                getItems();
+               // getItems();
             }
         }){
             @Override
@@ -176,6 +187,9 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             }
         };
 
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsObjRequest.setRetryPolicy(policy);
         MySingleton.getInstance(Buy.this).addToRequestQueue(jsObjRequest);
 
     }

@@ -23,19 +23,5 @@ public class AddBook extends Fragment {
         return inflater.inflate(R.layout.fragment_add_book, container, false);
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d("Oleg","OnDetach");
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
 
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

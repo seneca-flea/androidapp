@@ -25,4 +25,197 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="program_prompt">Choose a program</string>
+
+    <string-array name="program_array">
+        <item>Not particular Program</item>
+        <item>3D Animation</item>
+        <item>911 and Emergency Services Communications</item>
+        <item>Academic Upgrading</item>
+        <item>Accounting Techniques</item>
+        <item>Accounting and Finance (Optional Co-op)</item>
+        <item>Accounting and Payroll (Optional Co-op)</item>
+        <item>Accounting</item>
+        <item>Acting for Camera and Voice</item>
+        <item>Advanced Investigations and Enforcement</item>
+        <item>Airline Pilot Flight Operations</item>
+        <item>Animation</item>
+        <item>Applied Electronics Design (Optional Co-op)</item>
+        <item>Art Fundamentals</item>
+        <item>Arts and Science - University Transfer</item>
+        <item>Aviation Operations (Optional Co-op)</item>
+        <item>Aviation Safety (Optional Co-op)</item>
+        <item>Behavioural Sciences</item>
+        <item>Bioinformatics</item>
+        <item>Biotechnology - Advanced (Optional Co-op)</item>
+        <item>Brand Management (Optional Co-op)</item>
+        <item>Broadcasting - Radio</item>
+        <item>Broadcasting - Radio (Joint Seneca/York)</item>
+        <item>Broadcasting - Television</item>
+        <item>Broadcasting - Television (Joint Seneca/York)</item>
+        <item>Building Systems Engineering Technician (Optional Co-op)</item>
+        <item>Business - Insurance (Optional Co-op)</item>
+        <item>Business - International Business</item>
+        <item>Business - Marketing</item>
+        <item>Business Administration - Accounting and Financial Planning (Optional Co-op)</item>
+        <item>Business Administration - Entrepreneurship and Small Business</item>
+        <item>Business Administration - Financial Planning (Optional Co-op)</item>
+        <item>Business Administration - Human Resources (Optional Co-op)</item>
+        <item>Business Administration - International Business (Optional Co-op)</item>
+        <item>Business Administration - Management</item>
+        <item>Business Administration - Marketing (Optional Co-op)</item>
+        <item>Business Administration - Purchasing and Supply Management</item>
+        <item>Business</item>
+        <item>Chemical Engineering Technology (Optional Co-op)</item>
+        <item>Chemical Laboratory Technician</item>
+        <item>Chemical Laboratory Technology - Pharmaceutical (Optional Co-op)</item>
+        <item>Child Development Practitioner</item>
+        <item>Child and Youth Care (Formerly: Child and Youth Worker)</item>
+        <item>Civil Engineering Technician (Optional Co-op)</item>
+        <item>Civil Engineering Technology (Joint Program with York University) (Optional Co-op)</item>
+        <item>Civil Engineering Technology (Optional Co-op)</item>
+        <item>Clinical Research (Co-op)</item>
+        <item>College Opportunities</item>
+        <item>Computer Engineering Technology (Optional Co-op)</item>
+        <item>Computer Networking and Technical Support</item>
+        <item>Computer Programmer</item>
+        <item>Computer Programming and Analysis (Optional Co-op)</item>
+        <item>Computer Systems Technology (Optional Co-op)</item>
+        <item>Cosmetic Science (Co-op)</item>
+        <item>Cosmetic Techniques and Management</item>
+        <item>Court and Tribunal Administration (Articulated)</item>
+        <item>Court and Tribunal Administration</item>
+        <item>Creative Advertising</item>
+        <item>Creative Advertising (Joint Seneca/York)</item>
+        <item>Database Application Developer (Optional Co-op)</item>
+        <item>Documentary and Non-Fiction Media Production</item>
+        <item>Early Childhood Education (Accelerated)</item>
+        <item>Early Childhood Education</item>
+        <item>Electronics Engineering Technician</item>
+        <item>Electronics Engineering Technology</item>
+        <item>Energy Management - Built Environment</item>
+        <item>Environmental Landscape Management (Co-op)</item>
+        <item>Environmental Technician - Sampling and Monitoring</item>
+        <item>Environmental Technician (Optional Co-op)</item>
+        <item>Environmental Technology (Optional Co-op)</item>
+        <item>Esthetician</item>
+        <item>Esthetics and Spa Therapies</item>
+        <item>Event Management - Event and Exhibit Design</item>
+        <item>Event Marketing - Sports, Entertainment, Arts (Optional Co-op)</item>
+        <item>Event and Media Production</item>
+        <item>Fashion Arts</item>
+        <item>Fashion Business Management</item>
+        <item>Fashion Business</item>
+        <item>Fashion Studies</item>
+        <item>Financial Planning</item>
+        <item>Financial Services - Client Services</item>
+        <item>Financial Services Compliance Administration</item>
+        <item>Fire Protection Engineering Technician</item>
+        <item>Fire Protection Engineering Technology (Optional Co-op)</item>
+        <item>Firefighter, Pre-Service Education and Training</item>
+        <item>Fitness and Health Promotion</item>
+        <item>Flight Services: Operations and Cabin Management</item>
+        <item>Flight Services</item>
+        <item>Floral Design</item>
+        <item>Fraud Examination and Forensic Accounting</item>
+        <item>Game Art and Animation</item>
+        <item>General Arts - English for Academic Purposes</item>
+        <item>General Arts - One Year Certificate</item>
+        <item>Global Hospitality Business Development (Optional Co-op)</item>
+        <item>Global Hospitality Operations Management (Optional Co-op)</item>
+        <item>Government Relations</item>
+        <item>Government Relations (Co-op)</item>
+        <item>Graphic Design</item>
+        <item>Green Business Management</item>
+        <item>Honours Bachelor of Aviation Technology (Co-op)</item>
+        <item>Honours Bachelor of Behavioural Psychology (Co-op)</item>
+        <item>Honours Bachelor of Child Development (Co-op)</item>
+        <item>Honours Bachelor of Commerce - Business Management (Co-op)</item>
+        <item>Honours Bachelor of Commerce - Financial Services Management (Co-op)</item>
+        <item>Honours Bachelor of Commerce - Human Resources Strategy and Technology (Co-op)</item>
+        <item>Honours Bachelor of Commerce - International Accounting and Finance (Co-op)</item>
+        <item>Honours Bachelor of Commerce - International Business Management (Co-op)</item>
+        <item>Honours Bachelor of Community Mental Health (Co-op)</item>
+        <item>Honours Bachelor of Interdisciplinary Studies (Co-op)</item>
+        <item>Honours Bachelor of Technology - Informatics and Security (Co-op)</item>
+        <item>Honours Bachelor of Technology - Software Development (Co-op)</item>
+        <item>Honours Bachelor of Therapeutic Recreation (Co-op)</item>
+        <item>Hospitality - Hotel and Restaurant Services Management</item>
+        <item>Hospitality Foundations</item>
+        <item>Human Resources Management</item>
+        <item>Human Resources Management (Co-op)</item>
+        <item>Independent Digital Photography</item>
+        <item>Independent Illustration</item>
+        <item>Independent Music Production</item>
+        <item>Independent Songwriting and Performance</item>
+        <item>Infant and Early Child Mental Health</item>
+        <item>Interactive Media Design</item>
+        <item>International Business Management</item>
+        <item>International Transportation and Customs</item>
+        <item>Journalism (Joint Seneca/York)</item>
+        <item>Journalism</item>
+        <item>Large Animal Health and Production</item>
+        <item>Law Clerk (Accelerated)</item>
+        <item>Law Clerk</item>
+        <item>Liberal Arts University Transfer</item>
+        <item>Library and Information Technician (Accelerated)</item>
+        <item>Library and Information Technician</item>
+        <item>Marketing Management (Optional Co-op)</item>
+        <item>Mechanical Engineering Technician (Tool Design)</item>
+        <item>Mechanical Engineering Technology - Building Sciences (Optional Co-op)</item>
+        <item>Mechanical Engineering Technology - Industrial Design</item>
+        <item>Mechanical Techniques (Tool and Die/Mould Making) (Pre-apprenticeship for Tool Die Maker, Mould Maker, and General Machinist)</item>
+        <item>Mechanical Techniques - CNC Programming</item>
+        <item>Mental Health Intervention</item>
+        <item>Nonprofit Leadership and Management</item>
+        <item>Nursing (Collaborative BScN Degree Program with York University / Seneca College)</item>
+        <item>Office Administration - Executive</item>
+        <item>Office Administration - Health Services</item>
+        <item>Office Administration - Legal</item>
+        <item>Opticianry (Co-op)</item>
+        <item>Paralegal (Accelerated)</item>
+        <item>Paralegal</item>
+        <item>Pharmaceutical Regulatory Affairs and Quality Operations (Co-op)</item>
+        <item>Police Foundations</item>
+        <item>Practical Nursing</item>
+        <item>Pre-Business</item>
+        <item>Pre-Health Sciences Pathway to Advanced Diplomas and Degrees (Formerly: Pre-Health Science)</item>
+        <item>Pre-Media (Media and Communications Fundamentals)</item>
+        <item>Professional Accounting Practice</item>
+        <item>Project Management - Environmental</item>
+        <item>Project Management - Information Technology (Optional Co-op)</item>
+        <item>Public Administration (Optional Co-op)</item>
+        <item>Public Relations - Corporate Communications (Formerly Corporate Communications - CCM)</item>
+        <item>Public Relations - Corporate Communications (Formerly Corporate Communications - CCMC) (Co-op)</item>
+        <item>Public Relations - Investor Relations</item>
+        <item>Public Relations - Investor Relations (Co-op)</item>
+        <item>Real Property Administration (Assessment and Appraisal) (Accelerated)</item>
+        <item>Real Property Administration (Assessment and Appraisal)</item>
+        <item>Recreation and Leisure Services (Co-op)</item>
+        <item>Sales Force Automation and CRM Analytics (Optional Co-op)</item>
+        <item>Social Media Analytics (Optional Co-op)</item>
+        <item>Social Media</item>
+        <item>Social Service Worker - Gerontology (Accelerated)</item>
+        <item>Social Service Worker - Gerontology</item>
+        <item>Social Service Worker - Immigrants and Refugees (Accelerated)</item>
+        <item>Social Service Worker - Immigrants and Refugees</item>
+        <item>Social Service Worker</item>
+        <item>Social Service Worker (Accelerated)</item>
+        <item>Strategic Marketing and Marketing Analytics (Optional Co-op)</item>
+        <item>Supply Chain Management - Global Logistics</item>
+        <item>Technical Communication (Co-op)</item>
+        <item>Tourism - Services Management - Flight Services Specialization</item>
+        <item>Tourism - Services Management - Global Tourism Business Specialization (Optional Co-op)</item>
+        <item>Tourism - Services Management - Meeting, Conventions and Events Specialization (Optional Co-op)</item>
+        <item>Tourism - Services Management - Travel Services Specialization (Optional Co-op)</item>
+        <item>Tourism - Travel Operations</item>
+        <item>Underwater Skills</item>
+        <item>Veterinary Assistant</item>
+        <item>Veterinary Technician</item>
+        <item>Visual Effects for Film and Television</item>
+        <item>Visual Merchandising Arts</item>
+
+    </string-array>
+
+
 </resources>

@@ -8,17 +8,6 @@
     tools:context="com.example.yugenshtil.finalproject.Account.Login"
     android:background="#ffff0000">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Login Here"
-        android:id="@+id/tvRegistration_Login"
-        android:layout_marginTop="29dp"
-        android:layout_below="@+id/btRegistration_Registration"
-        android:layout_centerHorizontal="true"
-        tools:textColor="@android:color/white" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,7 +42,7 @@
         tools:textColor="@color/primaryColor"
         android:textColorHint="@color/primaryColor"
         android:layout_marginTop="12dp"
-        android:layout_below="@+id/etLogin_Email"
+        android:layout_below="@+id/etLogin_PhoneNumber"
         android:layout_alignParentStart="true"
         android:textColor="@android:color/black" />
 
@@ -71,6 +60,21 @@
         android:layout_below="@+id/etRegistration_LastName"
         android:layout_alignParentStart="true"
         android:textColor="@android:color/black" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="36sp"
+        android:ems="10"
+        android:id="@+id/etLogin_PhoneNumber"
+        android:hint="Phone Number (optional)"
+        android:background="@android:color/white"
+        tools:textColor="@color/primaryColor"
+        android:textColorHint="@color/primaryColor"
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/etLogin_Email"
+        android:layout_alignParentStart="true"
+        android:textColor="@android:color/black"
+        android:inputType="phone" />
 
     <EditText
         android:layout_width="match_parent"
@@ -93,7 +97,7 @@
         android:background="@android:color/white"
         tools:textColor="@color/primaryColor"
         android:textColorHint="@color/primaryColor"
-        android:layout_marginTop="121dp"
+        android:layout_marginTop="99dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:textColor="@android:color/black" />
@@ -104,6 +108,16 @@
         android:src="@drawable/appicon"
         android:id="@+id/imageView2"
         android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Login Here"
+        android:id="@+id/tvRegistration_Login"
+        tools:textColor="@android:color/white"
+        android:layout_below="@+id/btRegistration_Registration"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

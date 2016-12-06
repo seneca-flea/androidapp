@@ -17,7 +17,7 @@
         <EditText
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_addMaterialTitle"
+            android:id="@+id/et_addMaterialTitle"
             android:hint="Post Title"
             android:layout_marginTop="35dp"
             android:layout_alignParentTop="true"
@@ -25,10 +25,10 @@
         <EditText
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:id="@+id/tv_addMaterialPrice"
+            android:id="@+id/et_addMaterialPrice"
             android:hint="Price"
-            android:layout_below="@+id/tv_addMaterialTitle"
-            android:layout_alignStart="@+id/tv_addMaterialTitle" />
+            android:layout_below="@+id/et_addMaterialTitle"
+            android:layout_alignStart="@+id/et_addMaterialTitle" />
 
         <EditText
             android:layout_width="fill_parent"
@@ -39,22 +39,22 @@
             android:inputType="textMultiLine"
             android:ems="10"
             android:scrollbars="vertical"
-            android:id="@+id/tv_AddMaterialDesc"
+            android:id="@+id/et_addMaterialDesc"
             android:hint="Description..."
-            android:layout_below="@+id/tv_addMaterialPrice"
-            android:layout_alignStart="@+id/tv_addMaterialPrice"
-            android:layout_alignEnd="@+id/tv_addMaterialPrice" />
+            android:layout_below="@+id/et_addMaterialPrice"
+            android:layout_alignStart="@+id/et_addMaterialPrice"
+            android:layout_alignEnd="@+id/et_addMaterialPrice" />
 
+        <Spinner
+            android:id="@+id/spinner1Material"
 
-        <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/tv_addMaterialProgram"
-            android:hint="Program"
-            android:layout_below="@+id/tv_AddMaterialDesc"
-            android:layout_alignStart="@+id/tv_AddMaterialDesc" />
+            android:entries="@array/program_array"
+            android:prompt="@string/program_prompt"
+            android:layout_below="@+id/et_addMaterialDesc"
+            android:layout_alignParentStart="true" />
+
 
         <Button
             android:text="Save Item"
@@ -75,18 +75,9 @@
             android:src="@drawable/ic_camera_alt_black_36dp"
             android:id="@+id/ivCamera_AddMaterial"
             android:layout_alignBottom="@+id/ivImage_AddMaterial"
-            android:layout_alignStart="@+id/tv_addBookPublisher"
+
             android:layout_marginStart="18dp"
             android:layout_marginBottom="10dp" />
-
-        <ImageView
-            android:src="@drawable/notuploaded"
-            android:id="@+id/ivImage_AddMaterial"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_below="@+id/tv_addMaterialProgram"
-            android:layout_toEndOf="@+id/tv_addMaterialProgram"
-            android:layout_marginTop="63dp" />
 
         <TextView
 
@@ -102,6 +93,15 @@
             android:textColor="@android:color/black"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
+
+        <ImageView
+            android:src="@drawable/notuploaded"
+            android:id="@+id/ivImage_AddMaterial"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="58dp"
+            android:layout_below="@+id/et_addMaterialDesc"
+            android:layout_toEndOf="@+id/tv_MaterialTitle" />
 
 
     </RelativeLayout>
