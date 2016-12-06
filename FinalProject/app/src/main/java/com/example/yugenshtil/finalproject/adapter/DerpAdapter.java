@@ -87,7 +87,7 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
     //    ListItem item = listData.get(i);
         derpHolder.title.setText(title);
         derpHolder.description.setText(description);
-        derpHolder.price.setText(price+"$");
+        derpHolder.price.setText("$ " + price);
         derpHolder.thumbnail.setImageResource(R.drawable.bookimage);
        // derpHolder.icon.setImageResource(item.getImageResId());
       /*

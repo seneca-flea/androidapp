@@ -78,15 +78,6 @@
         android:layout_centerHorizontal="true" />
 
     <ImageView
-        android:id="@+id/im_history_icon"
-        android:layout_width="36dp"
-        android:layout_height="22dp"
-        android:src="@drawable/historyicon"
-        android:paddingLeft="6dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/tv_price" />
-
-    <ImageView
         android:id="@+id/im_update_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -94,6 +85,16 @@
         android:paddingLeft="6dp"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/im_delete_icon" />
+
+    <ImageView
+        android:id="@+id/im_history_icon"
+        android:layout_width="36dp"
+        android:layout_height="22dp"
+        android:src="@drawable/historyicon"
+        android:paddingLeft="6dp"
+        android:layout_alignParentBottom="true"
+        android:layout_toStartOf="@+id/im_update_icon"
+        android:layout_alignTop="@+id/im_update_icon" />
 
 
 </RelativeLayout>

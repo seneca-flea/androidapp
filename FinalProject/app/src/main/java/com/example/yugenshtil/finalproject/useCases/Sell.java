@@ -288,9 +288,13 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     @Override
     public void onItemClick(int p) {
+        Log.d("LOG : ", "item clicked on sell.java");
 
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
+
+            Log.d("LOG : ", item.toString());
+
             Intent i  = new Intent(this, ItemDisplayActivity.class);
             Bundle extras = new Bundle();
             extras.putString("ItemId",item.get("ItemId").toString());
@@ -298,6 +302,11 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
             extras.putString("SellerId",item.get("SellerId").toString());
             extras.putString("Description",item.get("Description").toString());
             extras.putString("Price",item.get("Price").toString());
+            extras.putString("Course",item.get("CourseName").toString());
+            extras.putString("Program",item.get("CourseProgram").toString());
+            extras.putString("Year",item.get("BookYear").toString());
+            extras.putString("Publisher",item.get("BookPublisher").toString());
+            extras.putString("Author",item.get("BookAuthor").toString());
             i.putExtras(extras);
             startActivity(i);
 

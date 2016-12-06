@@ -52,7 +52,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         this.ids = ids;
         this.inflater = LayoutInflater.from(c);
         //  this.listData = listData;
-        Log.d("Oleg",jsonArray.toString());
+        Log.d("LOG : ",jsonArray.toString());
         this.itemList = jsonArray;
     }
 
@@ -66,7 +66,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
 
     @Override
     public void onBindViewHolder(DerpHolder derpHolder, int i) {
-        Log.d("Oleg", "Setting onbind "+i);
+        Log.d("LOG : ", "Setting onbind "+i);
         String title="";
         String description="";
         String price="";
@@ -82,11 +82,6 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
                 derpHolder.isFavorite = true;
 
             }
-
-
-
-
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -94,7 +89,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         //    ListItem item = listData.get(i);
         derpHolder.title.setText(title);
         derpHolder.description.setText(description);
-        derpHolder.price.setText(price+"$");
+        derpHolder.price.setText("$ " + price);
         if(derpHolder.isFavorite){
             derpHolder.favoriteIcon.setImageResource(R.drawable.ic_star_black_36dp);
             derpHolder.favoriteIcon.setTag("fav");
@@ -169,12 +164,12 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         public void onClick(View v){
             if(v.getId()==R.id.cont_item_root){
 
-                Log.d("Oleg","Onclick is" + itemClickCallBack);
+                Log.d("LOG : ","Onclick is" + itemClickCallBack);
                 itemClickCallBack.onItemClick(getAdapterPosition());
-                Log.d("Oleg","Clicked Item for line " + getAdapterPosition());
+                Log.d("LOG : ","Clicked Item for line " + getAdapterPosition());
             }
             else if(v.getId()==R.id.im_favorite_icon){
-                Log.d("Oleg","Clicked Favorite for line " + getAdapterPosition());
+                Log.d("LOG : ","Clicked Favorite for line " + getAdapterPosition());
                 if(favoriteIcon.getTag().equals("fav")){
                     favoriteIcon.setTag("notfav");
                     favoriteIcon.setImageResource(R.drawable.ic_star_border_black_36dp);

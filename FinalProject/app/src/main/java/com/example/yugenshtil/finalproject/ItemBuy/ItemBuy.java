@@ -2,6 +2,7 @@ package com.example.yugenshtil.finalproject.ItemBuy;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.Item.EditItem;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.R;
@@ -37,19 +39,37 @@ public class ItemBuy extends Activity {
     private static String SellerId = "";
     private static String Description = "";
     private static String Price = "";
+    private static String Course = "";
+    private static String Program = "";
+    private static String Year = "";
+    private static String Publisher = "";
+    private static String Author = "";
+
+    private ImageView image=null;
+
     private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/user/";
     private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
     public ProgressDialog pd;
+    SharedPreferences sharedpreferences;
+    String token="";
     private JSONArray jsonArray=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item_sell_display);
+        sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+        token = sharedpreferences.getString("token", "");
 
-        final TextView etTitle = (TextView) findViewById(R.id.tvItemBuy_Title);
-        final TextView etDescription = (TextView) findViewById(R.id.tvItemBuy_Description);
-        final TextView etPrice = (TextView) findViewById(R.id.tvItemBuy_Price);
+        final TextView etTitle = (TextView) findViewById(R.id.tvItem_Title);
+        final TextView etDescription = (TextView) findViewById(R.id.tv_sell_Desc);
+        final TextView etPrice = (TextView) findViewById(R.id.tvItem_Price);
+        final TextView etProgram = (TextView) findViewById(R.id.tv_itemSell_Program);
+        final TextView etYear = (TextView) findViewById(R.id.tv_itemSell_Year);
+        final TextView etCourse = (TextView) findViewById(R.id.tv_iteSell_Course);
+        final TextView etPublisher = (TextView) findViewById(R.id.tv_itemSell_Publisher);
+        final TextView etAuthor = (TextView) findViewById(R.id.tv_itemSell_Author);
+
         final ImageView ivFavorite = (ImageView) findViewById(R.id.ivItemBuy_Favorite);
         final ImageView ivMessage = (ImageView) findViewById(R.id.ivItemBuy_Message);
 
@@ -65,10 +85,46 @@ public class ItemBuy extends Activity {
         Title = extras.getString("Title");
         Description = extras.getString("Description");
         Price = extras.getString("Price");
+        Course = extras.getString("Course");
+        Program = extras.getString("Program");
+        Year = extras.getString("Year");
+        Publisher = extras.getString("Publisher");
+        Author = extras.getString("Author");
+
 
         etTitle.setText(Title);
         etDescription.setText(Description);
-        etPrice.setText(Price);
+        etPrice.setText("$ " + Price);
+        if (Course.contains("null") || Course.contains("NA")) {
+            etCourse.setText("n/a");
+        }
+        else {
+            etCourse.setText(Course);
+        }
+        if (Program.contains("null") ) {
+            etProgram.setText("n/a");
+        }
+        else {
+            etProgram.setText(Program);
+        }
+        if (Year.contains("null") || Year.contains("0")) {
+            etYear.setText("n/a");
+        }
+        else {
+            etYear.setText(Year);
+        }
+        if (Publisher.contains("null")) {
+            etPublisher.setText("n/a");
+        }
+        else {
+            etPublisher.setText(Publisher);
+        }
+        if (Author.contains("null")) {
+            etAuthor.setText("n/a");
+        }
+        else {
+            etAuthor.setText(Author);
+        }
 
         ivFavorite.setOnClickListener(new View.OnClickListener() {
 
@@ -91,6 +147,7 @@ public class ItemBuy extends Activity {
         });
 
     }
+
 
     public void deleteAnItem(String id){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);

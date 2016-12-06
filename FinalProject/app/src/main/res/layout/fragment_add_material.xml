@@ -22,28 +22,6 @@
             android:layout_marginTop="35dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true" />
-        <EditText
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/et_addMaterialPrice"
-            android:hint="Price"
-            android:layout_below="@+id/et_addMaterialTitle"
-            android:layout_alignStart="@+id/et_addMaterialTitle" />
-
-        <EditText
-            android:layout_width="fill_parent"
-            android:layout_height="59dp"
-            android:lines="2"
-            android:minLines="1"
-            android:gravity="top|left"
-            android:inputType="textMultiLine"
-            android:ems="10"
-            android:scrollbars="vertical"
-            android:id="@+id/et_addMaterialDesc"
-            android:hint="Description..."
-            android:layout_below="@+id/et_addMaterialPrice"
-            android:layout_alignStart="@+id/et_addMaterialPrice"
-            android:layout_alignEnd="@+id/et_addMaterialPrice" />
 
         <Spinner
             android:id="@+id/spinner1Material"
@@ -57,7 +35,7 @@
 
 
         <Button
-            android:text="Save Item"
+            android:text="POST ITEM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="ButtonOnClick"
@@ -102,6 +80,38 @@
             android:layout_marginTop="58dp"
             android:layout_below="@+id/et_addMaterialDesc"
             android:layout_toEndOf="@+id/tv_MaterialTitle" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_addMaterialCourse"
+            android:hint="Course"
+            android:layout_below="@+id/et_addMaterialPrice"
+            android:layout_alignStart="@+id/et_addMaterialPrice" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="59dp"
+            android:lines="2"
+            android:minLines="1"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:scrollbars="vertical"
+            android:id="@+id/et_addMaterialDesc"
+            android:hint="Description..."
+            android:layout_marginTop="11dp"
+            android:layout_below="@+id/et_addMaterialCourse"
+            android:layout_alignEnd="@+id/ivImage_AddMaterial"
+            android:layout_alignStart="@+id/et_addMaterialCourse" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_addMaterialPrice"
+            android:hint="Price"
+            android:layout_below="@+id/et_addMaterialTitle"
+            android:layout_alignStart="@+id/et_addMaterialTitle" />
 
 
     </RelativeLayout>

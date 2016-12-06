@@ -62,7 +62,7 @@ public class MainMenu extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg","Contact Us");
-                Intent contactUsIntent = new Intent(MainMenu.this,Test.class);
+                Intent contactUsIntent = new Intent(MainMenu.this,ContactUs.class);
                 startActivity(contactUsIntent);
 
             }
