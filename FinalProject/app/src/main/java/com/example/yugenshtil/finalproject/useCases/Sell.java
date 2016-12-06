@@ -25,6 +25,8 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
+import com.example.yugenshtil.finalproject.Item.EditBook;
+import com.example.yugenshtil.finalproject.Item.EditMaterial;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -507,12 +509,31 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
         try {
             JSONObject item = (JSONObject) jsonArray.get(id);
-            Intent i = new Intent(Sell.this, EditItem.class);
+            Log.d("Oleg","JSON " + item );
+            String itemType =  item.get("Type").toString();
+
+            Intent i;
+
+            if(itemType.equals("Book")){
+                i = new Intent(Sell.this, EditBook.class);
+                i.putExtra("BookTitle",item.get("BookTitle").toString());
+                i.putExtra("BookYear",item.get("BookYear").toString());
+                i.putExtra("BookPublisher",item.get("BookPublisher").toString());
+                i.putExtra("BookAuthor",item.get("BookAuthor").toString());
+            }
+            else{
+                i = new Intent(Sell.this, EditMaterial.class);
+            }
+
             i.putExtra("ItemId",item.get("ItemId").toString());
             i.putExtra("Title",item.get("Title").toString());
             i.putExtra("SellerId",item.get("SellerId").toString());
             i.putExtra("Description",item.get("Description").toString());
             i.putExtra("Price",item.get("Price").toString());
+            i.putExtra("Type",item.get("Type").toString());
+            i.putExtra("CourseProgram",item.get("CourseProgram").toString());
+
+
             startActivity(i);
 
         } catch (JSONException e) {
