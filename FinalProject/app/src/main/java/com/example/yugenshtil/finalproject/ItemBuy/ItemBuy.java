@@ -5,28 +5,38 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.Item.EditItem;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
+import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
 import com.example.yugenshtil.finalproject.model.MyMessagesListDisplayActivity;
 import com.example.yugenshtil.finalproject.useCases.Sell;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by yugenshtil on 29/11/16.
@@ -70,8 +80,11 @@ public class ItemBuy extends Activity {
         final TextView etPublisher = (TextView) findViewById(R.id.tv_itemSell_Publisher);
         final TextView etAuthor = (TextView) findViewById(R.id.tv_itemSell_Author);
 
-        final ImageView ivFavorite = (ImageView) findViewById(R.id.ivItemBuy_Favorite);
+     //   final ImageView ivFavorite = (ImageView) findViewById(R.id.ivItemBuy_Favorite);
         final ImageView ivMessage = (ImageView) findViewById(R.id.ivItemBuy_Message);
+
+
+        image = (ImageView) findViewById(R.id.ivItemBuy_Image);
 
 
 
@@ -91,6 +104,8 @@ public class ItemBuy extends Activity {
         Publisher = extras.getString("Publisher");
         Author = extras.getString("Author");
 
+
+        setItem(ItemId);
 
         etTitle.setText(Title);
         etDescription.setText(Description);
@@ -126,7 +141,7 @@ public class ItemBuy extends Activity {
             etAuthor.setText(Author);
         }
 
-        ivFavorite.setOnClickListener(new View.OnClickListener() {
+      /*  ivFavorite.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
@@ -134,7 +149,7 @@ public class ItemBuy extends Activity {
                // deleteAnItem(ItemId);
 
             }
-        });
+        });*/
 
         ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +240,52 @@ public class ItemBuy extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    void setItem(String id){
+        Log.d("ID","id is " + id);
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET,"http://senecafleamarket.azurewebsites.net/api/Item/" +id, null,  new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                try {
+                    if(response!=null){
+                        JSONObject s = response.getJSONObject(0);
+                        Log.d("LOG : ","s is " + s.toString());
+                        Log.d("oleg"," Bytes got"+s.getString("Photo"));
+                        byte[] decodedString = Base64.decode(s.getString("Photo"), Base64.DEFAULT);
+                        Log.d("LOG : ","Decoded BYTES " + decodedString );
+
+                        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+                        image.setImageBitmap(decodedByte);
+                        pd.cancel();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pd.cancel();
+                VolleyLog.d("volley", "Error: " + error.getMessage());
+                error.printStackTrace();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                headers.put("Accept","image/*");
+                return headers;
+            }
+        };
+
+        MySingleton.getInstance(ItemBuy.this).addToRequestQueue(sr);
     }
 
 }

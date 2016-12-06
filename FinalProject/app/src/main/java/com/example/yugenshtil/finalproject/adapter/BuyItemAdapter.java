@@ -77,6 +77,15 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
             title = item.get("Title").toString();
             description = item.get("Description").toString();
             price = item.get("Price").toString();
+            String type = item.get("Type").toString();
+            Log.d("Oleg","type is " + type);
+            if(type.equals("Book")){
+
+                derpHolder.thumbnail.setImageResource(R.drawable.book);
+            }
+            else
+                derpHolder.thumbnail.setImageResource(R.drawable.item);
+
             if(ids.contains(item.getString("ItemId"))){
                 Log.d("Oleg",item.getString("ItemId") + " was found");
                 derpHolder.isFavorite = true;
@@ -90,6 +99,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         derpHolder.title.setText(title);
         derpHolder.description.setText(description);
         derpHolder.price.setText("$ " + price);
+
         if(derpHolder.isFavorite){
             derpHolder.favoriteIcon.setImageResource(R.drawable.ic_star_black_36dp);
             derpHolder.favoriteIcon.setTag("fav");
@@ -157,7 +167,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
 
             //  description =(ImageView)itemView.findViewById(R.id.im_item_icon);
 
-            //   thumbnail = (ImageView)itemView.findViewById(R.id.im_item_icon)
+            thumbnail = (ImageView)itemView.findViewById(R.id.im_main_image);
         }
 
         @Override

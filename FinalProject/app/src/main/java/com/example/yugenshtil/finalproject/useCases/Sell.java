@@ -5,10 +5,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,8 +24,10 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.Item.EditBook;
@@ -298,8 +303,8 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
-
-            Log.d("LOG : ", item.toString());
+            displayItem(item.getString("ItemId"));
+            /*
 
             Intent i  = new Intent(this, ItemDisplayActivity.class);
             Bundle extras = new Bundle();
@@ -313,9 +318,10 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
             extras.putString("Year",item.get("BookYear").toString());
             extras.putString("Publisher",item.get("BookPublisher").toString());
             extras.putString("Author",item.get("BookAuthor").toString());
+            extras.putString("Type",item.get("Type").toString());
             i.putExtras(extras);
             startActivity(i);
-
+*/
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -560,6 +566,61 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         super.onBackPressed();
         startActivity(new Intent(Sell.this, UserMenu.class));
         finish();
+
+    }
+
+    void displayItem(String id){
+
+        JsonRequest sr = new JsonObjectRequest(Request.Method.GET,"http://senecafleamarket.azurewebsites.net/api/Item/" +id, null,  new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+                try {
+                    if(response!=null){
+
+                        JSONObject item = response;
+                        Intent i  = new Intent(Sell.this, ItemDisplayActivity.class);
+                        Bundle extras = new Bundle();
+                        extras.putString("ItemId",item.get("ItemId").toString());
+                        extras.putString("Title",item.get("Title").toString());
+                        extras.putString("SellerId",item.get("SellerId").toString());
+                        extras.putString("Description",item.get("Description").toString());
+                        extras.putString("Price",item.get("Price").toString());
+                        extras.putString("Course",item.get("CourseName").toString());
+                        extras.putString("Program",item.get("CourseProgram").toString());
+                        extras.putString("Year",item.get("BookYear").toString());
+                        extras.putString("Publisher",item.get("BookPublisher").toString());
+                        extras.putString("Author",item.get("BookAuthor").toString());
+                        extras.putString("Type",item.get("Type").toString());
+                        i.putExtras(extras);
+                        startActivity(i);
+
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d("volley", "Error: " + error.getMessage());
+                error.printStackTrace();
+            }
+        }) {
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+
+                return headers;
+            }
+        };
+
+        MySingleton.getInstance(Sell.this).addToRequestQueue(sr);
+
 
     }
 

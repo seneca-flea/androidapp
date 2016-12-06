@@ -21,13 +21,7 @@
 
     </item>
 
-    <item android:id="@+id/mProgramFilter"
-        android:title="Program Filter"
-        android:icon="@drawable/ic_school_white_36dp"
-        app:showAsAction="always">
-
-
-    </item>
+   
 
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />

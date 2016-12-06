@@ -69,6 +69,7 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         String description="";
         String price="";
         String imageCode = "";
+        String type="";
 
         //Here it sets to the view
         try {
@@ -77,6 +78,7 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
             title = item.get("Title").toString();
             description = item.get("Description").toString();
             price = item.get("Price").toString();
+            type =  item.get("Type").toString();
          //   if(Integer.parseInt(item.getString("ImagesCount"))>0)
                 Log.d("Oleg","ItemID is " + item.getString("ItemId"));
 
@@ -88,7 +90,14 @@ public class DerpAdapter extends RecyclerView.Adapter<DerpAdapter.DerpHolder>  {
         derpHolder.title.setText(title);
         derpHolder.description.setText(description);
         derpHolder.price.setText("$ " + price);
-        derpHolder.thumbnail.setImageResource(R.drawable.bookimage);
+
+        if(type.equals("Book")){
+            derpHolder.thumbnail.setImageResource(R.drawable.book);
+        }else{
+            Log.d("Oleg","type is material");
+            derpHolder.thumbnail.setImageResource(R.drawable.item);
+        }
+
        // derpHolder.icon.setImageResource(item.getImageResId());
       /*
         if(item.isFavourite())

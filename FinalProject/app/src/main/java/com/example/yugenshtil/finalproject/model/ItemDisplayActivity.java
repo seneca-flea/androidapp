@@ -23,8 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -33,6 +35,8 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.Item.AddItem;
+import com.example.yugenshtil.finalproject.Item.EditBook;
+import com.example.yugenshtil.finalproject.Item.EditMaterial;
 import com.example.yugenshtil.finalproject.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -60,10 +64,12 @@ public class ItemDisplayActivity extends Activity {
     private static String Year = "";
     private static String Publisher = "";
     private static String Author = "";
+    private static String Type = "";
+
 
     private ImageView image=null;
-    private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/user/";
-    private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
+    private String GETITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/filter/user/";
+    private String DELETEITEMSURL="http://senecafleamarket.azurewebsites.net/api/Item/";
     public ProgressDialog pd;
     SharedPreferences sharedpreferences;
     String token="";
@@ -95,7 +101,7 @@ public class ItemDisplayActivity extends Activity {
         Intent i = getIntent();
         Bundle extras = i.getExtras();
 
-
+        Type = extras.getString("Type");
         ItemId = extras.getString("ItemId");
         SellerId = extras.getString("SellerId");
         Title = extras.getString("Title");
@@ -106,6 +112,8 @@ public class ItemDisplayActivity extends Activity {
         Year = extras.getString("Year");
         Publisher = extras.getString("Publisher");
         Author = extras.getString("Author");
+
+        Log.d("Oleg","Type is " + Type);
 
         setItem(ItemId);
 
@@ -124,7 +132,7 @@ public class ItemDisplayActivity extends Activity {
         else {
             etProgram.setText(Program);
         }
-        if (Year.contains("null")) {
+        if (Type.equals("Material")) {
             etYear.setText("n/a");
         }
         else {
@@ -173,6 +181,7 @@ public class ItemDisplayActivity extends Activity {
                     public void onResponse(String response) {
                         pd.cancel();
                         Log.d("LOG : ","Response is "+response);
+                        Toast.makeText(getApplicationContext(), "Item was deleted", Toast.LENGTH_LONG).show();
                         //    adapter.notifyDataSetChanged();
                         Intent sellIntent = new Intent(ItemDisplayActivity.this,Sell.class);
                         startActivity(sellIntent);
@@ -184,13 +193,24 @@ public class ItemDisplayActivity extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pd.cancel();
+                        Toast.makeText(getApplicationContext(), "Item was not deleted", Toast.LENGTH_LONG).show();
                         Log.d("LOG : ","Response error is "+error);
 
                     }
                 }
-        );
-        MySingleton.getInstance(ItemDisplayActivity.this).addToRequestQueue(dr);
+        ){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+                return headers;
+            }
+        };
 
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        dr.setRetryPolicy(policy);
+        MySingleton.getInstance(ItemDisplayActivity.this).addToRequestQueue(dr);
     }
 
 
@@ -198,13 +218,27 @@ public class ItemDisplayActivity extends Activity {
         // pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
 
         try {
-            Log.d("LOG : ","Update and item in ItemDisplayActivity.java");
-            Intent i = new Intent(ItemDisplayActivity.this, EditItem.class);
+
+            Intent i;
+
+            if(Type.equals("Book")){
+                i = new Intent(ItemDisplayActivity.this, EditBook.class);
+                i.putExtra("BookTitle",Title);
+                i.putExtra("BookYear",Year);
+                i.putExtra("BookPublisher",Publisher);
+                i.putExtra("BookAuthor",Author);
+                startActivity(i);
+
+            }else {
+                Log.d("LOG : ", "Update and item in ItemDisplayActivity.java");
+                i = new Intent(ItemDisplayActivity.this, EditMaterial.class);
+            }
             i.putExtra("ItemId",ItemId);
             i.putExtra("Title",Title);
             i.putExtra("SellerId",SellerId);
             i.putExtra("Description",Description);
             i.putExtra("Price",Price);
+            i.putExtra("CourseProgram",Program);
             startActivity(i);
 
         } catch (Exception e) {
@@ -242,7 +276,7 @@ public class ItemDisplayActivity extends Activity {
     }
 
     void setItem(String id){
-
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET,"http://senecafleamarket.azurewebsites.net/api/Item/" +id, null,  new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -251,11 +285,13 @@ public class ItemDisplayActivity extends Activity {
                     if(response!=null){
                         JSONObject s = response.getJSONObject(0);
                         Log.d("LOG : ","s is " + s.toString());
+                        Log.d("oleg"," Bytes got"+s.getString("Photo"));
                         byte[] decodedString = Base64.decode(s.getString("Photo"), Base64.DEFAULT);
                         Log.d("LOG : ","Decoded BYTES " + decodedString );
 
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                         image.setImageBitmap(decodedByte);
+                        pd.cancel();
                     }
 
                 } catch (Exception e) {
@@ -266,6 +302,7 @@ public class ItemDisplayActivity extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.cancel();
                 VolleyLog.d("volley", "Error: " + error.getMessage());
                 error.printStackTrace();
             }
@@ -280,6 +317,9 @@ public class ItemDisplayActivity extends Activity {
             }
         };
 
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        sr.setRetryPolicy(policy);
         MySingleton.getInstance(ItemDisplayActivity.this).addToRequestQueue(sr);
     }
 

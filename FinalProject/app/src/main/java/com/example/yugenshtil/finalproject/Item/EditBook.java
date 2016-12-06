@@ -208,6 +208,7 @@ public class EditBook extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.d("LOG :", "Error is " + error);
+                Toast.makeText(getApplicationContext(), "Book was not updated", Toast.LENGTH_LONG).show();
             }
         }
         ){

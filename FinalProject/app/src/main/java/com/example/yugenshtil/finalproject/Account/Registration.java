@@ -46,19 +46,24 @@ public class Registration extends Activity {
     private String errors="";
     private String USERAUTHENTICATIONURL="http://senecafleaia.azurewebsites.net/api/Account/Register";
     private String USERREGISTRATIONURL="http://senecafleamarket.azurewebsites.net/api/User";
-
+    EditText etFirstName;
+    EditText etLastName;
+    EditText etEmail;
+     EditText etPassword;
+     EditText etPasswordConfirmation;
+     EditText etPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_page);
 
-        final EditText etFirstName = (EditText) findViewById(R.id.etRegistration_FirstName);
-        final EditText etLastName = (EditText) findViewById(R.id.etRegistration_LastName);
-        final EditText etEmail = (EditText) findViewById(R.id.etLogin_Email);
-        final EditText etPassword = (EditText) findViewById(R.id.etLogin_Password);
-        final EditText etPasswordConfirmation = (EditText) findViewById(R.id.etRegistration_PasswordConfirmation);
-        final EditText etPhone = (EditText) findViewById(R.id.etLogin_PhoneNumber);
+        etFirstName = (EditText) findViewById(R.id.etRegistration_FirstName);
+       etLastName = (EditText) findViewById(R.id.etRegistration_LastName);
+         etEmail = (EditText) findViewById(R.id.etLogin_Email);
+        etPassword = (EditText) findViewById(R.id.etLogin_Password);
+       etPasswordConfirmation = (EditText) findViewById(R.id.etRegistration_PasswordConfirmation);
+        etPhone = (EditText) findViewById(R.id.etLogin_PhoneNumber);
 
         final Button btRegistration = (Button) findViewById(R.id.btRegistration_Registration);
         final TextView tvLogin = (TextView) findViewById(R.id.tvRegistration_Login);
@@ -169,20 +174,29 @@ public class Registration extends Activity {
 
         boolean inputIsValid = true;
        // Log.d("Oleg","firstNAme va" +firstName);
-        errors="";
-        if(firstName.equals("")){
+
+        final EditText etPasswordConfirmation = (EditText) findViewById(R.id.etRegistration_PasswordConfirmation);
+        final EditText etPhone = (EditText) findViewById(R.id.etLogin_PhoneNumber);
+
+        if(firstName.trim().equals("")){
           //  Log.d("Oleg","firstNAme" +firstName);
-            errors+="Please, do not leave userName blank\n";
+            etFirstName.setError("Please, do not leave User Name blank");
             inputIsValid = false;
         }
         if(lastName.equals("")){
           //  Log.d("Oleg","lastName" +lastName);
-            errors+="Please, do not leave lastName blank\n";
+            etLastName.setError("Please, do not leave Last Name blank");
             inputIsValid = false;
         }
         if(!email.contains("@")){
           //  Log.d("Oleg","email" +email);
-            errors+="Please, provide correct email\n";
+             // http://stackoverflow.com/questions/8204680/java-regex-email
+            pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+            matcher = pattern.matcher(email);
+            if(!matcher.matches()) {
+                etEmail.setError("Please, provide correct email");
+                inputIsValid = false;
+            }
             inputIsValid = false;
         }
 
@@ -190,30 +204,30 @@ public class Registration extends Activity {
             pattern = Pattern.compile(PASSWORD_PATTERN);
             matcher = pattern.matcher(password);
             if(!matcher.matches()) {
-                errors += "Please, provide correct password\n";
+                etPassword.setError("Please, provide correct password. Oy should be more than 5 chars with Capital letter and special char");
                 inputIsValid = false;
             }
         }else{
-            errors += "Please, provide correct password. The length should be more than 5\n";
+            etPassword.setError("Please, provide correct password. The length should be more than 5");
             inputIsValid = false;
         }
 
         if(passwordConfirmation.length()>5) {
             if(!password.equals(passwordConfirmation)){
-                errors += "Password and Confirmation Passwords should match\n";
+                etPasswordConfirmation.setError("Password and Confirmation Passwords should match");
                 inputIsValid = false;
             }
             else{
                 pattern = Pattern.compile(PASSWORD_PATTERN);
                 matcher = pattern.matcher(passwordConfirmation);
                 if(!matcher.matches()){
-                    errors += "Please, provide correct Confirmation password\n";
+                    etPasswordConfirmation.setError("Please, provide correct password. Oy should be more than 5 chars with Capital letter and special char");
                     inputIsValid = false;
                 }
 
             }
         }else{
-            errors += "Please, provide correct Password Confirmation. The length should be more than 5\n";
+            etPasswordConfirmation.setError("Please, provide correct Password Confirmation. The length should be more than 5");
             inputIsValid = false;
         }
 

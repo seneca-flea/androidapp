@@ -111,7 +111,8 @@
             android:id="@+id/et_addMaterialPrice"
             android:hint="Price"
             android:layout_below="@+id/et_addMaterialTitle"
-            android:layout_alignStart="@+id/et_addMaterialTitle" />
+            android:layout_alignStart="@+id/et_addMaterialTitle"
+            android:inputType="numberDecimal" />
 
 
     </RelativeLayout>

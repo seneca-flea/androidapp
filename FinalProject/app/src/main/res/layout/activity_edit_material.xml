@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/etEditMaterial_Price"
         android:layout_below="@+id/etEditMaterial_Title"
-        android:layout_alignStart="@+id/etEditMaterial_Title" />
+        android:layout_alignStart="@+id/etEditMaterial_Title"
+        android:inputType="numberDecimal" />
 
     <EditText
         android:layout_width="fill_parent"

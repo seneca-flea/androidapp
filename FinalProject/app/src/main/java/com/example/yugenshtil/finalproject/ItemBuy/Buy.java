@@ -135,6 +135,8 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                                 double price=0.0;
                                 price = item.getDouble("Price");
                                 if((price>=priceMin) && (price<=priceMax) && item.getString("Status").equals("Available")){
+                                   // if(programs.contains(item.getString("CourseProgram")))
+                                    Log.d("OLeg","Programs " + programs);
                                     jsonArray.put(item);
 
                                 }
@@ -149,6 +151,13 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     recView = (RecyclerView)findViewById(R.id.recbuy_list);
                     recView.setLayoutManager(new LinearLayoutManager(Buy.this));
                     Log.d("Oleg","There are " + jsonArray.length() + " before I sent");
+                    if(jsonArray.length()==0){
+                        Context context = getApplicationContext();
+                        int duration = Toast.LENGTH_LONG;
+                        Toast toast = Toast.makeText(context, "No items found for your request", duration);
+                        toast.show();
+
+                    }
                     adapter = new BuyItemAdapter(Buy.this,jsonArray,favoriteIds);
 
                     recView.setAdapter(adapter);
@@ -533,7 +542,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
 
         }
-        else if(id==R.id.mProgramFilter){
+     /*   else if(id==R.id.mProgramFilter){
             Log.d("Oleg","Program Filter Yeaah :)");
             Intent programFilterIntent = new Intent(Buy.this,ProgramFilter.class);
             startActivityForResult(programFilterIntent,110);
@@ -542,7 +551,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
 
 
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }

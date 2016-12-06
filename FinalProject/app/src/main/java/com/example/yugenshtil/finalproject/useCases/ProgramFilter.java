@@ -123,9 +123,9 @@ public class ProgramFilter extends Activity implements AdapterView.OnItemClickLi
                         SharedPreferences.Editor editor = sharedpreferences.edit();
                         editor.putString("Courses", allPrograms);
                         editor.commit();
-                        //   intent.putStringArrayListExtra("stock_list",selectedPrograms);
-                        //  setResult(110, intent);
-                        //   finish();
+                           intent.putStringArrayListExtra("stock_list",selectedPrograms);
+                          setResult(110, intent);
+                          finish();
 
                     }
 

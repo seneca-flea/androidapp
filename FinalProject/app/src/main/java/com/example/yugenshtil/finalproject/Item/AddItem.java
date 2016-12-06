@@ -378,9 +378,9 @@ public class AddItem extends Activity {
             params.put("CourseName", course);
             params.put("CourseProgram",program);
             params.put("BookTitle", title);
-            params.put("BookYear", "N/A");
-            params.put("BookPublisher", "N/A");
-            params.put("BookAuthor", "N/A");
+            params.put("BookYear", "1990");
+            params.put("BookPublisher", "NA");
+            params.put("BookAuthor", "NA");
 
             JSONObject parameters = new JSONObject(params);
             Log.d("LOG : ", "JSON is " + parameters);

@@ -238,11 +238,11 @@ public class Login extends Activity {
 
     // Getting user ID, after the user is successfully login
     public void getUserId(){
-
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         StringRequest sr = new StringRequest(Request.Method.GET,"http://senecafleamarket.azurewebsites.net/api/User/CurrentUser",  new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                pd.cancel();
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -264,6 +264,7 @@ public class Login extends Activity {
 
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.cancel();
                 VolleyLog.d("volley", "Error: " + error.getMessage());
                 error.printStackTrace();
             }

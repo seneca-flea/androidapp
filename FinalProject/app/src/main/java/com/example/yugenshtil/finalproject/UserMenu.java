@@ -172,6 +172,8 @@ public class UserMenu extends Activity {
                             if (myMessagesList.contains("false")) {
                                 Log.d("LOG : ", "No new messages");
                             } else {
+                                ImageView messages = (ImageView) findViewById(R.id.userMenuMessagesButton);
+                                messages.setImageResource(R.drawable.bt4myfavorites);
                                 Log.d("LOG : ", "Triggering notification");
                                 Log.d("LOG : ", "has message");
                                 NotificationCompat.Builder mBuilder =
