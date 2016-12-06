@@ -590,8 +590,11 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     @Override
     public void onItemClick(int p) {
         try {
-            Log.d("LOG : ", "it goest to buy.java");
+            Log.d("LOG : ", "onItemClick running on Buy.java");
             JSONObject item = (JSONObject) jsonArray.get(p);
+
+            Log.d("LOG : ", item.toString());
+
             Intent i  = new Intent(this, ItemBuy.class);
             Bundle extras = new Bundle();
             extras.putString("ItemId",item.get("ItemId").toString());
@@ -599,6 +602,11 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             extras.putString("SellerId",item.get("SellerId").toString());
             extras.putString("Description",item.get("Description").toString());
             extras.putString("Price",item.get("Price").toString());
+            extras.putString("Course",item.get("CourseName").toString());
+            extras.putString("Program",item.get("CourseProgram").toString());
+            extras.putString("Year",item.get("BookYear").toString());
+            extras.putString("Publisher",item.get("BookPublisher").toString());
+            extras.putString("Author",item.get("BookAuthor").toString());
             i.putExtras(extras);
             startActivity(i);
 

@@ -28,7 +28,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
@@ -69,16 +68,19 @@ public class AddItem extends Activity {
     private double price = 0.0;
     private String type = "Book";
     private String program="";
+    private String course="";
     //Fields for Book
-    private int year=2016;
+    private String year="";
     private String publisher ="";
     private String author ="";
+
 
     //Edit Fields
     EditText etTitle;
     EditText etDescription;
     EditText etPrice;
     EditText etYear;
+    EditText etCourse;
     EditText etPublisher;
     EditText etAuthor;
     Spinner program1;
@@ -114,21 +116,6 @@ public class AddItem extends Activity {
         id = sharedpreferences.getString("UserId","");
         token = sharedpreferences.getString("token","");
 
-     //   final Button btSave = (Button) findViewById(R.id.btAddItem_Save);
-        //button so save image
-        final ImageButton ibImage = (ImageButton) findViewById(R.id.ibAddItem_Image);
-
-//        addListenerOnButton();
- //       addListenerOnSpinnerItemSelection();
-
-
-        ibImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addImage = new Intent(AddItem.this, AddImage.class);
-                startActivityForResult(addImage, 1990);
-            }
-        });
 
         // Spinner for selecting item
         Spinner spinner = (Spinner) findViewById(R.id.sp_itemtype);
@@ -234,6 +221,7 @@ public class AddItem extends Activity {
         etDescription = (EditText) findViewById(R.id.et_AddBookDesc);
         etPrice= (EditText) findViewById(R.id.et_addBookPrice);
         etYear= (EditText) findViewById(R.id.et_AddBookYear);
+        etCourse = (EditText) findViewById(R.id.et_addBook_course);
         etPublisher= (EditText) findViewById(R.id.et_addBookPublisher);
         etAuthor= (EditText) findViewById(R.id.et_addBookAuthor);
         program1 = (Spinner) findViewById(R.id.spinner1);
@@ -253,6 +241,8 @@ public class AddItem extends Activity {
             program = program1.getSelectedItem().toString();
             description = etDescription.getText().toString();
             author = etAuthor.getText().toString();
+            course = etCourse.getText().toString();
+            year = etYear.getText().toString();
 
             pd = ProgressDialog.show(this, "", "Adding item, please wait..", true);
 
@@ -263,10 +253,10 @@ public class AddItem extends Activity {
             params.put("Description", description);
             params.put("Price", String.valueOf(price));
             params.put("Type", itemType);
-            params.put("CourseName", "NA");
+            params.put("CourseName", course);
             params.put("CourseProgram",program);
             params.put("BookTitle", title);
-            params.put("BookYear", "1990");
+            params.put("BookYear", year);
             params.put("BookPublisher", publisher);
             params.put("BookAuthor", author);
 
@@ -292,21 +282,16 @@ public class AddItem extends Activity {
 
                             addImageToItem(createdItemId);
 
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
 
                     Context context = getApplicationContext();
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(context, "Book was successfully added", duration);
                     toast.show();
-
-
-
-                }
+              }
             }, new Response.ErrorListener() {
 
                 @Override
@@ -327,9 +312,6 @@ public class AddItem extends Activity {
                     Log.d("Token ", headers.toString());
                     return headers;
                 }
-
-
-
             };
 
             MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjPostRequest);
@@ -362,11 +344,12 @@ public class AddItem extends Activity {
         etDescription = (EditText) findViewById(R.id.et_addMaterialDesc);
         etPrice= (EditText) findViewById(R.id.et_addMaterialPrice);
         programMaterial1 = (Spinner) findViewById(R.id.spinner1Material);
+        etCourse = (EditText) findViewById(R.id.et_addMaterialCourse);
 
 
 
         if(!validateMaterial()){
-            Log.d("Oleg","Not Validated");
+            Log.d("LOG : ","Not Validated");
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, "Please check all fields", duration);
@@ -374,13 +357,14 @@ public class AddItem extends Activity {
         }
 
         else{
-            Log.d("Oleg","Validated");
+            Log.d("LOG : ","Validated");
             title = etTitle.getText().toString();
             price = Double.parseDouble(etPrice.getText().toString());
             publisher = "NA";
             program = programMaterial1.getSelectedItem().toString();
             description = etDescription.getText().toString();
             author = "NA";
+            course = etCourse.getText().toString();
 
             pd = ProgressDialog.show(this, "", "Adding item, please wait..", true);
 
@@ -391,12 +375,12 @@ public class AddItem extends Activity {
             params.put("Description", description);
             params.put("Price", String.valueOf(price));
             params.put("Type", itemType);
-            params.put("CourseName", "NA");
+            params.put("CourseName", course);
             params.put("CourseProgram",program);
             params.put("BookTitle", title);
-            params.put("BookYear", "2016");
-            params.put("BookPublisher", "NA");
-            params.put("BookAuthor", "NA");
+            params.put("BookYear", "N/A");
+            params.put("BookPublisher", "N/A");
+            params.put("BookAuthor", "N/A");
 
             JSONObject parameters = new JSONObject(params);
             Log.d("LOG : ", "JSON is " + parameters);
@@ -429,7 +413,7 @@ public class AddItem extends Activity {
 
                     Context context = getApplicationContext();
                     int duration = Toast.LENGTH_LONG;
-                    Toast toast = Toast.makeText(context, "Book was successfully added", duration);
+                    Toast toast = Toast.makeText(context, "Item was successfully added", duration);
                     toast.show();
 
 
@@ -447,7 +431,7 @@ public class AddItem extends Activity {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<String, String>();
-                    Log.d("Oleg","I will add token " + token);
+                    Log.d("LOG : ","I will add token " + token);
                     headers.put("Authorization","Bearer "+token);
                     // params.put("username",email);
                     //params.put("password", password);
@@ -769,6 +753,10 @@ public class AddItem extends Activity {
         }
         if(etDescription.getText().toString().equals("")){
             etDescription.setError("Do not leave description blank");
+            isValid = false;
+        }
+        if(etCourse.getText().toString().equals("")){
+            etCourse.setError("Do not leave course blank");
             isValid = false;
         }
 

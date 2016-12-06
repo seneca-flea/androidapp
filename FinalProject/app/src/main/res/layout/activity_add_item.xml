@@ -18,26 +18,8 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true" />
     -->
-        <fragment
-            android:layout_width="match_parent"
-            android:layout_height="380dp"
-            android:id="@+id/itemfrag"
-            android:text="Book frag"
-            android:name="layout.NoItemAdded"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_below="@+id/ibAddItem_Image"></fragment>
 
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            app:srcCompat="@drawable/ic_add_a_photo_black_36dp"
-            android:id="@+id/ibAddItem_Image"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/sp_itemtype"
-            android:layout_marginStart="12dp" />
-
-        <Spinner
+    <Spinner
             android:id="@+id/sp_itemtype"
             android:layout_width="160dp"
             android:layout_height="wrap_content"
@@ -56,5 +38,16 @@
             android:layout_alignParentStart="true"
             android:layout_marginStart="14dp" />
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:id="@+id/itemfrag"
+        android:text="Book frag"
+        android:name="layout.NoItemAdded"
+        android:layout_below="@+id/sp_itemtype"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="12dp"
+        android:layout_alignParentBottom="true"></fragment>
 
-    </RelativeLayout>
+
+</RelativeLayout>

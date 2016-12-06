@@ -77,7 +77,7 @@ public class MyFavoritesAdapter extends RecyclerView.Adapter<MyFavoritesAdapter.
         //    ListItem item = listData.get(i);
         derpHolder.title.setText(title);
         derpHolder.description.setText(description);
-        derpHolder.price.setText(price+"$");
+        derpHolder.price.setText("$" + price);
         //    derpHolder.icon.setImageResource(item.getImageResId());
       /*
         if(item.isFavourite())

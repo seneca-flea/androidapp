@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,148 +7,76 @@
     android:background="#FFFF0000"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/contact_form_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Seneca Flea"
-        android:textColor="#FFF"
-        android:textSize="40sp"
-        android:typeface="serif"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
     <EditText
-        android:layout_width="352dp"
-        android:layout_height="39dp"
-        android:backgroundTint="#fff"
-        android:hint="Name"
-        android:inputType="textPersonName"
-        android:id="@+id/cont"
-        tools:background="@android:color/white"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="80dp"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <View
-        android:layout_width="368dp"
-        android:layout_height="2dp"
-        android:background="#fff"
-        android:layout_marginTop="128dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:id="@+id/view" />
-
-    <EditText
-        android:layout_width="352dp"
-        android:layout_height="39dp"
-        android:backgroundTint="#FFF"
-        android:hint="Email"
+        android:layout_width="355sp"
+        android:layout_height="30sp"
+        android:background="@android:color/white"
+        android:layout_marginTop="9dp"
         android:inputType="textEmailAddress"
-        android:id="@+id/editText2"
-        tools:background="@android:color/white"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="136dp"
-        app:layout_constraintTop_toTopOf="parent" />
-    <View
-        android:layout_width="368dp"
-        android:layout_height="2dp"
-        android:background="#fff"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="184dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/view2"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <EditText
-        android:layout_width="352dp"
-        android:layout_height="39dp"
-        android:backgroundTint="#FFF"
-        android:hint="Phone"
-        android:inputType="phone"
-        android:id="@+id/editText"
-        tools:background="@android:color/white"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
-        android:layout_marginBottom="8dp" />
-
-    <View
-        android:layout_width="368dp"
-        android:layout_height="2dp"
-        android:background="?android:attr/actionMenuTextColor"
-        android:id="@+id/view3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="104dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:background="@android:color/background_light" />
-
-    <EditText
-        android:layout_width="352dp"
-        android:layout_height="150dp"
-        android:backgroundTint="#FFF"
-        android:gravity="top"
-        android:hint="Your Message"
-        android:fitsSystemWindows="true"
-        android:breakStrategy="balanced"
-        android:inputType="textMultiLine"
-        android:singleLine="false"
-        android:padding="5dp"
-        android:id="@+id/editText3"
-        tools:background="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="112dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <View
-        android:layout_width="368dp"
-        android:layout_height="2dp"
-        android:background="#fff"
-        android:id="@+id/view5"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/editText3"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintVertical_bias="1.0"
-        android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:ems="10"
+        android:layout_below="@+id/et_contact_name"
+        android:layout_alignStart="@+id/et_contact_name"
+        android:id="@+id/et_contact_email"
+        android:hint="Email"
+        android:textColor="@android:color/black" />
 
     <Button
+        android:text="SEND"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#FFF"
-        android:elevation="4dp"
-        android:paddingLeft="70dp"
-        android:paddingRight="70dp"
-        android:text="Submit"
-        android:textColor="#cc0000"
-        android:id="@+id/button2"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginStart="16dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="40dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/editText3" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp"
+        android:id="@+id/bt_send_btn"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@color/primaryColorDark" />
+
+    <EditText
+        android:layout_width="355sp"
+        android:layout_height="100sp"
+        android:background="@android:color/white"
+        android:layout_marginTop="9dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/et_contact_content"
+        android:hint="Type your message here.."
+        android:layout_below="@+id/et_contact_email"
+        android:layout_alignEnd="@+id/et_contact_email"
+        android:textColor="@android:color/black"
+        android:singleLine="false" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/applogomain"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:id="@+id/imageView7" />
+
+    <EditText
+        android:layout_width="355sp"
+        android:layout_height="30sp"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="100dp"
+        android:id="@+id/et_contact_name"
+        android:background="@android:color/white"
+        android:layout_below="@+id/imageView7"
+        android:layout_centerHorizontal="true"
+        android:hint="Name"
+        android:textColor="@android:color/black"
+        tools:background="@android:color/background_light" />
+
+    <TextView
+        android:text="Contact Us"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView7"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/textView4"
+        android:textSize="36sp"
+        android:textColor="@android:color/white" />
+
+
+</RelativeLayout>

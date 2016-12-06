@@ -43,16 +43,6 @@
         <EditText
             android:layout_width="320dp"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/et_addBookPublisher"
-            android:hint="Publisher"
-            android:layout_below="@+id/et_AddBookDesc"
-            android:layout_alignStart="@+id/et_AddBookDesc" />
-
-        <EditText
-            android:layout_width="320dp"
-            android:layout_height="wrap_content"
             android:inputType="numberSigned"
             android:ems="10"
             android:id="@+id/et_AddBookYear"
@@ -87,8 +77,22 @@
             android:layout_alignStart="@+id/et_addBookPrice"
             android:layout_alignEnd="@+id/et_addBookAuthor" />
 
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:lines="2"
+            android:minLines="1"
+            android:gravity="top|left"
+            android:ems="10"
+            android:scrollbars="vertical"
+            android:id="@+id/et_addBook_course"
+            android:hint="Course"
+            android:layout_below="@+id/et_AddBookDesc"
+            android:layout_alignStart="@+id/et_addBookPrice"
+            android:layout_alignEnd="@+id/et_addBookAuthor" />
+
         <Button
-            android:text="Save Book1"
+            android:text="POST BOOK"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="ButtonOnClick"
@@ -128,6 +132,16 @@
             android:prompt="@string/program_prompt"
             android:layout_below="@+id/et_AddBookYear"
             android:layout_alignParentStart="true" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/et_addBookPublisher"
+            android:hint="Publisher"
+            android:layout_below="@+id/et_addBook_course"
+            android:layout_alignStart="@+id/et_addBook_course" />
 
 
     </RelativeLayout>

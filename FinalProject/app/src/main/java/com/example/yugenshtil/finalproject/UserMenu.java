@@ -45,12 +45,12 @@ public class UserMenu extends Activity {
 
     private String id = "";
     private String token = "";
-    private String email="";
+    private String email = "";
     public ProgressDialog pd;
-    private String GETUSERINFO="http://senecafleamarket.azurewebsites.net/api/User/CurrentUser";
-    private String DELETEUSERURL="http://senecafleamarket.azurewebsites.net/api/User/";
+    private String GETUSERINFO = "http://senecafleamarket.azurewebsites.net/api/User/CurrentUser";
+    private String DELETEUSERURL = "http://senecafleamarket.azurewebsites.net/api/User/";
     SharedPreferences sharedpreferences;
-    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String MyPREFERENCES = "MyPrefs";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +76,9 @@ public class UserMenu extends Activity {
             public void onClick(View v) {
                 Log.d("LOG : ", "Sell button clicked on userMenu");
 
-                Intent sellIntent = new Intent(UserMenu.this,Sell.class);
+                Intent sellIntent = new Intent(UserMenu.this, Sell.class);
                 sellIntent.putExtra("id", id);
-              //  sellIntent.putExtra("fullName", fullName);
+                //  sellIntent.putExtra("fullName", fullName);
                 sellIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(sellIntent);
 
@@ -90,7 +90,7 @@ public class UserMenu extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg", "Buy button clicked on userMenu");
-                Intent buyIntent = new Intent(UserMenu.this,Buy.class);
+                Intent buyIntent = new Intent(UserMenu.this, Buy.class);
                 startActivity(buyIntent);
                 finish();
 
@@ -102,9 +102,9 @@ public class UserMenu extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("LOG : ", "History button clicked on userMenu");
-                Intent historyIntent = new Intent(UserMenu.this,History.class);
+                Intent historyIntent = new Intent(UserMenu.this, History.class);
                 historyIntent.putExtra("id", id);
-              //  historyIntent.putExtra("fullName", fullName);
+                //  historyIntent.putExtra("fullName", fullName);
                 historyIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(historyIntent);
 
@@ -116,7 +116,7 @@ public class UserMenu extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg", "Login clicked");
-                Intent myFavoritesIntent = new Intent(UserMenu.this,MyFavorites.class);
+                Intent myFavoritesIntent = new Intent(UserMenu.this, MyFavorites.class);
                 startActivity(myFavoritesIntent);
 
             }
@@ -127,7 +127,7 @@ public class UserMenu extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg", "Message button clicked on userMenu");
-                Intent messageIntent = new Intent(UserMenu.this,MyMessages.class);
+                Intent messageIntent = new Intent(UserMenu.this, MyMessages.class);
                 startActivity(messageIntent);
 
             }
@@ -139,42 +139,46 @@ public class UserMenu extends Activity {
             @Override
             public void onClick(View v) {
                 Log.d("Oleg", "Login clicked");
-                Intent contactUsIntent = new Intent(UserMenu.this,ContactUs.class);
+                Intent contactUsIntent = new Intent(UserMenu.this, ContactUs.class);
                 startActivity(contactUsIntent);
-
             }
         });
     }
 
+
     private void hasNotification() {
+
+        Log.d("LOG : ", "checking notifications for user.");
+
+
         Log.d("LOG : ","checking notifications for user.");
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        JsonObjectRequest jsObjGetRequest = new JsonObjectRequest(Request.Method.GET, GETUSERINFO, null, new Response.Listener<JSONObject>() {
-            String myMessagesList="";
 
+        JsonObjectRequest jsObjGetRequest = new JsonObjectRequest(Request.Method.GET, GETUSERINFO, null, new Response.Listener<JSONObject>() {
+            String myMessagesList = "";
 
             @Override
             public void onResponse(JSONObject response) {
 
-                if(response!=null){
+                if (response != null) {
                     JSONObject items = response;
 
-                    if(items!=null) {
+                    if (items != null) {
                         Log.d("Log : ", "user info: " + items.toString());
 
                         try {
-                            myMessagesList+=items.getString("HasNewMessage");
+                            myMessagesList += items.getString("HasNewMessage");
                             Log.d("LOG : ", "has message is: " + myMessagesList);
-                            if(myMessagesList.contains("false")){
-                               Log.d("LOG : ", "No new messages");
-                            }
-                            else {
+                            if (myMessagesList.contains("false")) {
+                                Log.d("LOG : ", "No new messages");
+                            } else {
                                 Log.d("LOG : ", "Triggering notification");
+                                Log.d("LOG : ", "has message");
                                 NotificationCompat.Builder mBuilder =
                                         (NotificationCompat.Builder) new NotificationCompat.Builder(UserMenu.this)
                                                 .setSmallIcon(R.drawable.notification_icon)
-                                                .setContentTitle("My notification")
-                                                .setContentText("Hello World!");
+                                                .setContentTitle("New message")
+                                                .setContentText("You have a new message!");
 
                                 Intent resultIntent = new Intent(UserMenu.this, MyMessages.class);
 
@@ -195,19 +199,20 @@ public class UserMenu extends Activity {
                                 int mId = 1;
                                 mNotificationManager.notify(mId, mBuilder.build());
 
+                                Toast.makeText(getApplicationContext(), "You have a new message, check notifications", Toast.LENGTH_LONG).show();
+
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
-                    }
-                    else{
-                        Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "No messages", Toast.LENGTH_SHORT).show();
                     }
 
-                }
-                else{
-                    Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), "No messages", Toast.LENGTH_SHORT).show();
                 }
 
                 pd.cancel();
@@ -218,10 +223,10 @@ public class UserMenu extends Activity {
             public void onErrorResponse(VolleyError error) {
 
                 pd.cancel();
-                Log.d("LOG :","error : " + error);
+                Log.d("LOG :", "error : " + error);
 
             }
-        }){
+        }) {
             @Override
             public String getBodyContentType() {
                 return "application/x-www-form-urlencoded; charset=UTF-8";
@@ -230,7 +235,7 @@ public class UserMenu extends Activity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization","Bearer "+token);
+                headers.put("Authorization", "Bearer " + token);
 
                 Log.d("Token ", headers.toString());
                 return headers;
@@ -256,21 +261,19 @@ public class UserMenu extends Activity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id==R.id.action_logout){
+        } else if (id == R.id.action_logout) {
             SharedPreferences preferences = getSharedPreferences("MyPrefs", 0);
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
             editor.commit();
 
-            Intent mainMenuIntent = new Intent(UserMenu.this,MainMenu.class);
+            Intent mainMenuIntent = new Intent(UserMenu.this, MainMenu.class);
             startActivity(mainMenuIntent);
-        }
-        else if(id==R.id.action_deactivate){
+        } else if (id == R.id.action_deactivate) {
 
             deactivateAccount();
 
-            Intent mainMenuIntent = new Intent(UserMenu.this,MainMenu.class);
+            Intent mainMenuIntent = new Intent(UserMenu.this, MainMenu.class);
             startActivity(mainMenuIntent);
         }
 
@@ -278,31 +281,29 @@ public class UserMenu extends Activity {
     }
 
 
-    public void deactivateAccount(){
-        Log.d("Oleg","Deleteing id " + id);
+    public void deactivateAccount() {
+        Log.d("Oleg", "Deleteing id " + id);
         pd = ProgressDialog.show(this, "", "Account is deactivating...Please wait...", true);
-        StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEUSERURL+id,
-                new Response.Listener<String>()
-                {
+        StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEUSERURL + id,
+                new Response.Listener<String>() {
 
 
                     @Override
                     public void onResponse(String response) {
                         pd.cancel();
-                        Log.d("Oleg","Response is "+response);
+                        Log.d("Oleg", "Response is " + response);
                         //    adapter.notifyDataSetChanged();
-                        Intent aboutAppIntent = new Intent(UserMenu.this,MainMenu.class);
+                        Intent aboutAppIntent = new Intent(UserMenu.this, MainMenu.class);
                         startActivity(aboutAppIntent);
 
 
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pd.cancel();
-                        Log.d("Oleg","Response error is "+error);
+                        Log.d("Oleg", "Response error is " + error);
 
                     }
                 }

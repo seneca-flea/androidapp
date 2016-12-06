@@ -269,7 +269,7 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
     public void onDeleteIconClick(int p) {
 
         try {
-            Log.d("LOG : ","Delete icon clicked on itemHistory");
+            Log.d("LOG : ","Delete icon clicked on History.java");
             JSONObject item = (JSONObject)jsonArray.get(p);
 
             String deleteItemId = item.getString("Id");
@@ -295,7 +295,7 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
                         //stop progress dialog
                         pd.cancel();
                         Log.d("LOG : ","Response is "+response);
-                        //    adapter.notifyDataSetChanged();
+                            adapter.notifyDataSetChanged();
                         Intent aboutAppIntent = new Intent(History.this,History.class);
                         startActivity(aboutAppIntent);
 
@@ -312,6 +312,11 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
                     }
                 }
         ){
+
+            /*@Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }*/
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {

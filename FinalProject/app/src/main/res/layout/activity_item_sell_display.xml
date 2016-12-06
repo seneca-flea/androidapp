@@ -9,55 +9,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.yugenshtil.finalproject.ItemBuy.ItemBuy"
 
-    android:background="@color/cardview_light_background">
+    android:background="@color/primaryColor">
 
-
-    <TextView
-        android:id="@+id/tvItemBuy_Title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="92dp"
-        android:layout_marginRight="48dp"
-        android:fontFamily="sans-serif"
-        android:singleLine="true"
-        android:text="Sois comme l'eau mon ami"
-        android:width="0dip"
-        android:textColor="@android:color/black"
-        android:textSize="24sp" />
-
-
-    <TextView
-        android:id="@+id/tvItemBuy_Description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvItemBuy_Title"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="92dp"
-        android:layout_marginRight="48dp"
-        android:ellipsize="start"
-        android:fontFamily="sans-serif"
-        android:singleLine="true"
-        android:text="Desc"
-        android:textColor="#7E7E7E"
-        android:textSize="20sp" />
-
-
-    <TextView
-        android:id="@+id/tvItemBuy_Price"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvItemBuy_Description"
-        android:layout_marginTop="4dp"
-        android:layout_marginLeft="92dp"
-        android:layout_marginRight="48dp"
-        android:ellipsize="end"
-        android:fontFamily="sans-serif"
-        android:singleLine="true"
-        android:text="Price"
-        android:textColor="#7E7E7E"
-        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/ivItemBuy_Favorite"
@@ -71,16 +24,6 @@
         android:layout_alignStart="@+id/tv_price" />
 
     <ImageView
-        android:id="@+id/ivItemBuy_Image"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:paddingLeft="6dp"
-        android:src="@drawable/noimageavailable"
-        android:layout_marginBottom="334dp"
-        android:layout_above="@+id/im_update_icon"
-        android:layout_alignParentStart="true" />
-
-    <ImageView
         android:id="@+id/ivItemBuy_Message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,6 +32,155 @@
         android:layout_alignParentBottom="true"
         android:layout_toEndOf="@+id/ivItemBuy_Favorite"
         android:layout_marginStart="58dp" />
+
+
+    <ImageView
+        android:id="@+id/ivItemBuy_Image"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="6dp"
+        android:src="@drawable/noimageavailable"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignBottom="@+id/tvItem_Price" />
+
+    <TextView
+        android:text="Price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvItem_Price"
+        android:layout_below="@+id/tvItem_Title"
+        android:layout_alignStart="@+id/tvItem_Title"
+        android:layout_marginTop="15dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tvItem_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="95dp"
+        android:layout_marginRight="48dp"
+        android:fontFamily="sans-serif"
+        android:singleLine="false"
+        android:maxLines="2"
+        android:lines="2"
+        android:text="Sois comme l'eau mon ami"
+        android:width="0dip"
+        android:textColor="@android:color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:text="Desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:id="@+id/tv_sell_Desc"
+        android:textColor="@android:color/black"
+        android:textSize="22sp"
+        android:layout_below="@+id/tv_itemSell_Author"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/tv_itemSell_Program"
+        android:id="@+id/tv_itemSell_Year"
+        android:textColor="@android:color/black"
+        android:layout_alignTop="@+id/tv_sell_year" />
+
+    <TextView
+        android:text="Course :"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_iteSell_Course"
+        android:layout_alignParentStart="true"
+        android:id="@+id/tv_sell_course"
+        android:textColor="@android:color/black"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="Publisher : "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_itemSell_Publisher"
+        android:id="@+id/tv_sell_publisher"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/tv_sell_author" />
+
+    <TextView
+        android:text="Program :"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:id="@+id/tv_sell_program"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/tv_sell_year"
+        android:layout_alignParentStart="true"
+        android:textSize="18sp" />
+
+    <TextView
+        android:text="Author :"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_sell_author"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_alignTop="@+id/tv_itemSell_Author"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_itemSell_Author"
+        android:textColor="@android:color/black"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/tv_itemSell_Publisher" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_itemSell_Publisher"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/tv_itemSell_Author"
+        android:layout_alignStart="@+id/tv_itemSell_Year" />
+
+    <TextView
+        android:text="Year :"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_sell_year"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_above="@+id/tv_sell_publisher"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_itemSell_Program"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="27dp"
+        android:layout_alignBottom="@+id/tv_sell_program"
+        android:layout_alignStart="@+id/ivItemBuy_Favorite" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_iteSell_Course"
+        android:text="TextView"
+        android:textColor="@android:color/black"
+        android:layout_above="@+id/tv_itemSell_Program"
+        android:layout_alignStart="@+id/tv_itemSell_Program" />
+
 
 </RelativeLayout>
 

@@ -13,6 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -53,6 +55,12 @@ public class ItemDisplayActivity extends Activity {
     private static String SellerId = "";
     private static String Description = "";
     private static String Price = "";
+    private static String Course = "";
+    private static String Program = "";
+    private static String Year = "";
+    private static String Publisher = "";
+    private static String Author = "";
+
     private ImageView image=null;
     private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/user/";
     private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
@@ -71,8 +79,14 @@ public class ItemDisplayActivity extends Activity {
         final TextView etTitle = (TextView) findViewById(R.id.tvItemBuy_Title);
         final TextView etDescription = (TextView) findViewById(R.id.tvItemBuy_Description);
         final TextView etPrice = (TextView) findViewById(R.id.tvItemBuy_Price);
+        final TextView etProgram = (TextView) findViewById(R.id.tv_itemBuy_program);
+        final TextView etYear = (TextView) findViewById(R.id.tv_itemBuy_year);
+        final TextView etCourse = (TextView) findViewById(R.id.tv_itemBuy_Course);
+        final TextView etPublisher = (TextView) findViewById(R.id.tv_itemBuy_Publisher);
+        final TextView etAuthor = (TextView) findViewById(R.id.tv_itemBuy_Author);
         final ImageView imDelete = (ImageView) findViewById(R.id.imDelete_itemDisplay);
         final ImageView imUpdate = (ImageView) findViewById(R.id.ivItemBuy_Favorite);
+
         image = (ImageView) findViewById(R.id.ivImage_ItemDisplay);
 
 
@@ -87,12 +101,47 @@ public class ItemDisplayActivity extends Activity {
         Title = extras.getString("Title");
         Description = extras.getString("Description");
         Price = extras.getString("Price");
+        Course = extras.getString("Course");
+        Program = extras.getString("Program");
+        Year = extras.getString("Year");
+        Publisher = extras.getString("Publisher");
+        Author = extras.getString("Author");
 
         setItem(ItemId);
 
         etTitle.setText(Title);
         etDescription.setText(Description);
-        etPrice.setText(Price);
+        etPrice.setText("$ " + Price);
+        if (Course.contains("null")) {
+            etCourse.setText("n/a");
+        }
+        else {
+            etCourse.setText(Course);
+        }
+        if (Program.contains("null")) {
+            etProgram.setText("n/a");
+        }
+        else {
+            etProgram.setText(Program);
+        }
+        if (Year.contains("null")) {
+            etYear.setText("n/a");
+        }
+        else {
+            etYear.setText(Year);
+        }
+        if (Publisher.contains("null")) {
+            etPublisher.setText("n/a");
+        }
+        else {
+            etPublisher.setText(Publisher);
+        }
+        if (Author.contains("null")) {
+            etAuthor.setText("n/a");
+        }
+        else {
+            etAuthor.setText(Author);
+        }
 
         imDelete.setOnClickListener(new View.OnClickListener() {
 
@@ -123,7 +172,7 @@ public class ItemDisplayActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         pd.cancel();
-                        Log.d("Oleg","Response is "+response);
+                        Log.d("LOG : ","Response is "+response);
                         //    adapter.notifyDataSetChanged();
                         Intent sellIntent = new Intent(ItemDisplayActivity.this,Sell.class);
                         startActivity(sellIntent);
@@ -135,7 +184,7 @@ public class ItemDisplayActivity extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pd.cancel();
-                        Log.d("Oleg","Response error is "+error);
+                        Log.d("LOG : ","Response error is "+error);
 
                     }
                 }
@@ -149,7 +198,7 @@ public class ItemDisplayActivity extends Activity {
         // pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
 
         try {
-            Log.d("Oleg","Update");
+            Log.d("LOG : ","Update and item in ItemDisplayActivity.java");
             Intent i = new Intent(ItemDisplayActivity.this, EditItem.class);
             i.putExtra("ItemId",ItemId);
             i.putExtra("Title",Title);
@@ -201,17 +250,13 @@ public class ItemDisplayActivity extends Activity {
                 try {
                     if(response!=null){
                         JSONObject s = response.getJSONObject(0);
-                        Log.d("Oleg","s is " + s.toString());
+                        Log.d("LOG : ","s is " + s.toString());
                         byte[] decodedString = Base64.decode(s.getString("Photo"), Base64.DEFAULT);
-                        Log.d("Oleg","Decoded BYTES " + decodedString );
+                        Log.d("LOG : ","Decoded BYTES " + decodedString );
 
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                         image.setImageBitmap(decodedByte);
                     }
-
-
-
-                 //   Log.d("Oleg","Got JSON " + response.toString());
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -236,12 +281,16 @@ public class ItemDisplayActivity extends Activity {
         };
 
         MySingleton.getInstance(ItemDisplayActivity.this).addToRequestQueue(sr);
-
-
-
-
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_item_display_activity,menu);
+
+        return true;
+    }
 
 
 }

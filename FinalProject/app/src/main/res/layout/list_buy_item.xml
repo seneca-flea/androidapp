@@ -86,6 +86,7 @@
         android:id="@+id/im_favorite_icon"
         android:layout_alignParentBottom="true"
         android:layout_toStartOf="@+id/im_new_message"
-        android:layout_marginEnd="20dp" />
+        android:layout_marginEnd="20dp"
+        android:layout_below="@+id/tv_price" />
 
 </RelativeLayout>
