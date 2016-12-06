@@ -1,7 +1,9 @@
 package com.example.yugenshtil.finalproject.useCases;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +17,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.ItemBuy.Buy;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.adapter.ProgramAdapter;
@@ -32,6 +35,8 @@ public class ProgramFilter extends Activity implements AdapterView.OnItemClickLi
         public static ArrayList<String> selectedPrograms= new ArrayList<String>();
         private Button btnDisplaySelected;
         private Button btnSubmit;
+        String allPrograms="";
+    SharedPreferences sharedpreferences;
     private SearchView sv;
         private String[] programListArray = {"3D Animation","911 and Emergency Services Communications","Academic Upgrading","Accounting Techniques","Accounting and Finance (Optional Co-op)","Accounting and Payroll (Optional Co-op)","Accounting","Acting for Camera and Voice","Advanced Investigations and Enforcement","Airline Pilot Flight Operations","Animation","Applied Electronics Design (Optional Co-op)","Art Fundamentals","Arts and Science - University Transfer","Aviation Operations (Optional Co-op)","Aviation Safety (Optional Co-op)","Behavioural Sciences","Bioinformatics","Biotechnology - Advanced (Optional Co-op)","Brand Management (Optional Co-op)","Broadcasting - Radio","Broadcasting - Radio (Joint Seneca/York)","Broadcasting - Television","Broadcasting - Television (Joint Seneca/York)","Building Systems Engineering Technician (Optional Co-op)","Business - Insurance (Optional Co-op)","Business - International Business","Business - Marketing","Business Administration - Accounting & Financial Planning (Optional Co-op)",
             "Business Administration - Entrepreneurship and Small Business","Business Administration - Financial Planning (Optional Co-op)","Business Administration - Human Resources (Optional Co-op)","Business Administration - International Business (Optional Co-op)","Business Administration - Management","Business Administration - Marketing (Optional Co-op)","Business Administration - Purchasing and Supply Management","Business","Chemical Engineering Technology (Optional Co-op)","Chemical Laboratory Technician","Chemical Laboratory Technology - Pharmaceutical (Optional Co-op)","Child Development Practitioner","Child and Youth Care (Formerly: Child and Youth Worker)","Civil Engineering Technician (Optional Co-op)","Civil Engineering Technology (Joint Program with York University) (Optional Co-op)","Civil Engineering Technology (Optional Co-op)","Clinical Research (Co-op)","College Opportunities","Computer Engineering Technology (Optional Co-op)","Computer Networking and Technical Support","Computer Programmer",
@@ -46,8 +51,12 @@ public class ProgramFilter extends Activity implements AdapterView.OnItemClickLi
         public void onCreate(Bundle icicle) {
             super.onCreate(icicle);
             setContentView(R.layout.activity_program_filter);
+
+            sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
+
             btnDisplaySelected = (Button) findViewById(R.id.btnSelectedPrograms);
             btnSubmit =  (Button) findViewById(R.id.btnSaveSelectedPrograms);
+            selectedPrograms.clear();
 
             listView = (ListView) findViewById(R.id.programList);
          //   sv = (SearchView) findViewById(R.id.simpleSearchView);
@@ -78,6 +87,7 @@ public class ProgramFilter extends Activity implements AdapterView.OnItemClickLi
                 @Override
                 public void onClick(View v) {
                     StringBuffer responseText = new StringBuffer();
+                    allPrograms = responseText.toString();
                     if (selectedPrograms.size() > 0) {
                         for (int i = 0; i < selectedPrograms.size(); i++) {
                             responseText.append("\n" + selectedPrograms.get(i));
@@ -95,10 +105,30 @@ public class ProgramFilter extends Activity implements AdapterView.OnItemClickLi
             btnSubmit .setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(ProgramFilter.this, Buy.class);
-                    intent.putStringArrayListExtra("stock_list",selectedPrograms);
-                    setResult(110, intent);
-                    finish();
+                    if(selectedPrograms.size()>3){
+                        Toast.makeText(getApplicationContext(), "Please, choose no more than 3 programs", Toast.LENGTH_LONG).show();
+
+                    }else{
+                        Log.d("Oleg","We will add");
+                        Intent intent = new Intent(ProgramFilter.this, Buy.class);
+                        Log.d("Oleg","There are " + selectedPrograms.size()+" programs:" + selectedPrograms);
+                        String allPrograms = "";
+                        for(int i = 0; i < selectedPrograms.size();i++){
+                            allPrograms+=selectedPrograms.get(i);
+                            if(i<selectedPrograms.size()-1)
+                                allPrograms+="\n";
+
+                        }
+                        Log.d("Oleg","At the end we got this code " + allPrograms);
+                        SharedPreferences.Editor editor = sharedpreferences.edit();
+                        editor.putString("Courses", allPrograms);
+                        editor.commit();
+                        //   intent.putStringArrayListExtra("stock_list",selectedPrograms);
+                        //  setResult(110, intent);
+                        //   finish();
+
+                    }
+
 
                 }
             });

@@ -97,6 +97,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
         Log.d("Oleg","Max " + priceMax);
         Log.d("Oleg","Min " + priceMin);
+        Log.d("Oleg","Programs " + programs);
 
 
 

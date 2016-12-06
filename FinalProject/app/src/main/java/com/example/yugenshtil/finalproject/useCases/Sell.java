@@ -132,12 +132,16 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
                 if(response!=null){
 
                     JSONArray items = response;
-                    jsonArray = response;
+                    jsonArray = new JSONArray();
                     if(items!=null) {
                         Log.d("Oleg", "size " + items.length());
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
+                                if(item.getString("Status").equals("Available")){
+                                    jsonArray.put(item);
+
+                                }
                                 myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
                                 Log.d("JSON",""+item.toString());
                             } catch (JSONException e) {

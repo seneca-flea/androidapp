@@ -542,8 +542,8 @@ public class AddItem extends Activity {
                 if (resultCode == Activity.RESULT_OK) {
                     String newText = data.getStringExtra("Base64");
                     imageCode = newText;
-                    Log.d("Oleg","Base64 is " + newText);
-                    if(type.equals("Book")){
+                    Log.d("Oleg","Base64 is " + newText + itemType);
+                    if(itemType.equals("Book")){
                         Log.d("oleg","Type is Book");
                         decodedString = Base64.decode(imageCode, Base64.DEFAULT);
                         Log.d("Oleg","Decoded BYTES " + decodedString );
@@ -565,7 +565,7 @@ public class AddItem extends Activity {
 
 
                     }
-                    if(type.equals("Material")){
+                    if(itemType.equals("Material")){
 
                         Log.d("oleg","Type is Material");
 
