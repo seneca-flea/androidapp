@@ -94,14 +94,18 @@ public class MyMessages extends Activity implements MyMessagesAdapter.ItemClickC
                 if (response != null) {
                     JSONArray items = response;
 
+
                     jsonArray = response;
                     if (items != null) {
                         Log.d("Log : ", "number of conversations is: " + items.length());
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
+                                String title = item.getString("UserFirstName");
+                                JSONObject recentmsg = item.getJSONObject("recetMessage");
+                                String desc = recentmsg.getString("Text");
                                 //TODO: Desc should be changed to field prevviewing conversation.
-                                myMessagesList += "Title: " + item.getString("ConversationId") + " Des:" + item.getString("Time") + "\n";
+                                myMessagesList += "Title: " + title + " Des:" + desc + "\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -196,10 +200,10 @@ public class MyMessages extends Activity implements MyMessagesAdapter.ItemClickC
             String user1 = item.get("User1").toString();
             String user2 = item.get("User2").toString();
             if (user1 == id){
-                i.putExtra("sellerIdMessageInt", item.get("User2").toString());
+                i.putExtra("sellerIdMessageInt", user2);
             }
             else {
-                i.putExtra("sellerIdMessageInt", item.get("User1").toString());
+                i.putExtra("sellerIdMessageInt", user1);
             }
 
             i.putExtra("ConvId", item.get("ConversationId").toString());

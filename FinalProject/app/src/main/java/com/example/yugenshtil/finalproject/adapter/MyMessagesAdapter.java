@@ -62,8 +62,9 @@ public class MyMessagesAdapter extends RecyclerView.Adapter<MyMessagesAdapter.De
 
         try {
             JSONObject item = (JSONObject)itemList.get(i);
-            title = item.get("ConversationId").toString();
-            description = item.get("Time").toString();
+            JSONObject recentMsg = item.getJSONObject("recentMessage");
+            title = item.get("UserFirstName").toString();
+            description = recentMsg.get("Text").toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }

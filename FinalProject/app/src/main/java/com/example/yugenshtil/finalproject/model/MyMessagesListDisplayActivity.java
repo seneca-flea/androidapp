@@ -214,9 +214,14 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
 
         Map<String,String> params = new HashMap();
         //id is current users id, get request returns all messages where current user(id) is equal to sender or receiver.
+        if (id == seller_Id){
+            seller_Id = "1";
+        }
+
         params.put("UserId",id);
         params.put("SenderId",seller_Id);
         JSONObject parameters = new JSONObject(params);
+
         Log.d("LOG : ","JSON is " + parameters);
         String URL = GETUSERCONVERSATIONURL + seller_Id + GETUSERCONVERSATIONURLTWO;
         Log.d("LOG : ","URL is " + URL);
@@ -239,14 +244,14 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    if(items!=null) {
+                    if(jsonArray!=null) {
                         Log.d("Log : ", "number of messages in this conversation are: " + jsonArray.length());
                         for (int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) jsonArray.get(i);
                                 //TODO: RICO: update to accept the fields of the incoming messages(what each individual message will return)
                                 //TODO: RICO: change Sender to appropriate name from response. then update in Adapter where **here**
-                                myMessagesList+="Content: "+ item.getString("Text")+" Sender:"+item.getString("SenderId")+"\n";
+                                myMessagesList += "Content: " + item.getString("Text") + " Sender:" + item.getString("SenderId") + "\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -254,24 +259,24 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
                         }
 
                         // tvItemsList.setText(myItemsList);
+
+
+                        recView = (RecyclerView) findViewById(R.id.recViewMessageList);
+
+                        recView.setLayoutManager(new LinearLayoutManager(MyMessagesListDisplayActivity.this));
+
+                        adapter = new MyMessagesListAdapter(MyMessagesListDisplayActivity.this, jsonArray);
+
+                        Log.d("LOG : ", "Setting adapter for MyMessagesListDisplay.java");
+                        recView.setAdapter(adapter);
+                        adapter.setItemClickCallback(MyMessagesListDisplayActivity.this);
+
+                        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
+                        itemTouchHelper.attachToRecyclerView(recView);
                     }
                     else{
                         Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
                     }
-
-                    recView = (RecyclerView)findViewById(R.id.recViewMessageList);
-
-                    recView.setLayoutManager(new LinearLayoutManager(MyMessagesListDisplayActivity.this));
-
-                    adapter = new MyMessagesListAdapter(MyMessagesListDisplayActivity.this, jsonArray);
-
-                    Log.d("LOG : ","Setting adapter for MyMessagesListDisplay.java");
-                    recView.setAdapter(adapter);
-                    adapter.setItemClickCallback(MyMessagesListDisplayActivity.this);
-
-                    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-                    itemTouchHelper.attachToRecyclerView(recView);
-
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
