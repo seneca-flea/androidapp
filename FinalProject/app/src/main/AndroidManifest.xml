@@ -36,22 +36,18 @@
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme" />
-
-
         <activity
             android:name=".UserMenu"
-            android:label="@string/title_activity_user_menu"
-           />
-
+            android:label="@string/title_activity_user_menu" />
         <activity
             android:name=".MainMenu"
             android:label="@string/title_activity_main_menu"
             android:theme="@style/AppTheme" />
         <activity
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
             android:name=".Account.Login"
+            android:configChanges="orientation|keyboardHidden"
             android:label="Login"
+
             android:theme="@style/AppTheme"/>
         <activity android:name=".ContactUs"
             android:label="@string/title_activity_contact_us" >
@@ -61,6 +57,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".AboutApp"
             android:label="@string/title_activity_about_app"
@@ -79,6 +78,7 @@
         <activity
             android:name=".ItemBuy.Buy"
             android:label="@string/title_activity_buy"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".useCases.MyMessages"
@@ -103,7 +103,9 @@
             android:label="@string/title_activity_add_item"
             android:theme="@style/AppTheme" />
         <activity android:name=".model.ItemDisplayActivity" />
-        <activity android:name=".Item.EditItem" />
+        <activity
+            android:name=".Item.EditItem"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Test"
             android:label="@string/title_activity_test"
@@ -114,11 +116,16 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".Item.EditBook"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".model.MyMessagesListDisplayActivity"
             android:theme="@style/AppTheme" />
+        <activity android:name=".model.ItemHistoryDisplayActivity" />
 
-
-        <activity android:name=".model.ItemHistoryDisplayActivity"></activity>
+        <activity android:name=".Item.EditMaterial"  android:windowSoftInputMode="adjustPan"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>

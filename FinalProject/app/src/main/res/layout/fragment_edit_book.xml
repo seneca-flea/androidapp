@@ -1,0 +1,106 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="layout.EditBook">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
+
+
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etEditBook_Title"
+            android:layout_marginTop="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etEditBook_Author"
+
+            android:layout_below="@+id/etEditBook_Title"
+            android:layout_alignStart="@+id/etEditBook_Title" />
+
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_below="@+id/etEditBook_Author"
+            android:layout_alignStart="@+id/etEditBook_Author"
+            android:id="@+id/etEditBook_Price"
+
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="59dp"
+            android:lines="2"
+            android:minLines="1"
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:scrollbars="vertical"
+            android:id="@+id/etEditBook_Desc"
+
+            android:layout_below="@+id/etEditBook_Price"
+            android:layout_alignStart="@+id/etEditBook_Price"
+            android:layout_alignEnd="@+id/etEditBook_Price" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:id="@+id/etEditBook_Publisher"
+            android:inputType="text"
+
+            android:layout_below="@+id/etEditBook_Desc"
+            android:layout_alignStart="@+id/etEditBook_Desc" />
+
+        <EditText
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberSigned"
+
+            android:ems="10"
+            android:id="@+id/etEditBook_Year"
+            android:layout_below="@+id/etEditBook_Publisher"
+            android:layout_alignStart="@+id/etEditBook_Publisher" />
+
+        <Spinner
+            android:id="@+id/spinnerEditBook"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/program_array"
+            android:prompt="@string/program_prompt"
+            android:layout_below="@+id/etEditBook_Year"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:text="Save Book"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="EditButtonOnClick"
+            android:background="#f44336"
+            android:textColor="#ffff"
+            android:id="@+id/btSave_EditBook"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp" />
+
+
+
+
+
+    </RelativeLayout>
+
+
+</FrameLayout>

@@ -147,7 +147,12 @@ public class UserMenu extends Activity {
 
 
     private void hasNotification() {
+
         Log.d("LOG : ", "checking notifications for user.");
+
+
+        Log.d("LOG : ","checking notifications for user.");
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
 
         JsonObjectRequest jsObjGetRequest = new JsonObjectRequest(Request.Method.GET, GETUSERINFO, null, new Response.Listener<JSONObject>() {
             String myMessagesList = "";
@@ -210,7 +215,7 @@ public class UserMenu extends Activity {
                     Toast.makeText(getApplicationContext(), "No messages", Toast.LENGTH_SHORT).show();
                 }
 
-
+                pd.cancel();
             }
         }, new Response.ErrorListener() {
 
