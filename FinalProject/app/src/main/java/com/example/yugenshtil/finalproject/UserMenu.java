@@ -1,11 +1,15 @@
 package com.example.yugenshtil.finalproject;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -166,6 +170,30 @@ public class UserMenu extends Activity {
                             }
                             else {
                                 Log.d("LOG : ", "Triggering notification");
+                                NotificationCompat.Builder mBuilder =
+                                        (NotificationCompat.Builder) new NotificationCompat.Builder(UserMenu.this)
+                                                .setSmallIcon(R.drawable.notification_icon)
+                                                .setContentTitle("My notification")
+                                                .setContentText("Hello World!");
+
+                                Intent resultIntent = new Intent(UserMenu.this, MyMessages.class);
+
+                                TaskStackBuilder stackBuilder = TaskStackBuilder.create(UserMenu.this);
+
+                                stackBuilder.addParentStack(MyMessages.class);
+
+                                stackBuilder.addNextIntent(resultIntent);
+                                PendingIntent resultPendingIntent =
+                                        stackBuilder.getPendingIntent(
+                                                0,
+                                                PendingIntent.FLAG_UPDATE_CURRENT
+                                        );
+                                mBuilder.setContentIntent(resultPendingIntent);
+                                NotificationManager mNotificationManager =
+                                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+// mId allows you to update the notification later on.
+                                int mId = 1;
+                                mNotificationManager.notify(mId, mBuilder.build());
 
                             }
                         } catch (JSONException e) {

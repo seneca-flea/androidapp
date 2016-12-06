@@ -66,9 +66,6 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
         id = sharedpreferences.getString("UserId","");
         Log.d("LOG:", "id here is " + id );
 
-
-        id = sharedpreferences.getString("UserId", "");
-
         fullName = sharedpreferences.getString("fullName", "");
         token = sharedpreferences.getString("token","");
         Log.d("LOG : ","onCreate for history running");
@@ -287,7 +284,7 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
     }
     public void deleteAnItem(int id){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("LOG :","deleteAnItem running on itemHistory");
+        Log.d("LOG :","deleteAnItem running on History.java");
 
         String URL = DELETEUSERHISTORYURL1 + this.id + DELETEUSERHISTORYURL2 + id;
         StringRequest dr = new StringRequest(Request.Method.DELETE, URL,

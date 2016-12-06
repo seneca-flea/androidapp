@@ -44,7 +44,8 @@ public class MyMessages extends Activity implements MyMessagesAdapter.ItemClickC
 
 
     private String GETCONVERSATIONURL = "http://senecafleamarket.azurewebsites.net/api/Conversation";
-    private String DELETECONVERSATIONURL = "http://senecaflea.azurewebsites.net/api/Conversation/?receiverId=";//missing ID
+
+    private String DELETECONVERSATIONURL = "http://senecafleamarket.azurewebsites.net/api/Conversation?receiverId=";//missing ID
 
 
     //For testing: private String token = "rvgZI8JrpdCFy4JvMxLj6WlyvwxSiL8JTVmlafEuhiZpDcMn4E8xvRrYGrTrUnE_bGG2rKfMfDllUF0O6pQYPV7-C9JJQ7j8OCmOQhvmvYdXYJpYZjwsLoynoRtpdwPBOT_-lAyPrl8twOjfNaFCTXGsQ17ci5byDrIJclHsFSP7bhpkJ3dwTnAJvplRIHN2k0yYi9x4H1BEIC0qBaHZ5Omh1tlTIFzr3Zigkbfo014T9fy_jpvEoyNI3vES_w2jWrW8282DASK6JAFPAwUJr_-G1_mZrSLKrLFblQPFKbo-HLhLZTAQSq6zY14J7LJoBTyWu-nM6sEAeiCNYc5tZrP2gYKjLz-H119j_Uuw8xOOLKyKyNOZlGNtBqumc2weLF-ESDBvYCdFNGQKizCLz4Nwvp2CldBIzTZj9bw-lopSxZXPhO4TsKYko9xcZYauIe5PBOeoxqxzbxkXOnKQyZiwisPYec33opPW8bG-Aem_pDkuuhjJHGEv4Kdipxm3V1BnEquJnWPs2qTAc2dpgXpB6JHcD7DU84pPvstRAM4hsS7wccvbBZ5jf1zuLU-xbzDFwA";
