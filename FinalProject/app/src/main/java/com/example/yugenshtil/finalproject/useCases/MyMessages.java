@@ -199,10 +199,13 @@ public class MyMessages extends Activity implements MyMessagesAdapter.ItemClickC
 
             String user1 = item.get("User1").toString();
             String user2 = item.get("User2").toString();
+            Log.d("LOG : ",  user1 +""+user2);
             if (user1 == id){
                 i.putExtra("sellerIdMessageInt", user2);
+                Log.d("LOG: this", "got changed." );
             }
             else {
+                Log.d("LOG: this", "didn' t got changed." );
                 i.putExtra("sellerIdMessageInt", user1);
             }
 

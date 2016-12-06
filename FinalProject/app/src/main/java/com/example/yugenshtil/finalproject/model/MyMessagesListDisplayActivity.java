@@ -88,6 +88,7 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
         Intent intent = getIntent();
         item_Id = intent.getStringExtra("itemIdMessageInt");
         seller_Id = intent.getStringExtra("sellerIdMessageInt");
+        Log.d("LOG: this here: ", "" +seller_Id);
         currDate = new Date();
         jsonDate = dateFormat.format(currDate);
         //Testing Log.d("LOG : ","itemId: " + item_Id +" sellerId: " + seller_Id + " on date: " +jsonDate);
@@ -217,6 +218,8 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
         if (id == seller_Id){
             seller_Id = "1";
         }
+        Log.d("LOG: this", "" +seller_Id);
+        Log.d("LOG: this", "" + id);
 
         params.put("UserId",id);
         params.put("SenderId",seller_Id);
