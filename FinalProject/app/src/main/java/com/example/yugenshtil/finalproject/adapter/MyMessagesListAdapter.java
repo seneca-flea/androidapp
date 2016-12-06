@@ -27,7 +27,7 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
 
     public interface ItemClickCallback{
         void onItemClick(int p);
-        void onDeleteIconClick(int p);
+
     }
 
     public void setItemClickCallback(final ItemClickCallback itemClickCallBack){
@@ -45,7 +45,7 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
     @Override
     public DerpHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
 
-        View view = inflater.inflate(R.layout.list_history_item,viewGroup,false);
+        View view = inflater.inflate(R.layout.list_message,viewGroup,false);
 
         return new DerpHolder(view);
     }
@@ -61,8 +61,8 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
         try {
             JSONObject item = (JSONObject)itemList.get(i);
             //TODO: update **here** from messagelist.etc
-            sender = item.get("Sender").toString();
-            content = item.get("Content").toString();
+            sender = item.get("SenderId").toString();
+            content = item.get("Text").toString();
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -599,19 +599,17 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             JSONObject item = (JSONObject) jsonArray.get(p);
 
             Log.d("LOG : ","onMessageIconClick for Buy.java on item :" + item.get("ItemId"));
+            //Testing: Log.d("LOG : ", "Json:" + item);
 
-
-       //     Intent itemIntent = new Intent(AddItem.this, Sell.class);
-        //    startActivity(itemIntent);
             Intent msgIntent = new Intent(Buy.this, MyMessagesListDisplayActivity.class);
 
-         //   String itemId = item.get("ItemId").toString();
-         //   String sellerId = item.get("SellerId").toString();
-
-       //     Log.d("LOG : ","itemId is " + itemId + "and seller id is " + sellerId);
-        //    msgIntent.putExtra("itemIdMessageInt",itemId);
-       //     msgIntent.putExtra("sellerIdMessageInt",sellerId);
+            String itemId = item.get("ItemId").toString();
+            String sellerId = item.get("SellerId").toString();
+            //Testing: Log.d("LOG : ","itemId is " + itemId + " and seller id is " + sellerId);
+            msgIntent.putExtra("itemIdMessageInt",itemId);
+            msgIntent.putExtra("sellerIdMessageInt",sellerId);
             startActivity(msgIntent);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

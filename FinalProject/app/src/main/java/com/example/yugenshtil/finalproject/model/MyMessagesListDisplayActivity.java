@@ -1,7 +1,7 @@
 package com.example.yugenshtil.finalproject.model;
 
 /**
- * Created by rbocanegramez on 11/25/2016.
+ * Displays chat screen, messages are sent from here!
  */
 import android.app.Activity;
 import android.app.DownloadManager;
@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,14 +43,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MyMessagesListDisplayActivity extends AppCompatActivity  {
+public class MyMessagesListDisplayActivity extends AppCompatActivity implements MyMessagesListAdapter.ItemClickCallback {
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
     //TODO:update URLS to retrieve conversation by one user.
     //add id to get conversation
     //TODO: GETUSERCONVERSATIONURL will send two ids
-    private String GETUSERCONVERSATIONURL="http://senecafleamarket.azurewebsites.net/api/Message/filter/UserWithReceiver?receiverid=";
+    private String GETUSERCONVERSATIONURL="http://senecafleamarket.azurewebsites.net/api/Conversation/filter/Receiver/";
+    private String GETUSERCONVERSATIONURLTWO="/withMessages";
     //private String DELETEUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
     private String POSTMESSAGE ="http://senecafleamarket.azurewebsites.net/api/Message";
 
@@ -63,6 +65,7 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
     private String jsonDate = "";
     DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
     private String errors = "";
+    private String token="";
 
     private RecyclerView recView;
 
@@ -77,15 +80,17 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
 
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-        id = sharedpreferences.getString("id", "");
+        id = sharedpreferences.getString("UserId", "");
         fullName = sharedpreferences.getString("fullName", "");
+        token = sharedpreferences.getString("token", "");
 
 
         Intent intent = getIntent();
-        item_Id = intent.getStringExtra("ItemId");
-        seller_Id = intent.getStringExtra("SellerId");
+        item_Id = intent.getStringExtra("itemIdMessageInt");
+        seller_Id = intent.getStringExtra("sellerIdMessageInt");
         currDate = new Date();
         jsonDate = dateFormat.format(currDate);
+        //Testing Log.d("LOG : ","itemId: " + item_Id +" sellerId: " + seller_Id + " on date: " +jsonDate);
 
         Button sendButton = (Button) findViewById(R.id.bt_sendMessageButton);
 
@@ -118,14 +123,20 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
             params.put("ReceiverId", seller_Id);
             params.put("Time", jsonDate);
             params.put("ItemId",item_Id);
+
             JSONObject parameters = new JSONObject(params);
             Log.d("LOG : ", "JSON is " + parameters);
+
             JsonObjectRequest jsObjPostRequest = new JsonObjectRequest(Request.Method.POST, POSTMESSAGE, parameters, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     pd.cancel();
-                    Log.d("LOG :", "Response is " + response);
+                    //Testing: Log.d("LOG :", "Response is " + response);
+                    //Testing: Log.d("LOG :", "The message was sent :) ");
+
                     Intent msgIntent = new Intent(MyMessagesListDisplayActivity.this, MyMessagesListDisplayActivity.class);
+                    msgIntent.putExtra("itemIdMessageInt",item_Id);
+                    msgIntent.putExtra("sellerIdMessageInt",seller_Id);
                     startActivity(msgIntent);
                 }
             }, new Response.ErrorListener() {
@@ -135,14 +146,31 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
                     pd.cancel();
                     Log.d("LOG :", "Error is " + error);
                 }
-            });
+            }){
+
+                /*@Override
+                public String getBodyContentType() {
+                    return "application/json; charset=UTF-8";
+                }*/
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    Log.d("LOG : ", "I will add token " + token);
+                    headers.put("Authorization", "Bearer " + token);
+
+                    // params.put("username",email);
+                    //params.put("password", password);
+
+                    Log.d("Token ", headers.toString());
+                    return headers;
+                }
+
+            };
 
             MySingleton.getInstance(MyMessagesListDisplayActivity.this).addToRequestQueue(jsObjPostRequest);
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(context, "Message sent", duration);
-            toast.show();
 
             try {
                 Thread.sleep(5000);
@@ -151,6 +179,9 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
             }
             Intent displayIntent = new Intent(MyMessagesListDisplayActivity.this, MyMessagesListDisplayActivity.class);
             // RegistrationPage.this.startActivity(loginIntent);
+            displayIntent.putExtra("itemIdMessageInt",item_Id);
+            displayIntent.putExtra("sellerIdMessageInt",seller_Id);
+
             startActivity(displayIntent);
 
         } else {
@@ -187,29 +218,35 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
         params.put("SenderId",seller_Id);
         JSONObject parameters = new JSONObject(params);
         Log.d("LOG : ","JSON is " + parameters);
+        String URL = GETUSERCONVERSATIONURL + seller_Id + GETUSERCONVERSATIONURLTWO;
+        Log.d("LOG : ","URL is " + URL);
 
 
-        JsonArrayRequest jsObjGetRequest = new JsonArrayRequest(Request.Method.GET, GETUSERCONVERSATIONURL+seller_Id, null, new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsObjGetRequest = new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
             String myMessagesList="";
 
-            //TODO: add url that send receiver and retrieves all messages between user and receiver (conversation) DONE!!!
+
             @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
 
                 pd.cancel();
 
                 if(response!=null){
-                    JSONArray items = response;
+                    JSONObject items = response;
 
-                    jsonArray = response;
+                    try {
+                        jsonArray = items.getJSONArray("Messages");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                     if(items!=null) {
-                        Log.d("Log : ", "number of messages in this conversation are: " + items.length());
-                        for (int i = 0; i < items.length(); i++) {
+                        Log.d("Log : ", "number of messages in this conversation are: " + jsonArray.length());
+                        for (int i = 0; i < jsonArray.length(); i++) {
                             try {
-                                JSONObject item = (JSONObject) items.get(i);
+                                JSONObject item = (JSONObject) jsonArray.get(i);
                                 //TODO: RICO: update to accept the fields of the incoming messages(what each individual message will return)
                                 //TODO: RICO: change Sender to appropriate name from response. then update in Adapter where **here**
-                                myMessagesList+="Content: "+ item.getString("Text")+" Sender:"+item.getString("SenderNAme")+"\n";
+                                myMessagesList+="Content: "+ item.getString("Text")+" Sender:"+item.getString("SenderId")+"\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -218,7 +255,9 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
 
                         // tvItemsList.setText(myItemsList);
                     }
-
+                    else{
+                        Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
+                    }
 
                     recView = (RecyclerView)findViewById(R.id.recViewMessageList);
 
@@ -228,18 +267,14 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
 
                     Log.d("LOG : ","Setting adapter for MyMessagesListDisplay.java");
                     recView.setAdapter(adapter);
-                    //TODO: not working for some reason:
-                    //adapter.setItemClickCallback(History.this);
+                    adapter.setItemClickCallback(MyMessagesListDisplayActivity.this);
 
                     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
                     itemTouchHelper.attachToRecyclerView(recView);
 
                 }
                 else{
-                    Context context = getApplicationContext();
-                    int duration = Toast.LENGTH_LONG;
-                    Toast toast = Toast.makeText(context, "JSON RETURNED NULL", duration);
-                    toast.show();
+                    Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -253,7 +288,23 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity  {
                 Log.d("LOG :","error : " + error);
 
             }
-        });
+        }){
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=UTF-8";
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization","Bearer "+token);
+
+                Log.d("Token ", headers.toString());
+                return headers;
+            }
+        }
+
+                ;
         MySingleton.getInstance(MyMessagesListDisplayActivity.this).addToRequestQueue(jsObjGetRequest);
     }
 

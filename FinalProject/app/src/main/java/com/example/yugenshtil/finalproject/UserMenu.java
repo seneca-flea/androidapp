@@ -51,6 +51,7 @@ public class UserMenu extends Activity {
         final ImageView bMessage = (ImageView) findViewById(R.id.userMenuMessagesButton);
         final ImageView bContactUs = (ImageView) findViewById(R.id.userMenuContactUsButton);
 
+        hasNotification();
 
         // Listener of the UserMenu - Sell Button
         bSell.setOnClickListener(new View.OnClickListener() {
@@ -126,6 +127,10 @@ public class UserMenu extends Activity {
 
             }
         });
+    }
+
+    private void hasNotification() {
+        
     }
 
     @Override
