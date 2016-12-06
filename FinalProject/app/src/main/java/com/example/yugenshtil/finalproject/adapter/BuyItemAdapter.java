@@ -191,7 +191,7 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
              //   itemClickCallBack.onDeleteIconClick(getAdapterPosition());
             }
             else if(v.getId()==R.id.im_new_message){
-                Log.d("LOG : ","Clicked message item on buyItemAdapter.java for item :" +getAdapterPosition());
+                Log.d("LOG : "," Adapter : Clicked message item on buyItemAdapter.java for item :" +getAdapterPosition());
                 itemClickCallBack.onMessageIconClick(getAdapterPosition());
             }
 

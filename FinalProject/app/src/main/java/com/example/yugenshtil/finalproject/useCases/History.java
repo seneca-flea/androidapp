@@ -183,6 +183,7 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
                 //params.put("password", password);
 
                 Log.d("Token ", headers.toString());
+
                 return headers;
             }
 
@@ -318,7 +319,7 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-                Log.d("Oleg","I will add token " + token);
+                Log.d("LOG : ","I will add token " + token);
                 headers.put("Authorization","Bearer "+token);
                 // params.put("username",email);
                 //params.put("password", password);

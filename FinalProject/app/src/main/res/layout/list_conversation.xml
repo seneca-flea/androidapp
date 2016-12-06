@@ -14,7 +14,6 @@
         android:id="@+id/tv_title_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:layout_marginLeft="92dp"
         android:layout_marginRight="48dp"
         android:ellipsize="end"
@@ -22,27 +21,10 @@
         android:singleLine="true"
         android:text="Sois comme l'eau mon ami"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
-
-
-    <ImageView
-        android:id="@+id/im_delete_icon_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="6dp"
-        android:src="@drawable/ic_delete_black_36dp"
-        android:layout_below="@+id/tv_title_message"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="34dp" />
-
-    <ImageView
-        android:id="@+id/im_main_image_message"
-        android:layout_width="80dp"
-        android:layout_height="match_parent"
-        android:paddingLeft="6dp"
-        android:src="@drawable/noimageavailable"
+        android:textSize="16sp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toStartOf="@+id/im_delete_icon_message"
+        android:layout_marginEnd="83dp" />
 
     <TextView
         android:id="@+id/tv_description_message"
@@ -57,7 +39,18 @@
         android:text="Desc"
         android:textColor="#7E7E7E"
         android:textSize="14sp"
-        android:layout_alignBottom="@+id/im_delete_icon_message"
-        android:layout_toEndOf="@+id/im_main_image_message" />
+        android:layout_below="@+id/tv_title_message"
+        android:layout_alignEnd="@+id/tv_title_message"
+        android:layout_marginEnd="77dp" />
+
+    <ImageView
+        android:id="@+id/im_delete_icon_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="6dp"
+        android:src="@drawable/ic_delete_black_36dp"
+        android:layout_marginEnd="68dp"
+        android:layout_below="@+id/tv_title_message"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>
