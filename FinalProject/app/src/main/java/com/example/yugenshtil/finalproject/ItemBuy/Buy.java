@@ -38,20 +38,21 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
-import com.example.yugenshtil.finalproject.Item.AddItem;
-import com.example.yugenshtil.finalproject.MainMenu;
+import com.example.yugenshtil.finalproject.OtherUseCases.MainMenu;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
-import com.example.yugenshtil.finalproject.UserMenu;
-import com.example.yugenshtil.finalproject.adapter.BuyItemAdapter;
+import com.example.yugenshtil.finalproject.OtherUseCases.UserMenu;
+import com.example.yugenshtil.finalproject.Adapter.BuyItemAdapter;
 import com.example.yugenshtil.finalproject.model.MyMessagesListDisplayActivity;
-import com.example.yugenshtil.finalproject.useCases.ProgramFilter;
-import com.example.yugenshtil.finalproject.useCases.RangeChoose;
-import com.example.yugenshtil.finalproject.useCases.Sell;
+import com.example.yugenshtil.finalproject.Filter.RangeChoose;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+/*
+Class was created by Oleg Mytryniuk
+ */
 
 public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickCallback {
 
@@ -95,14 +96,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         priceMin = Double.parseDouble(sharedpreferences.getString("PriceMin",""));
         programs = sharedpreferences.getString("Courses","");
 
-        Log.d("Oleg","Max " + priceMax);
-        Log.d("Oleg","Min " + priceMin);
-        Log.d("Oleg","Programs " + programs);
-
-
-
         final Button btDisplayNew = (Button) findViewById(R.id.btDisplayAll_Buy);
-    //    final Button btRange = (Button) findViewById(R.id.btRange_Buy);
 
         getFavorites();
 
@@ -110,8 +104,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         btDisplayNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("Oleg","Clicked to DCN");
-                getItems();
+             getItems();
 
             }
         });
@@ -128,16 +121,13 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     JSONArray items = response;
                     jsonArray = new JSONArray();
                     if(items!=null) {
-                        Log.d("Oleg", "JSON " + items.toString());
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
                                 double price=0.0;
                                 price = item.getDouble("Price");
                                 if((price>=priceMin) && (price<=priceMax) && item.getString("Status").equals("Available")){
-                                   // if(programs.contains(item.getString("CourseProgram")))
-                                    Log.d("OLeg","Programs " + programs);
-                                    jsonArray.put(item);
+                                   jsonArray.put(item);
 
                                 }
 
@@ -150,7 +140,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
                     recView = (RecyclerView)findViewById(R.id.recbuy_list);
                     recView.setLayoutManager(new LinearLayoutManager(Buy.this));
-                    Log.d("Oleg","There are " + jsonArray.length() + " before I sent");
+
                     if(jsonArray.length()==0){
                         Context context = getApplicationContext();
                         int duration = Toast.LENGTH_LONG;
@@ -185,8 +175,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
                 }
 
-                Log.d("Oleg","error" + error);
-               // getItems();
             }
         }){
             @Override
@@ -216,22 +204,17 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     JSONArray items = response;
                     jsonArray = response;
                     if(items!=null) {
-                        Log.d("Oleg", "size " + items.length());
-                        Log.d("Oleg", "JSON " + items.toString());
+
                          for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
                                 String itemId = item.getString("ItemId");
-                                favoriteIds.add(itemId);
-                              //  Log.d("Oleg","Id is  " + id);
-                                //  myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
 
-                        // tvItemsList.setText(myItemsList);
                     }
 
 
@@ -243,8 +226,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
-                              Log.d("Oleg","error" + error);
                 getItems();
             }
         }){
@@ -261,7 +242,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     }
 
     public void getCourse(String encodedTitle){
-        //getFavorites();
+
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         JsonArrayRequest jsObjRequest = new JsonArrayRequest(Request.Method.GET, GETCOURSEITEMSURL+encodedTitle, null, new Response.Listener<JSONArray>() {
 
@@ -272,8 +253,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     JSONArray items = response;
                     jsonArray = new JSONArray();
                     if(items!=null) {
-
-                        Log.d("Oleg", "JSON " + items.toString());
                         for (int i = 0; i < items.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) items.get(i);
@@ -284,31 +263,25 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
                                 }
 
-                                //  myItemsList+="Title: "+ item.getString("Title")+" Status:"+item.getString("Status")+" Price: " + item.getString("Price")+"\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
 
-                        // tvItemsList.setText(myItemsList);
                     }
 
                     recView = (RecyclerView)findViewById(R.id.recbuy_list);
-                    //LayoutManager: GridLayoutManager or StaggeredGridLayoutManager
+
 
                     recView.setLayoutManager(new LinearLayoutManager(Buy.this));
-                    //Send list here
-                    //WAS   adapter = new DerpAdapter(DerpData.getListData(),Sell.this,jsonArray);
+
 
                     adapter = new BuyItemAdapter(Buy.this,jsonArray,favoriteIds);
 
-                    Log.d("Oleg","Setting adapter2");
                     recView.setAdapter(adapter);
                     adapter.setItemClickCallback(Buy.this);
 
-                    //    ItemTouchHelper itemTouchHelper = new ItemTouchHelper(createHelperCallback());
-                    //    itemTouchHelper.attachToRecyclerView(recView);
 
 
                 }else{
@@ -322,10 +295,8 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
             @Override
             public void onErrorResponse(VolleyError error) {
-
                 pd.cancel();
-                Log.d("Oleg","error" + error);
-                Log.d("Oleg","Blin" );
+
 
             }
         }
@@ -342,12 +313,8 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-                Log.d("Oleg","I will add token " + token);
-               headers.put("Authorization","Bearer "+token);
-                // params.put("username",email);
-                //params.put("password", password);
+                headers.put("Authorization","Bearer "+token);
 
-                Log.d("Token ", headers.toString());
                 return headers;
             }
 
@@ -382,99 +349,11 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
         MenuItem searchItem = menu.findItem(R.id.mSearch);
         SearchView searchView = (SearchView) searchItem.getActionView();
-
-
         MenuItem item = menu.findItem(R.id.mFilter);
-
-
-
-
-
-   /*     MenuItem searchFilter = menu.findItem(R.id.mFilter);
-
-        searchFilter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Log.d("Oleg","Search button is clicked");
-                startActivity(new Intent(Buy.this,Test.class));
-
-
-
-                return false;
-            }
-        });*/
-
-
- //NEW
-     /*   getMenuInflater().inflate(R.menu.menu_buy, menu);
-        MenuItem searchItem = menu.findItem(R.id.mSearch);
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        MenuItem searchFilter = menu.findItem(R.id.mFilter);
-
-        searchFilter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                Log.d("Oleg","Search button is clicked");
-                startActivity(new Intent(Buy.this,Test.class));
-
-
-
-                return false;
-            }
-        });
-*/
-
-
-
-/*
-                relativeLayout = (LinearLayout) findViewById(R.id.buyItemMenu);
-
-                layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                ViewGroup container = (ViewGroup) layoutInflater.inflate(R.layout.rangepopup,null);
-    popupWindow = new PopupWindow(container, ViewGroup.LayoutParams.MATCH_PARENT,300, true);
-                popupWindow.showAtLocation(relativeLayout, Gravity.NO_GRAVITY,0,0);
-
-                final TextView popUp = (TextView) findViewById(R.id.tvRange_Buy);
-                popUp.setText("Oleg");
-                final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-           //     popUp.setText("Progress " + seekBar.getProgress() + " Max " + seekBar.getMax());
-               seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                    @Override
-                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        popUp.setText("Progress " + progress);
-                    }
-
-                    @Override
-                    public void onStartTrackingTouch(SeekBar seekBar) {
-
-                    }
-
-                    @Override
-                    public void onStopTrackingTouch(SeekBar seekBar) {
-
-                    }
-                });
-
-
-                container.setOnTouchListener(new View.OnTouchListener(){
-
-
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        popupWindow.dismiss();
-                        return true;
-                    }
-                });*/
-
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-              //  String rawString = query;
-                Log.d("Oleg","Received query " + query);
-
 
                 String encodedUrl="";
                 try {
@@ -482,10 +361,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-                Log.d("Oleg","Encoded " + encodedUrl);
-
-
-
 
                  getCourse(encodedUrl);
 
@@ -495,7 +370,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                Log.d("Oleg","Received string " );
                 return false;
             }
         });
@@ -509,9 +383,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-
-        Log.d("Oleg","Clicked here");
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -525,33 +396,19 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
             startActivity(mainMenuIntent);
         }
         else if(id==R.id.mFilter){
-            Log.d("Oleg","Filter Yeaah :)");
-            Intent mainMenuIntent = new Intent(Buy.this,RangeChoose.class);
+             Intent mainMenuIntent = new Intent(Buy.this,RangeChoose.class);
             startActivityForResult(mainMenuIntent,100);
 
             if (getCallingActivity() == null) {
-               Log.d("Oleg","No activity");
+               Log.d("TAG","No activity");
             } else {
-                Log.d("Oleg","Yes activity");
+                Log.d("TAG","Yes activity");
                 //This Activity was called by startActivityForResult
             }
             String from =  mainMenuIntent.getStringExtra("from");
             String to =  mainMenuIntent.getStringExtra("to");
-            Log.d("Oleg","From " + from + " To:" + to);
-
-
 
         }
-     /*   else if(id==R.id.mProgramFilter){
-            Log.d("Oleg","Program Filter Yeaah :)");
-            Intent programFilterIntent = new Intent(Buy.this,ProgramFilter.class);
-            startActivityForResult(programFilterIntent,110);
-
-
-
-
-
-        }*/
 
         return super.onOptionsItemSelected(item);
     }
@@ -559,9 +416,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     @Override
     public void onResume() {
         super.onResume();  // Always call the superclass method first
-
-        // Get the Camera instance as the activity achieves full user focus
-        Log.d("Oleg","On resume");
     }
 
     @Override
@@ -569,40 +423,24 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                                     int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        Log.d("Oleg","onActivityResult ");
         if(resultCode == 100){
 
             String from =  data.getStringExtra("from");
             String to =  data.getStringExtra("to");
-            Log.d("Oleg",to);
-            Log.d("Oleg","From " + from + " To:" + to);
 
-                getRange(from, to);
-            // Storing result in a variable called myvar
-            // get("website") 'website' is the key value result data
-            Log.d("Oleg","returned 100 ");
+            getRange(from, to);
+
         }
         if(resultCode == 110){
 
-
             ArrayList<String> res = data.getStringArrayListExtra("stock_list");
-            Log.d("Oleg","returned 110 " + res.size());
-            for(String s : res){
-                Log.d("Oleg",s);
-
-            }
-
-
-        }
+         }
 
     }
     @Override
     public void onItemClick(int p) {
         try {
-            Log.d("LOG : ", "onItemClick running on Buy.java");
             JSONObject item = (JSONObject) jsonArray.get(p);
-
-            Log.d("LOG : ", item.toString());
 
             Intent i  = new Intent(this, ItemBuy.class);
             Bundle extras = new Bundle();
@@ -629,17 +467,10 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
 
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
-            Log.d("LOG : ", "contents of item" + item.toString());
-
-
-            Log.d("LOG : ","onMessageIconClick for Buy.java on item :" + item.get("ItemId"));
-            //Testing: Log.d("LOG : ", "Json:" + item);
-
             Intent msgIntent = new Intent(Buy.this, MyMessagesListDisplayActivity.class);
 
             String itemId = item.get("ItemId").toString();
             String sellerId = item.get("SellerId").toString();
-            //Testing: Log.d("LOG : ","itemId is " + itemId + " and seller id is " + sellerId);
             msgIntent.putExtra("itemIdMessageInt",itemId);
             msgIntent.putExtra("sellerIdMessageInt",sellerId);
             startActivity(msgIntent);
@@ -660,21 +491,10 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     public void onMyFavoriteDeleteClick(int p) {
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
-            Log.d("Oleg","Wanna delete an item with Id " + item.get("ItemId"));
             String itemId = item.get("ItemId").toString();
             deleteMyFavorite(itemId);
-          /*  Intent i  = new Intent(this, ItemDisplayActivity.class);
-            Bundle extras = new Bundle();
-            extras.putString("ItemId",item.get("ItemId").toString());
-            extras.putString("Title",item.get("Title").toString());
-            extras.putString("SellerId",item.get("SellerId").toString());
-            extras.putString("Description",item.get("Description").toString());
-            extras.putString("Price",item.get("Price").toString());
-            i.putExtras(extras);
-            startActivity(i);*/
-
         } catch (JSONException e) {
-            Log.d("Oleg","Error " + e.getMessage());
+            Log.d("TAG","Error " + e.getMessage());
         }
 
     }
@@ -683,27 +503,16 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     public void onMyFavoriteAddClick(int p) {
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
-            Log.d("Oleg","Wanna add item with Id " + item.get("ItemId"));
             String itemId = item.get("ItemId").toString();
             addMyFavorite(itemId);
-          /*  Intent i  = new Intent(this, ItemDisplayActivity.class);
-            Bundle extras = new Bundle();
-            extras.putString("ItemId",item.get("ItemId").toString());
-            extras.putString("Title",item.get("Title").toString());
-            extras.putString("SellerId",item.get("SellerId").toString());
-            extras.putString("Description",item.get("Description").toString());
-            extras.putString("Price",item.get("Price").toString());
-            i.putExtras(extras);
-            startActivity(i);*/
 
         } catch (JSONException e) {
-            Log.d("Oleg","Error " + e.getMessage());
+            Log.d("TAG","Error " + e.getMessage());
         }
 
     }
 
     public void addMyFavorite(String itemId){
-        Log.d("Oleg","Item id is " + itemId);
         JSONObject jsonObject = new JSONObject();
         //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
         StringRequest jsObjPutRequest = new StringRequest(Request.Method.POST, MYFAVORITES+userId+"/Favorite/"+itemId,
@@ -712,10 +521,8 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", " " +response);
-                        Log.d("Oleg","MyFavorite was added");
+
                     }
-
-
                 },
                 new Response.ErrorListener()
                 {
@@ -738,8 +545,7 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
     }
 
     public void deleteMyFavorite(String itemId){
-        Log.d("Oleg","Item id is " + itemId);
-        JSONObject jsonObject = new JSONObject();
+         JSONObject jsonObject = new JSONObject();
         //  JsonObjectRequest jsObjPutRequest = new JsonObjectRequest(Request.Method.PUT, REMOVEMYFAVORITES+id+"/RemoveFavorite/"+itemId,jsonObject,
         StringRequest jsObjPutRequest = new StringRequest(Request.Method.DELETE, MYFAVORITES+userId+"/Favorite/"+itemId,
                 new Response.Listener<String>()
@@ -747,7 +553,6 @@ public class Buy extends AppCompatActivity  implements BuyItemAdapter.ItemClickC
                     @Override
                     public void onResponse(String response) {
                         Log.d("Response", " " +response);
-                        Log.d("Oleg","MyFavorite was deleted");
                     }
 
 

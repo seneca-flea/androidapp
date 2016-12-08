@@ -30,18 +30,15 @@ import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.example.yugenshtil.finalproject.ForgotPassword;
+import com.example.yugenshtil.finalproject.OtherUseCases.ForgotPassword;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
-import com.example.yugenshtil.finalproject.UserMenu;
+import com.example.yugenshtil.finalproject.OtherUseCases.UserMenu;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -129,7 +126,6 @@ public class Login extends Activity {
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     token  = jsonObject.get("access_token").toString();
-                    Log.d("Oleg","Valid user");
                     getUserId();
 
                 } catch (JSONException e) {

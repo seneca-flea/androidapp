@@ -12,7 +12,13 @@ import com.android.volley.toolbox.Volley;
 
 /**
  * Created by yugenshtil on 18/10/16.
+ * The whole code is taken from ANDROID DEVELOPMENT WEB SITE
+ * Creadentials go here   https://developer.android.com/training/volley/requestqueue.html
  */
+
+
+// https://developer.android.com/training/volley/requestqueue.html
+
 public class MySingleton {
     private static MySingleton mInstance;
     private RequestQueue mRequestQueue;
@@ -53,16 +59,12 @@ public class MySingleton {
 
     public RequestQueue getRequestQueue() {
         if (mRequestQueue == null) {
-            Log.d("Oleg", "hm");
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
-            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+           mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
         }
         return mRequestQueue;
     }
 
     public <T> void addToRequestQueue(Request<T> req) {
-        Log.d("Oleg","Request" + req);
         getRequestQueue().add(req);
     }
 

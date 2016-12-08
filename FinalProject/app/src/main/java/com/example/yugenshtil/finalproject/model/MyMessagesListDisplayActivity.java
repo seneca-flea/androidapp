@@ -3,8 +3,6 @@ package com.example.yugenshtil.finalproject.model;
 /**
  * Displays chat screen, messages are sent from here!
  */
-import android.app.Activity;
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -26,11 +24,11 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.yugenshtil.finalproject.ItemSell.ItemDisplayActivity;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
-import com.example.yugenshtil.finalproject.adapter.MyMessagesListAdapter;
+import com.example.yugenshtil.finalproject.Adapter.MyMessagesListAdapter;
 import com.example.yugenshtil.finalproject.useCases.MyMessages;
 
 import org.json.JSONArray;

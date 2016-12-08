@@ -23,10 +23,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
-import com.example.yugenshtil.finalproject.UserMenu;
-import com.example.yugenshtil.finalproject.adapter.HistoryAdapter;
-import com.example.yugenshtil.finalproject.adapter.DerpAdapter;
-import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
+import com.example.yugenshtil.finalproject.OtherUseCases.UserMenu;
+import com.example.yugenshtil.finalproject.Adapter.HistoryAdapter;
+import com.example.yugenshtil.finalproject.ItemSell.ItemDisplayActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;

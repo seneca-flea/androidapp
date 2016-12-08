@@ -23,23 +23,20 @@ import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
-import com.example.yugenshtil.finalproject.Item.EditItem;
-import com.example.yugenshtil.finalproject.MainMenu;
+import com.example.yugenshtil.finalproject.OtherUseCases.MainMenu;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
-import com.example.yugenshtil.finalproject.model.ItemDisplayActivity;
-import com.example.yugenshtil.finalproject.model.MyMessagesListDisplayActivity;
-import com.example.yugenshtil.finalproject.useCases.Sell;
+import com.example.yugenshtil.finalproject.ItemSell.Sell;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by yugenshtil on 29/11/16.
+ * Created by Oleg Mytryniuk on 29/11/16.
+ * Ricardo Mezza implemented message part in this class
  */
 
 public class ItemBuy extends Activity {
@@ -79,8 +76,6 @@ public class ItemBuy extends Activity {
         final TextView etCourse = (TextView) findViewById(R.id.tv_iteSell_Course);
         final TextView etPublisher = (TextView) findViewById(R.id.tv_itemSell_Publisher);
         final TextView etAuthor = (TextView) findViewById(R.id.tv_itemSell_Author);
-
-     //   final ImageView ivFavorite = (ImageView) findViewById(R.id.ivItemBuy_Favorite);
         final ImageView ivMessage = (ImageView) findViewById(R.id.ivItemBuy_Message);
 
 
@@ -141,22 +136,12 @@ public class ItemBuy extends Activity {
             etAuthor.setText(Author);
         }
 
-      /*  ivFavorite.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View view) {
-                Log.d("Oleg","Myfav clicked");
-               // deleteAnItem(ItemId);
-
-            }
-        });*/
 
         ivMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("LOG : ","Message clicked on ItemBuy.java");
-                //TODO: implement method to start messageactivity
-               // updateAnItem(ItemId);
 
             }
         });
@@ -166,15 +151,12 @@ public class ItemBuy extends Activity {
 
     public void deleteAnItem(String id){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        Log.d("Oleg","Gonna delete");
         StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEITEMSURL+id,
                 new Response.Listener<String>()
                 {
                     @Override
                     public void onResponse(String response) {
                         pd.cancel();
-                        Log.d("Oleg","Response is "+response);
-                        //    adapter.notifyDataSetChanged();
                         Intent sellIntent = new Intent(ItemBuy.this,Sell.class);
                         startActivity(sellIntent);
 
@@ -185,7 +167,6 @@ public class ItemBuy extends Activity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         pd.cancel();
-                        Log.d("Oleg","Response error is "+error);
 
                     }
                 }
@@ -194,26 +175,6 @@ public class ItemBuy extends Activity {
 
     }
 
-
-    public void updateAnItem(String id) {
-        // pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-
-        try {
-            Log.d("Oleg","Update");
-            Intent i = new Intent(ItemBuy.this, EditItem.class);
-            i.putExtra("ItemId",ItemId);
-            i.putExtra("Title",Title);
-            i.putExtra("SellerId",SellerId);
-            i.putExtra("Description",Description);
-            i.putExtra("Price",Price);
-            startActivity(i);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -243,7 +204,6 @@ public class ItemBuy extends Activity {
     }
 
     void setItem(String id){
-        Log.d("ID","id is " + id);
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
         JsonArrayRequest sr = new JsonArrayRequest(Request.Method.GET,"http://senecafleamarket.azurewebsites.net/api/Item/" +id, null,  new Response.Listener<JSONArray>() {
             @Override
@@ -252,10 +212,7 @@ public class ItemBuy extends Activity {
                 try {
                     if(response!=null){
                         JSONObject s = response.getJSONObject(0);
-                        Log.d("LOG : ","s is " + s.toString());
-                        Log.d("oleg"," Bytes got"+s.getString("Photo"));
                         byte[] decodedString = Base64.decode(s.getString("Photo"), Base64.DEFAULT);
-                        Log.d("LOG : ","Decoded BYTES " + decodedString );
 
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
                         image.setImageBitmap(decodedByte);

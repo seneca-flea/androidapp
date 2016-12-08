@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.yugenshtil.finalproject.model.ItemDisplayActivity"
+    tools:context="com.example.yugenshtil.finalproject.ItemSell.ItemDisplayActivity"
     android:background="@color/cardview_light_background">
 
 

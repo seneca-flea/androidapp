@@ -49,21 +49,21 @@ public class Registration extends Activity {
     EditText etFirstName;
     EditText etLastName;
     EditText etEmail;
-     EditText etPassword;
-     EditText etPasswordConfirmation;
-     EditText etPhone;
+    EditText etPassword;
+    EditText etPasswordConfirmation;
+    EditText etPhone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration_page);
 
-        etFirstName = (EditText) findViewById(R.id.etRegistration_FirstName);
+       etFirstName = (EditText) findViewById(R.id.etRegistration_FirstName);
        etLastName = (EditText) findViewById(R.id.etRegistration_LastName);
-         etEmail = (EditText) findViewById(R.id.etLogin_Email);
-        etPassword = (EditText) findViewById(R.id.etLogin_Password);
+       etEmail = (EditText) findViewById(R.id.etLogin_Email);
+       etPassword = (EditText) findViewById(R.id.etLogin_Password);
        etPasswordConfirmation = (EditText) findViewById(R.id.etRegistration_PasswordConfirmation);
-        etPhone = (EditText) findViewById(R.id.etLogin_PhoneNumber);
+       etPhone = (EditText) findViewById(R.id.etLogin_PhoneNumber);
 
         final Button btRegistration = (Button) findViewById(R.id.btRegistration_Registration);
         final TextView tvLogin = (TextView) findViewById(R.id.tvRegistration_Login);
@@ -99,12 +99,10 @@ public class Registration extends Activity {
                     params.put("GivenName", firstName);
 
                     JSONObject parameters = new JSONObject(params);
-                    Log.d("Oleg","JSON parameters"+ parameters);
                     JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, USERAUTHENTICATIONURL, parameters, new Response.Listener<JSONObject>() {
 
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("Oleg", "Registration Response is " + response);
                             addUserToSenecaFlea();
                         }
                     }, new Response.ErrorListener() {
@@ -122,20 +120,16 @@ public class Registration extends Activity {
                                // The code was taken from http://stackoverflow.com/questions/26167631/how-to-access-the-contents-of-an-error-response-in-volley
                                if(error.networkResponse.data!=null) {
 
-                                    String statusCode = String.valueOf(error.networkResponse.statusCode);
-                                    Log.d("Oleg","Status Code is " + statusCode);
+                                 String statusCode = String.valueOf(error.networkResponse.statusCode);
 
-                                    try {
-                                        body = new String(error.networkResponse.data,"UTF-8");
-                                        if(body.contains("is already taken")){
-                                            Toast toast = Toast.makeText(getApplicationContext(), "This User name is already taken. Please use another one, or login", Toast.LENGTH_LONG);
-                                            toast.show();
-                                        }
-
-                                        Log.d("Oleg","Error response is " + body);
-                                    } catch (UnsupportedEncodingException e) {
-                                        Log.d("Oleg","Error response (Message) is " + e.getMessage());
-                                        e.printStackTrace();
+                                  try {
+                                       body = new String(error.networkResponse.data,"UTF-8");
+                                       if(body.contains("is already taken")){
+                                          Toast toast = Toast.makeText(getApplicationContext(), "This User name is already taken. Please use another one, or login", Toast.LENGTH_LONG);
+                                          toast.show();
+                                       }
+                                  } catch (UnsupportedEncodingException e) {
+                                       e.printStackTrace();
                                     }
                                 }
                             }
@@ -173,24 +167,19 @@ public class Registration extends Activity {
         final String PASSWORD_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{4,}$";
 
         boolean inputIsValid = true;
-       // Log.d("Oleg","firstNAme va" +firstName);
-
         final EditText etPasswordConfirmation = (EditText) findViewById(R.id.etRegistration_PasswordConfirmation);
         final EditText etPhone = (EditText) findViewById(R.id.etLogin_PhoneNumber);
 
         if(firstName.trim().equals("")){
-          //  Log.d("Oleg","firstNAme" +firstName);
             etFirstName.setError("Please, do not leave User Name blank");
             inputIsValid = false;
         }
         if(lastName.equals("")){
-          //  Log.d("Oleg","lastName" +lastName);
             etLastName.setError("Please, do not leave Last Name blank");
             inputIsValid = false;
         }
         if(!email.contains("@")){
-          //  Log.d("Oleg","email" +email);
-             // http://stackoverflow.com/questions/8204680/java-regex-email
+            // http://stackoverflow.com/questions/8204680/java-regex-email
             pattern = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
             matcher = pattern.matcher(email);
             if(!matcher.matches()) {
@@ -221,7 +210,7 @@ public class Registration extends Activity {
                 pattern = Pattern.compile(PASSWORD_PATTERN);
                 matcher = pattern.matcher(passwordConfirmation);
                 if(!matcher.matches()){
-                    etPasswordConfirmation.setError("Please, provide correct password. Oy should be more than 5 chars with Capital letter and special char");
+                    etPasswordConfirmation.setError("Please, provide correct password. It should be more than 5 chars with Capital letter and special char");
                     inputIsValid = false;
                 }
 
@@ -246,12 +235,10 @@ public class Registration extends Activity {
 
 
         JSONObject parameters = new JSONObject(addUserParams);
-        Log.d("Oleg","Add JSON parameters"+ parameters);
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.POST, USERREGISTRATIONURL, parameters, new Response.Listener<JSONObject>() {
 
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("Oleg", "Registration Response is " + response);
                 Toast toast = Toast.makeText(getApplicationContext(), "User was successfully registered. Redirection to login page", Toast.LENGTH_LONG);
                 toast.show();
 
@@ -265,7 +252,6 @@ public class Registration extends Activity {
             public void onErrorResponse(VolleyError error) {
                 String body;
                 String errorToString = error.toString();
-                Log.d("OLEG","ERROR" + errorToString);
                 if(errorToString.contains("End of input at character 0 of ")){
                     Toast toast = Toast.makeText(getApplicationContext(), "User was successfully registered. Redirection to login page", Toast.LENGTH_LONG);
                     toast.show();
@@ -273,22 +259,7 @@ public class Registration extends Activity {
                     Intent loginIntent = new Intent(Registration.this,Login.class);
                     startActivity(loginIntent);
                 }
-               /* else {
-                    if(com.android.volley.NetworkResponse==true){
-                        Log.d("jk","jk");
-                    }
-                    if(error.networkResponse.data!=null) {
 
-                        String statusCode = String.valueOf(error.networkResponse.statusCode);
-
-                        try {
-                            body = new String(error.networkResponse.data,"UTF-8");
-                        } catch (UnsupportedEncodingException e) {
-                            Log.d("Oleg","Error response (Message) is " + e.getMessage());
-                            e.printStackTrace();
-                        }
-                    }
-                }*/
             }
 
         });
