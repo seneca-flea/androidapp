@@ -110,7 +110,7 @@ public class AddImage extends AppCompatActivity {
                     startActivityForResult(in, CAMERA_REQUEST);
                     cameraPhoto.addToGallery();
                 } catch (IOException e) {
-                    Toast.makeText(getApplicationContext(),"Something wrong with camera",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Please restart your app to start using camera",Toast.LENGTH_SHORT).show();
                 }
             }
         });

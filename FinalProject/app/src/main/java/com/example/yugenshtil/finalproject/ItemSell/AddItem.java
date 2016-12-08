@@ -499,6 +499,7 @@ public class AddItem extends Activity {
     };
 
     public void ButtonOnClick(View v) {
+<<<<<<< HEAD
         Log.d("LOG : ", "ID is " + v.getId());
         if (v.getId() == R.id.btSave_AddBook) {
             Log.d("LOG : ", "clicked add book Save");
@@ -515,6 +516,27 @@ public class AddItem extends Activity {
             Intent addImageToMaterial = new Intent(AddItem.this, AddImage.class);
             startActivityForResult(addImageToMaterial, 1990);
         }
+=======
+
+       if(v.getId()==R.id.btSave_AddBook){
+
+           addBook();
+       }
+       else if(v.getId()==R.id.ivCamera_AddBook){
+           Intent addImage = new Intent(AddItem.this, AddImage.class);
+           startActivityForResult(addImage, 1990);
+       }
+
+       else if(v.getId()==R.id.btSave_AddMaterial){
+
+           addMaterial();
+        }
+       else if(v.getId()==R.id.ivCamera_AddMaterial){
+           Intent addImageToMaterial = new Intent(AddItem.this, AddImage.class);
+           startActivityForResult(addImageToMaterial, 1990);
+       }
+
+>>>>>>> 5663a90b3fcd85b63280648e24242c7b10f554b9
     }
 
     public boolean validateBook() {
