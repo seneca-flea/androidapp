@@ -98,8 +98,6 @@ public class BuyItemAdapter extends RecyclerView.Adapter<BuyItemAdapter.DerpHold
         }
     }
 
-    //NEW
-
 
     public void setListData(ArrayList<ListItem> exerciseList){
       //  this.listData.clear();

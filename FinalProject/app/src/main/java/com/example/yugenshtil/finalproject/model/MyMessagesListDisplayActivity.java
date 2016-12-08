@@ -25,6 +25,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.ItemSell.ItemDisplayActivity;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
@@ -45,12 +46,10 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
 
     SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
-    //TODO:update URLS to retrieve conversation by one user.
-    //add id to get conversation
-    //TODO: GETUSERCONVERSATIONURL will send two ids
+
     private String GETUSERCONVERSATIONURL="http://senecafleamarket.azurewebsites.net/api/Conversation/filter/Receiver/";
     private String GETUSERCONVERSATIONURLTWO="/withMessages";
-    //private String DELETEUSERCONVERSATIONURL="http://senecaflea.azurewebsites.net/api/Conversation/";
+    private String DELETEUSERMESSAGEURL="http://senecafleamarket.azurewebsites.net/api/Message/";
     private String POSTMESSAGE ="http://senecafleamarket.azurewebsites.net/api/Message";
 
     JSONArray jsonArray=null;
@@ -82,7 +81,6 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
         fullName = sharedpreferences.getString("fullName", "");
         token = sharedpreferences.getString("token", "");
 
-
         Intent intent = getIntent();
         item_Id = intent.getStringExtra("itemIdMessageInt");
         seller_Id = intent.getStringExtra("sellerIdMessageInt");
@@ -99,6 +97,7 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
                 Log.d("LOG : ","sen button clicked for myMessageListDisplayActivity.java");
+                pd = ProgressDialog.show(MyMessagesListDisplayActivity.this,"","Sending message, please wait..",true);
                 sendMessage();
             };
 
@@ -108,6 +107,7 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
 
     private void sendMessage() {
         Log.d("LOG : ", "sendMessage running on myMessagesListDisplayActivity.java");
+        pd = ProgressDialog.show(this,"","Sending message, please wait..",true);
 
         TextView messageText = (TextView) findViewById(R.id.tv_messageContent);
 
@@ -250,17 +250,13 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             try {
                                 JSONObject item = (JSONObject) jsonArray.get(i);
-                                //TODO: RICO: update to accept the fields of the incoming messages(what each individual message will return)
-                                //TODO: RICO: change Sender to appropriate name from response. then update in Adapter where **here**
+                                Log.d("LOG : ", item.toString());
                                 myMessagesList += "Content: " + item.getString("Text") + " Sender:" + item.getString("SenderId") + "\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
                         }
-
-                        // tvItemsList.setText(myItemsList);
-
 
                         recView = (RecyclerView) findViewById(R.id.recViewMessageList);
 
@@ -282,8 +278,6 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
                 else{
                     Toast.makeText(getApplicationContext(),"No messages",Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         }, new Response.ErrorListener() {
 
@@ -292,7 +286,6 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
 
                 pd.cancel();
                 Log.d("LOG :","error : " + error);
-
             }
         }){
             @Override
@@ -308,9 +301,8 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
                 Log.d("Token ", headers.toString());
                 return headers;
             }
-        }
+        };
 
-                ;
         MySingleton.getInstance(MyMessagesListDisplayActivity.this).addToRequestQueue(jsObjGetRequest);
     }
 
@@ -338,7 +330,8 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
 
     public void onItemClick(int p) {
 
-        //TODO: update to do nothing, items can't be clicked **connected to onClick in MyMessagesListAdapter.java
+        // do nothing, items can't be clicked
+/*
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
             Intent i  = new Intent(this, ItemDisplayActivity.class);
@@ -354,6 +347,7 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+*/
 
     }
 
@@ -385,14 +379,77 @@ public class MyMessagesListDisplayActivity extends AppCompatActivity implements 
         adapter.notifyItemMoved(oldPos, newPos);
     }
 
-    private void deleteItem(final int position) {
-        //  listData.remove(position);
-        //  adapter.notifyItemRemoved(position);
+    private void deleteItem(int position) {
+
+        String msgId = "";
+        String owner = "";
+
+        try {
+            JSONObject item = (JSONObject) jsonArray.get(position);
+
+            Log.d("LOG : ", item.toString());
+            msgId = item.get("MessageId").toString();
+            owner = item.get("SenderId").toString();
+            Log.d("LOG : ", msgId);
+            Log.d("LOG : ", owner);
+            Log.d("LOG : ", id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        //user can only delete a message that belongs to them.
+        if(owner == id) {
+            pd = ProgressDialog.show(this, "", "Deleting. Please wait..", true);
+            StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEUSERMESSAGEURL + msgId,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d("LOG : ", "Message was deleted");
+                            pd.cancel();
+                            Intent deleteMsgIntent = new Intent(MyMessagesListDisplayActivity.this, MyMessagesListDisplayActivity.class);
+                            deleteMsgIntent.putExtra("itemIdMessageInt", item_Id);
+                            deleteMsgIntent.putExtra("sellerIdMessageInt", seller_Id);
+                            startActivity(deleteMsgIntent);
+                            Toast toast = Toast.makeText(getApplicationContext(), "Message was successfully deleted", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            pd.cancel();
+                            Toast toast = Toast.makeText(getApplicationContext(), "Message was not deleted", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                    }
+            ) {
+
+                @Override
+                public String getBodyContentType() {
+                    return "application/x-www-form-urlencoded; charset=UTF-8";
+                }
+
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> headers = new HashMap<String, String>();
+                    headers.put("Authorization", "Bearer " + token);
+                    return headers;
+                }
+            };
+            MySingleton.getInstance(MyMessagesListDisplayActivity.this).addToRequestQueue(dr);
+        }
+        else{
+            Log.d("LOG : ","Message wasn't deleted, belongs to someone else.");
+            Intent msgInt = new Intent(MyMessagesListDisplayActivity.this,MyMessagesListDisplayActivity.class);
+            msgInt.putExtra("itemIdMessageInt", item_Id);
+            msgInt.putExtra("sellerIdMessageInt", seller_Id);
+            startActivity(msgInt);
+        }
     }
 
+
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed(){
         super.onBackPressed();
         startActivity(new Intent(MyMessagesListDisplayActivity.this, MyMessages.class));
         Log.d("LOG : ","Back button pressed on MyMessagesListDisplay.java");

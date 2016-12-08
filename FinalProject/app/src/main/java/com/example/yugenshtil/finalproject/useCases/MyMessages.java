@@ -104,7 +104,6 @@ public class MyMessages extends Activity implements MyMessagesAdapter.ItemClickC
                                 String title = item.getString("UserFirstName");
                                 JSONObject recentmsg = item.getJSONObject("recetMessage");
                                 String desc = recentmsg.getString("Text");
-                                //TODO: Desc should be changed to field prevviewing conversation.
                                 myMessagesList += "Title: " + title + " Des:" + desc + "\n";
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -190,7 +189,6 @@ public class MyMessages extends Activity implements MyMessagesAdapter.ItemClickC
         Log.d("LOG : ", "onItemClick for myMessages.java");
 
         try {
-            //TODO: develop MessageDissplayActivity to display individual messages
 
             JSONObject item = (JSONObject) jsonArray.get(p);
             Log.d("LOG : ", "item is: " + item);

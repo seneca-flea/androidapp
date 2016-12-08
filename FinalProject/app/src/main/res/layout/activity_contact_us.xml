@@ -7,35 +7,12 @@
     android:background="#FFFF0000"
     android:orientation="vertical">
 
-    <EditText
-        android:layout_width="355sp"
-        android:layout_height="30sp"
-        android:background="@android:color/white"
-        android:layout_marginTop="9dp"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:layout_below="@+id/et_contact_name"
-        android:layout_alignStart="@+id/et_contact_name"
-        android:id="@+id/et_contact_email"
-        android:hint="Email"
-        android:textColor="@android:color/black" />
-
-    <Button
-        android:text="SEND"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp"
-        android:id="@+id/bt_send_btn"
-        android:backgroundTint="@android:color/white"
-        android:textColor="@color/primaryColorDark" />
 
     <EditText
         android:layout_width="355sp"
         android:layout_height="100sp"
-        android:background="@android:color/white"
-        android:layout_marginTop="9dp"
+
+        android:layout_marginTop="10dp"
         android:inputType="textMultiLine"
         android:ems="10"
         android:id="@+id/et_contact_content"
@@ -56,17 +33,17 @@
 
     <EditText
         android:layout_width="355sp"
-        android:layout_height="30sp"
+        android:layout_height="40sp"
         android:inputType="textPersonName"
         android:ems="10"
         android:layout_marginTop="100dp"
         android:id="@+id/et_contact_name"
-        android:background="@android:color/white"
+
         android:layout_below="@+id/imageView7"
         android:layout_centerHorizontal="true"
         android:hint="Name"
         android:textColor="@android:color/black"
-        tools:background="@android:color/background_light" />
+        android:singleLine="false" />
 
     <TextView
         android:text="Contact Us"
@@ -78,5 +55,28 @@
         android:textSize="36sp"
         android:textColor="@android:color/white" />
 
+    <Button
+        android:text="SEND"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="54dp"
+        android:id="@+id/bt_send_btn"
+        android:backgroundTint="@android:color/white"
+        android:textColor="@color/primaryColorDark" />
+
+    <EditText
+        android:layout_width="355sp"
+        android:layout_height="40sp"
+
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/et_contact_email"
+        android:hint="Email"
+        android:textColor="@android:color/black"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/et_contact_name"
+        android:layout_alignStart="@+id/et_contact_name" />
 
 </RelativeLayout>

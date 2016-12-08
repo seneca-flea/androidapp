@@ -66,7 +66,7 @@ public class RangeChoose extends Activity {
             public void valueChanged(Number minValue, Number maxValue) {
                 min = String.valueOf(minValue);
                 max = String.valueOf(maxValue);
-                Log.d("Oleg","Min is " + min + " and value " + String.valueOf(minValue));
+                Log.d("LOG : ","Min is " + min + " and value " + String.valueOf(minValue));
                 tvMin.setText(String.valueOf(minValue));
                 tvMax.setText(String.valueOf(maxValue));
             }

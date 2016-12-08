@@ -271,6 +271,7 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
             Log.d("LOG : ","Delete icon clicked on History.java");
             JSONObject item = (JSONObject)jsonArray.get(p);
 
+            Log.d("LOG : ",item.toString());
             String deleteItemId = item.getString("Id");
 
             int deleteItemIdInt = Integer.parseInt(deleteItemId);
@@ -294,11 +295,10 @@ public class History extends Activity implements  HistoryAdapter.ItemClickCallba
                         //stop progress dialog
                         pd.cancel();
                         Log.d("LOG : ","Response is "+response);
-                            adapter.notifyDataSetChanged();
                         Intent aboutAppIntent = new Intent(History.this,History.class);
                         startActivity(aboutAppIntent);
-
-
+                        Toast toast = Toast.makeText(getApplicationContext(),"Item was successfully deleted",Toast.LENGTH_SHORT);
+                        toast.show();
                     }
                 },
                 new Response.ErrorListener()

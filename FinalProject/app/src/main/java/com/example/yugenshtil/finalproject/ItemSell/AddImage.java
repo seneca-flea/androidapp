@@ -1,14 +1,5 @@
 package com.example.yugenshtil.finalproject.ItemSell;
 
-/*
-
-Created by Oleg Mytryniuk
-This class was using
-com.kosalgeek.android.photoutil API
-
-https://github.com/kosalgeek/PhotoUtil
-
- */
 
 import android.Manifest;
 import android.app.Activity;
@@ -144,6 +135,7 @@ public class AddImage extends AppCompatActivity {
             }
         });
     }
+
     public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
 
         if (requestCode == MY_REQUEST_CODE) {
@@ -155,9 +147,6 @@ public class AddImage extends AppCompatActivity {
             }
         }
     }
-
-
-    // The code was inspired by https://github.com/kosalgeek/PhotoUtil
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -192,7 +181,6 @@ public class AddImage extends AppCompatActivity {
             }
         }
     }
-
 
    void getBase64(){
 

@@ -52,15 +52,17 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
 
     @Override
     public void onBindViewHolder(DerpHolder derpHolder, int i) {
-        //TODO: update to process response by server
+
         Log.d("LOG : ", "Setting onBind "+i);
 
         String sender="";
         String content="";
 
+        //TODO: update server to get name with Message instead of SenderId
+
         try {
             JSONObject item = (JSONObject)itemList.get(i);
-            //TODO: update **here** from messagelist.etc
+
             sender = item.get("SenderId").toString();
             content = item.get("Text").toString();
         } catch (JSONException e) {
@@ -69,8 +71,6 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
 
         derpHolder.msgSender.setText(sender);
         derpHolder.msgContent.setText(content);
-
-
 
     }
 
@@ -82,13 +82,9 @@ public class MyMessagesListAdapter extends RecyclerView.Adapter<MyMessagesListAd
 
     class DerpHolder extends RecyclerView.ViewHolder implements  View.OnClickListener {
 
-        //TODO: update to reflect contents of messagelist_list;(individual message)
-
         private TextView msgSender;
         private TextView msgContent;
         private View container;
-
-
 
         public DerpHolder(View itemView) {
             super(itemView);

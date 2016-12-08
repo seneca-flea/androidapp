@@ -62,19 +62,17 @@ public class AddItem extends Activity {
     private String id = "";
     private String token = "";
 
-
     // Common fields
     private String title = "";
     private String description = "";
     private double price = 0.0;
     private String type = "Book";
-    private String program="";
-    private String course="";
+    private String program = "";
+    private String course = "";
     //Fields for Book
-    private String year="";
-    private String publisher ="";
-    private String author ="";
-
+    private String year = "";
+    private String publisher = "";
+    private String author = "";
 
     //Edit Fields
     EditText etTitle;
@@ -87,20 +85,18 @@ public class AddItem extends Activity {
     Spinner program1;
     Spinner programMaterial1;
 
-
-    private String ADDITEMURL="http://senecafleamarket.azurewebsites.net/api/Item";
-    private String SENDIMAGEURL="http://senecafleamarket.azurewebsites.net/api/Item/";
-    private String imageCode ="";
+    private String ADDITEMURL = "http://senecafleamarket.azurewebsites.net/api/Item";
+    private String SENDIMAGEURL = "http://senecafleamarket.azurewebsites.net/api/Item/";
+    private String imageCode = "";
 
     ArrayList<String> itemTypeOptionsList = new ArrayList<String>();
     SharedPreferences sharedpreferences;
     ImageView imageView;
     byte[] decodedString = null;
 
-    private String itemType="";
+    private String itemType = "";
 
     public ProgressDialog pd;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +104,8 @@ public class AddItem extends Activity {
         setContentView(R.layout.activity_add_item);
         sharedpreferences = getSharedPreferences(Login.MyPREFERENCES, Context.MODE_PRIVATE);
 
-        id = sharedpreferences.getString("UserId","");
-        token = sharedpreferences.getString("token","");
+        id = sharedpreferences.getString("UserId", "");
+        token = sharedpreferences.getString("token", "");
 
 
         // Spinner for selecting item
@@ -179,23 +175,22 @@ public class AddItem extends Activity {
 
     // Adding a book
     public void addBook() {
-         // Get values
+        // Get values
         etTitle = (EditText) findViewById(R.id.et_addBookTitle);
         etDescription = (EditText) findViewById(R.id.et_AddBookDesc);
-        etPrice= (EditText) findViewById(R.id.et_addBookPrice);
-        etYear= (EditText) findViewById(R.id.et_AddBookYear);
+        etPrice = (EditText) findViewById(R.id.et_addBookPrice);
+        etYear = (EditText) findViewById(R.id.et_AddBookYear);
         etCourse = (EditText) findViewById(R.id.et_addBook_course);
-        etPublisher= (EditText) findViewById(R.id.et_addBookPublisher);
-        etAuthor= (EditText) findViewById(R.id.et_addBookAuthor);
+        etPublisher = (EditText) findViewById(R.id.et_addBookPublisher);
+        etAuthor = (EditText) findViewById(R.id.et_addBookAuthor);
         program1 = (Spinner) findViewById(R.id.spinner1);
 
-        if(!validateBook()){
-             Context context = getApplicationContext();
+        if (!validateBook()) {
+            Context context = getApplicationContext();
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, "Please check all fields", duration);
             toast.show();
-        }
-        else{
+        } else {
             title = etTitle.getText().toString();
             price = Double.parseDouble(etPrice.getText().toString());
             publisher = etPublisher.getText().toString();
@@ -205,7 +200,7 @@ public class AddItem extends Activity {
             course = etCourse.getText().toString();
             year = etYear.getText().toString();
 
-            pd = ProgressDialog.show(this, "", "Adding item, please wait..", true);
+            pd = ProgressDialog.show(this, "", "Adding book, please wait..", true);
 
             Map<String, String> params = new HashMap();
             params.put("Title", title);
@@ -215,7 +210,7 @@ public class AddItem extends Activity {
             params.put("Price", String.valueOf(price));
             params.put("Type", itemType);
             params.put("CourseName", course);
-            params.put("CourseProgram",program);
+            params.put("CourseProgram", program);
             params.put("BookTitle", title);
             params.put("BookYear", year);
             params.put("BookPublisher", publisher);
@@ -227,11 +222,11 @@ public class AddItem extends Activity {
                 public void onResponse(JSONObject response) {
                     pd.cancel();
 
-                    if(decodedString == null){
+                    if (decodedString == null) {
                         Intent itemIntent = new Intent(AddItem.this, Sell.class);
                         startActivity(itemIntent);
 
-                    }else{
+                    } else {
                         JSONObject res = (JSONObject) response;
                         try {
                             String createdItemId = res.getString("ItemId");
@@ -247,20 +242,19 @@ public class AddItem extends Activity {
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(context, "Book was successfully added", duration);
                     toast.show();
-              }
+                }
             }, new Response.ErrorListener() {
 
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     pd.cancel();
-
                 }
             }
-            ){
+            ) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<String, String>();
-                    headers.put("Authorization","Bearer "+token);
+                    headers.put("Authorization", "Bearer " + token);
                     return headers;
                 }
             };
@@ -269,7 +263,7 @@ public class AddItem extends Activity {
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_SHORT;
 
-            Toast toast = Toast.makeText(context, "Item was added.", duration);
+            Toast toast = Toast.makeText(context, "Book was added.", duration);
             toast.show();
 
             try {
@@ -278,9 +272,8 @@ public class AddItem extends Activity {
                 e.printStackTrace();
             }
             Intent sellIntent = new Intent(AddItem.this, Sell.class);
-             startActivity(sellIntent);
-       }
-
+            startActivity(sellIntent);
+        }
 
 
     }
@@ -291,21 +284,17 @@ public class AddItem extends Activity {
         //Get values
         etTitle = (EditText) findViewById(R.id.et_addMaterialTitle);
         etDescription = (EditText) findViewById(R.id.et_addMaterialDesc);
-        etPrice= (EditText) findViewById(R.id.et_addMaterialPrice);
+        etPrice = (EditText) findViewById(R.id.et_addMaterialPrice);
         programMaterial1 = (Spinner) findViewById(R.id.spinner1Material);
         etCourse = (EditText) findViewById(R.id.et_addMaterialCourse);
 
-
-
-        if(!validateMaterial()){
+        if (!validateMaterial()) {
 
             Context context = getApplicationContext();
             int duration = Toast.LENGTH_LONG;
             Toast toast = Toast.makeText(context, "Please check all fields", duration);
             toast.show();
-        }
-
-        else{
+        } else {
 
             title = etTitle.getText().toString();
             price = Double.parseDouble(etPrice.getText().toString());
@@ -325,7 +314,7 @@ public class AddItem extends Activity {
             params.put("Price", String.valueOf(price));
             params.put("Type", itemType);
             params.put("CourseName", course);
-            params.put("CourseProgram",program);
+            params.put("CourseProgram", program);
             params.put("BookTitle", title);
             params.put("BookYear", "2016");
             params.put("BookPublisher", "NA");
@@ -339,33 +328,24 @@ public class AddItem extends Activity {
                     pd.cancel();
                     Log.d("LOG :", "Response is " + response);
 
-
-
-                    if(decodedString == null){
+                    if (decodedString == null) {
                         Intent itemIntent = new Intent(AddItem.this, Sell.class);
                         startActivity(itemIntent);
-
-                    }else{
+                    } else {
                         JSONObject res = (JSONObject) response;
                         try {
                             String createdItemId = res.getString("ItemId");
 
                             addImageToItem(createdItemId);
-
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                     }
 
                     Context context = getApplicationContext();
                     int duration = Toast.LENGTH_LONG;
                     Toast toast = Toast.makeText(context, "Item was successfully added", duration);
                     toast.show();
-
-
-
                 }
             }, new Response.ErrorListener() {
 
@@ -374,17 +354,14 @@ public class AddItem extends Activity {
                     pd.cancel();
                 }
             }
-            ){
+            ) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     Map<String, String> headers = new HashMap<String, String>();
-                    Log.d("LOG : ","I will add token " + token);
-                    headers.put("Authorization","Bearer "+token);
+                    Log.d("LOG : ", "I will add token " + token);
+                    headers.put("Authorization", "Bearer " + token);
                     return headers;
                 }
-
-
-
             };
 
             MySingleton.getInstance(AddItem.this).addToRequestQueue(jsObjPostRequest);
@@ -414,22 +391,19 @@ public class AddItem extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        else if(id==R.id.action_logout){
+        } else if (id == R.id.action_logout) {
             SharedPreferences preferences = getSharedPreferences("MyPrefs", 0);
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
             editor.commit();
 
-            Intent mainMenuIntent = new Intent(AddItem.this,MainMenu.class);
+            Intent mainMenuIntent = new Intent(AddItem.this, MainMenu.class);
             startActivity(mainMenuIntent);
         }
 
@@ -439,23 +413,23 @@ public class AddItem extends Activity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch(requestCode) {
-            case (1990) : {
+        switch (requestCode) {
+            case (1990): {
                 if (resultCode == Activity.RESULT_OK) {
                     String newText = data.getStringExtra("Base64");
                     imageCode = newText;
-                    if(itemType.equals("Book")){
+                    if (itemType.equals("Book")) {
                         decodedString = Base64.decode(imageCode, Base64.DEFAULT);
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                        imageView = (ImageView)findViewById(R.id.ivImage_AddBook);
-                        if(decodedByte!=null){
-                          imageView.setImageBitmap(decodedByte);
+                        imageView = (ImageView) findViewById(R.id.ivImage_AddBook);
+                        if (decodedByte != null) {
+                            imageView.setImageBitmap(decodedByte);
                         }
                     }
-                    if(itemType.equals("Material")){
+                    if (itemType.equals("Material")) {
                         decodedString = Base64.decode(imageCode, Base64.DEFAULT);
                         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-                        imageView = (ImageView)findViewById(R.id.ivImage_AddMaterial);
+                        imageView = (ImageView) findViewById(R.id.ivImage_AddMaterial);
                         imageView.setImageBitmap(decodedByte);
                     }
                 }
@@ -465,10 +439,9 @@ public class AddItem extends Activity {
     }
 
 
+    void addImageToItem(String id) {
 
-    void addImageToItem(String id){
-
-        StringRequest myRequest = new StringRequest(Request.Method.POST, SENDIMAGEURL+id + "/addimage", new Response.Listener<String>() {
+        StringRequest myRequest = new StringRequest(Request.Method.POST, SENDIMAGEURL + id + "/addimage", new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -480,40 +453,34 @@ public class AddItem extends Activity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                if(error.networkResponse.data!=null) {
+                if (error.networkResponse.data != null) {
 
                     String statusCode = String.valueOf(error.networkResponse.statusCode);
 
                     try {
-                        String body = new String(error.networkResponse.data,"UTF-8");
-                        Log.d("ERROR ",""+body);
+                        String body = new String(error.networkResponse.data, "UTF-8");
+                        Log.d("ERROR ", "" + body);
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
                 }
-
             }
         })
-
-
-
-
         {
 
             @Override
             public byte[] getBody() throws com.android.volley.AuthFailureError {
-               return decodedString;
+                return decodedString;
             }
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> headers = new HashMap<String, String>();
-                headers.put("Authorization","Bearer "+token);
+                headers.put("Authorization", "Bearer " + token);
                 return headers;
             }
 
-            public String getBodyContentType()
-            {
+            public String getBodyContentType() {
                 return "image/jpeg";
             }
         };
@@ -521,46 +488,40 @@ public class AddItem extends Activity {
         MySingleton.getInstance(AddItem.this).addToRequestQueue(myRequest);
 
 
-
-
-
-
     }
 
 
     private View.OnClickListener mCorkyListener = new View.OnClickListener() {
         public void onClick(View v) {
-           Log.d("Oleg","Somethimg was clicked" + v);
+            Log.d("LOG : ", "Somethimg was clicked" + v);
 
         }
     };
 
     public void ButtonOnClick(View v) {
-        Log.d("OLeg","ID is " + v.getId());
-       if(v.getId()==R.id.btSave_AddBook){
-           Log.d("Oleg","clicked add book Save");
-           addBook();
-       }
-       else if(v.getId()==R.id.ivCamera_AddBook){
-           Log.d("Oleg","clicked add book Camera");
-           Intent addImage = new Intent(AddItem.this, AddImage.class);
-           startActivityForResult(addImage, 1990);
-       }
-
-       else if(v.getId()==R.id.btSave_AddMaterial){
-           Log.d("Oleg","clicked add Material Save");
-           addMaterial();
+        Log.d("LOG : ", "ID is " + v.getId());
+        if (v.getId() == R.id.btSave_AddBook) {
+            Log.d("LOG : ", "clicked add book Save");
+            addBook();
+        } else if (v.getId() == R.id.ivCamera_AddBook) {
+            Log.d("LOG : ", "clicked add book Camera");
+            Intent addImage = new Intent(AddItem.this, AddImage.class);
+            startActivityForResult(addImage, 1990);
+        } else if (v.getId() == R.id.btSave_AddMaterial) {
+            Log.d("LOG : ", "clicked add Material Save");
+            addMaterial();
+        } else if (v.getId() == R.id.ivCamera_AddMaterial) {
+            Log.d("LOG : ", "clicked Material Camera");
+            Intent addImageToMaterial = new Intent(AddItem.this, AddImage.class);
+            startActivityForResult(addImageToMaterial, 1990);
         }
-       else if(v.getId()==R.id.ivCamera_AddMaterial){
-           Log.d("Oleg","clicked Material Camera");
-           Intent addImageToMaterial = new Intent(AddItem.this, AddImage.class);
-           startActivityForResult(addImageToMaterial, 1990);
-       }
-
     }
 
-    public boolean validateBook(){
+    public boolean validateBook() {
         boolean isValid = true;
+
+        //This ArrayList is implemented to check for unwanted items being sold.
+        //It is just a sample for now.
         ArrayList<String> badWords = new ArrayList<>();
         badWords.add("heroin");
         badWords.add("crack");
@@ -569,41 +530,44 @@ public class AddItem extends Activity {
         String title = etTitle.getText().toString();
         String content = etDescription.getText().toString();
 
+        //looks for bad content in title
         for (int i = 0; i < badWords.size(); i++) {
             String badWord = badWords.get(i);
-            if(title.toLowerCase().contains(badWord)){
+            if (title.toLowerCase().contains(badWord)) {
                 etTitle.setError("No drugs please!");
                 isValid = false;
             }
         }
+
+        //looks for bad content in item description.
         for (int i = 0; i < badWords.size(); i++) {
             String badWord = badWords.get(i);
-            if(content.toLowerCase().contains(badWord)){
+            if (content.toLowerCase().contains(badWord)) {
                 etDescription.setError("No drugs please!");
                 isValid = false;
             }
         }
 
-        if(etTitle.getText().toString().equals("")){
+        if (etTitle.getText().toString().equals("")) {
             etTitle.setError("Do not leave title blank");
             isValid = false;
         }
-        if(etDescription.getText().toString().equals("")){
-           etDescription.setError("Do not leave description blank");
-           isValid = false;
+        if (etDescription.getText().toString().equals("")) {
+            etDescription.setError("Do not leave description blank");
+            isValid = false;
         }
-        if(etAuthor.getText().toString().equals("")){
+        if (etAuthor.getText().toString().equals("")) {
             etAuthor.setError("Do not leave Author blank");
             isValid = false;
         }
-        if(!etYear.getText().toString().equals("")){
+        if (!etYear.getText().toString().equals("")) {
             int year = Integer.parseInt(etYear.getText().toString());
-            if(year < 1900 || year >2016){
+            if (year < 1900 || year > 2016) {
                 etYear.setError("Wrong year. It should be between 1900-2016");
                 isValid = false;
             }
 
-        }else{
+        } else {
             etYear.setError("Do not leave Year blank");
             isValid = false;
         }
@@ -611,27 +575,54 @@ public class AddItem extends Activity {
         return isValid;
     }
 
-    public boolean validateMaterial(){
+    public boolean validateMaterial() {
         boolean isValid = true;
 
-        if(etTitle.getText().toString().equals("")){
+        //This ArrayList is implemented to check for unwanted items being sold.
+        //It is just a sample for now.
+        ArrayList<String> badWords = new ArrayList<>();
+        badWords.add("heroin");
+        badWords.add("crack");
+        badWords.add("cocain");
+
+        String title = etTitle.getText().toString();
+        String content = etDescription.getText().toString();
+
+        //looks for bad content in title
+        for (int i = 0; i < badWords.size(); i++) {
+            String badWord = badWords.get(i);
+            if (title.toLowerCase().contains(badWord)) {
+                etTitle.setError("No drugs please!");
+                isValid = false;
+            }
+        }
+
+        //looks for bad content in item description.
+        for (int i = 0; i < badWords.size(); i++) {
+            String badWord = badWords.get(i);
+            if (content.toLowerCase().contains(badWord)) {
+                etDescription.setError("No drugs please!");
+                isValid = false;
+            }
+        }
+
+        if (etTitle.getText().toString().equals("")) {
             etTitle.setError("Do not leave title blank");
             isValid = false;
         }
-        if(etDescription.getText().toString().equals("")){
+        if (etDescription.getText().toString().equals("")) {
             etDescription.setError("Do not leave description blank");
             isValid = false;
         }
-        if(etCourse.getText().toString().equals("")){
+        if (etCourse.getText().toString().equals("")) {
             etCourse.setError("Do not leave course blank");
             isValid = false;
         }
 
-        if(etPrice.getText().toString().equals("")){
+        if (etPrice.getText().toString().equals("")) {
             etPrice.setError("Do not leave price blank");
             isValid = false;
         }
-
 
         return isValid;
     }

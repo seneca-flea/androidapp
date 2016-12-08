@@ -101,7 +101,7 @@ public class ItemDisplayActivity extends Activity {
         Publisher = extras.getString("Publisher");
         Author = extras.getString("Author");
 
-        Log.d("Oleg","Type is " + Type);
+        Log.d("LOG : ","Type is " + Type);
 
         setItem(ItemId);
 

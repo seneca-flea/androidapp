@@ -251,7 +251,7 @@ public class Login extends Activity {
 
                     Intent userMenuIntent = new Intent(Login.this, UserMenu.class);
                     startActivity(userMenuIntent);
-                    Log.d("Oleg","Token is " + token);
+                    Log.d("LOG : ","Token is " + token);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

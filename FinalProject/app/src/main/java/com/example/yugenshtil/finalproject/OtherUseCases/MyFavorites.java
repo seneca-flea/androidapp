@@ -228,21 +228,7 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
 
     @Override
     public void onItemClick(int p) {
-        try {
-            JSONObject item = (JSONObject) jsonArray.get(p);
-            Intent i  = new Intent(this, ItemDisplayActivity.class);
-            Bundle extras = new Bundle();
-            extras.putString("ItemId",item.get("ItemId").toString());
-            extras.putString("Title",item.get("Title").toString());
-            extras.putString("SellerId",item.get("SellerId").toString());
-            extras.putString("Description",item.get("Description").toString());
-            extras.putString("Price",item.get("Price").toString());
-            i.putExtras(extras);
-            startActivity(i);
-
-        } catch (JSONException e) {
-            Log.d("TAG","Error " + e.getMessage());
-        }
+    //Do nothing
 
     }
 

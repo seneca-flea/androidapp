@@ -114,7 +114,7 @@ public class RESTExample extends Activity {
 
                             @Override
                             public void onResponse(JSONObject response) {
-                                Log.d("Oleg", "Response is " + response);
+                                Log.d("LOG : ", "Response is " + response);
                                 tx.setText(response.toString());
                             }
                         }, new Response.ErrorListener() {

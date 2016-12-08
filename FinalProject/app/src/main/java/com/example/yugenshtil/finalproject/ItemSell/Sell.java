@@ -86,7 +86,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
         btAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("oleg", "Add new item");
+                Log.d("LOG : ", "Add new item");
                 Intent addItemIntent = new Intent(Sell.this, AddItem.class);
                 addItemIntent.putExtra("userId", id);
                 startActivity(addItemIntent);
@@ -96,10 +96,11 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
 
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_sell, menu);
-        Log.d("Oleg","onCreate hrer");
+        Log.d("LOG : ","onCreate hrer");
         return true;
     }
 
@@ -299,6 +300,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
     public void deleteAnItem(String id){
         pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+
         StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEITEMSURL+id,
                 new Response.Listener<String>()
                 {
@@ -417,7 +419,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     }
 
     public void updateAnItem(int id) {
-       // pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
 
         try {
             JSONObject item = (JSONObject) jsonArray.get(id);
@@ -453,8 +455,7 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
     }
 
     @Override
-    public void onBackPressed()
-    {
+    public void onBackPressed()    {
         super.onBackPressed();
         startActivity(new Intent(Sell.this, UserMenu.class));
         finish();
@@ -513,5 +514,4 @@ public class Sell extends Activity  implements DerpAdapter.ItemClickCallback{
 
         MySingleton.getInstance(Sell.this).addToRequestQueue(sr);
     }
-
 }

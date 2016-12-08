@@ -55,7 +55,6 @@ public class ItemBuy extends Activity {
     private ImageView image=null;
 
     private String GETITEMSURL="http://senecaflea.azurewebsites.net/api/Item/filter/user/";
-    private String DELETEITEMSURL="http://senecaflea.azurewebsites.net/api/Item/";
     public ProgressDialog pd;
     SharedPreferences sharedpreferences;
     String token="";
@@ -76,17 +75,12 @@ public class ItemBuy extends Activity {
         final TextView etCourse = (TextView) findViewById(R.id.tv_iteSell_Course);
         final TextView etPublisher = (TextView) findViewById(R.id.tv_itemSell_Publisher);
         final TextView etAuthor = (TextView) findViewById(R.id.tv_itemSell_Author);
-        final ImageView ivMessage = (ImageView) findViewById(R.id.ivItemBuy_Message);
 
 
         image = (ImageView) findViewById(R.id.ivItemBuy_Image);
 
-
-
-
         Intent i = getIntent();
         Bundle extras = i.getExtras();
-
 
         ItemId = extras.getString("ItemId");
         SellerId = extras.getString("SellerId");
@@ -98,7 +92,6 @@ public class ItemBuy extends Activity {
         Year = extras.getString("Year");
         Publisher = extras.getString("Publisher");
         Author = extras.getString("Author");
-
 
         setItem(ItemId);
 
@@ -135,45 +128,12 @@ public class ItemBuy extends Activity {
         else {
             etAuthor.setText(Author);
         }
-
-
-
-        ivMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("LOG : ","Message clicked on ItemBuy.java");
-
-            }
-        });
+        ;
 
     }
 
 
-    public void deleteAnItem(String id){
-        pd = ProgressDialog.show(this, "", "Loading. Please wait...", true);
-        StringRequest dr = new StringRequest(Request.Method.DELETE, DELETEITEMSURL+id,
-                new Response.Listener<String>()
-                {
-                    @Override
-                    public void onResponse(String response) {
-                        pd.cancel();
-                        Intent sellIntent = new Intent(ItemBuy.this,Sell.class);
-                        startActivity(sellIntent);
 
-                    }
-                },
-                new Response.ErrorListener()
-                {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        pd.cancel();
-
-                    }
-                }
-        );
-        MySingleton.getInstance(ItemBuy.this).addToRequestQueue(dr);
-
-    }
 
 
     @Override
