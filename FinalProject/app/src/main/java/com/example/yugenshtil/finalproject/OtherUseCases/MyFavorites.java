@@ -27,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.example.yugenshtil.finalproject.Account.Login;
+import com.example.yugenshtil.finalproject.ItemBuy.ItemBuy;
 import com.example.yugenshtil.finalproject.ServerConnection.MySingleton;
 import com.example.yugenshtil.finalproject.R;
 import com.example.yugenshtil.finalproject.Adapter.MyFavoritesAdapter;
@@ -230,13 +231,18 @@ public class MyFavorites extends Activity implements MyFavoritesAdapter.ItemClic
     public void onItemClick(int p) {
         try {
             JSONObject item = (JSONObject) jsonArray.get(p);
-            Intent i  = new Intent(this, ItemDisplayActivity.class);
+            Intent i  = new Intent(this, ItemBuy.class);
             Bundle extras = new Bundle();
             extras.putString("ItemId",item.get("ItemId").toString());
             extras.putString("Title",item.get("Title").toString());
             extras.putString("SellerId",item.get("SellerId").toString());
             extras.putString("Description",item.get("Description").toString());
             extras.putString("Price",item.get("Price").toString());
+            extras.putString("Course",item.get("CourseName").toString());
+            extras.putString("Program",item.get("CourseProgram").toString());
+            extras.putString("Year",item.get("BookYear").toString());
+            extras.putString("Publisher",item.get("BookPublisher").toString());
+            extras.putString("Author",item.get("BookAuthor").toString());
             i.putExtras(extras);
             startActivity(i);
 

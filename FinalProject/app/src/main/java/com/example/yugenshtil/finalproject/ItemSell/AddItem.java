@@ -536,23 +536,21 @@ public class AddItem extends Activity {
     };
 
     public void ButtonOnClick(View v) {
-        Log.d("OLeg","ID is " + v.getId());
+
        if(v.getId()==R.id.btSave_AddBook){
-           Log.d("Oleg","clicked add book Save");
+
            addBook();
        }
        else if(v.getId()==R.id.ivCamera_AddBook){
-           Log.d("Oleg","clicked add book Camera");
            Intent addImage = new Intent(AddItem.this, AddImage.class);
            startActivityForResult(addImage, 1990);
        }
 
        else if(v.getId()==R.id.btSave_AddMaterial){
-           Log.d("Oleg","clicked add Material Save");
+
            addMaterial();
         }
        else if(v.getId()==R.id.ivCamera_AddMaterial){
-           Log.d("Oleg","clicked Material Camera");
            Intent addImageToMaterial = new Intent(AddItem.this, AddImage.class);
            startActivityForResult(addImageToMaterial, 1990);
        }

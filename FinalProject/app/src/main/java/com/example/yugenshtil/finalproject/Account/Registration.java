@@ -118,9 +118,7 @@ public class Registration extends Activity {
                             else {
 
                                // The code was taken from http://stackoverflow.com/questions/26167631/how-to-access-the-contents-of-an-error-response-in-volley
-                               if(error.networkResponse.data!=null) {
 
-                                 String statusCode = String.valueOf(error.networkResponse.statusCode);
 
                                   try {
                                        body = new String(error.networkResponse.data,"UTF-8");
@@ -131,7 +129,7 @@ public class Registration extends Activity {
                                   } catch (UnsupportedEncodingException e) {
                                        e.printStackTrace();
                                     }
-                                }
+
                             }
                         }
 
